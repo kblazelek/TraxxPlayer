@@ -1,0 +1,4 @@
+C:\Users\Traxx\Desktop\test\TraxxPlayer\TraxxPlayer\TraxxPlayer.csproj;x86
+C:\Users\Traxx\Desktop\Windows10-UWP-master (1)\Windows10-UWP-master\MusicPlayer\BackgroundAudioShared\BackgroundAudioShared.csproj;x86
+C:\Users\Traxx\Desktop\Windows10-UWP-master (1)\Windows10-UWP-master\MusicPlayer\BackgroundAudioShared\BackgroundAudioShared.csproj;x86
+C:\Users\Traxx\Desktop\Windows10-UWP-master (1)\Windows10-UWP-master\MusicPlayer\BackgroundAudioTask\BackgroundAudioTask.csproj;x86

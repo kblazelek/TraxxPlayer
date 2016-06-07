@@ -1,0 +1,8 @@
+"/t:BackgroundAudioShared.Messages.BackgroundAudioTaskStartedMessage,BackgroundAudioShared,json"
+"/t:BackgroundAudioShared.Messages.TrackChangedMessage,BackgroundAudioShared,json"
+"/t:BackgroundAudioShared.Messages.AppSuspendedMessage,BackgroundAudioShared,json"
+"/t:BackgroundAudioShared.Messages.AppResumedMessage,BackgroundAudioShared,json"
+"/t:BackgroundAudioShared.Messages.StartPlaybackMessage,BackgroundAudioShared,json"
+"/t:BackgroundAudioShared.Messages.SkipNextMessage,BackgroundAudioShared,json"
+"/t:BackgroundAudioShared.Messages.SkipPreviousMessage,BackgroundAudioShared,json"
+"/t:BackgroundAudioShared.Messages.UpdatePlaylistMessage,BackgroundAudioShared,json"
