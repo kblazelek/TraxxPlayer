@@ -13,11 +13,11 @@
 
         <Canvas x:Name="rootCanvas" HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
-            <Canvas.Background>
+            <!--<Canvas.Background>
                 <ImageBrush ImageSource="ms-appx:///Assets/SplashScreen.jpeg"
                             Stretch="Fill">
                 </ImageBrush>
-            </Canvas.Background>
+            </Canvas.Background>-->
         </Canvas>
 
         <ProgressRing x:Name="progressRing" Width="50"

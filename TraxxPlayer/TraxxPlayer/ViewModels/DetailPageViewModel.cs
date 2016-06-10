@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace TraxxPlayer.ViewModels
 {
-    public class DetailPageViewModel : ViewModelBase
+    public class DetailPageViewModel : CommonViewModel
     {
         public DetailPageViewModel()
         {

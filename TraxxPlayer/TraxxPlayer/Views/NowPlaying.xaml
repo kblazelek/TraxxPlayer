@@ -91,7 +91,7 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Image Source="ms-appx:///Assets/BG.png"
+        <Image Source="ms-appx:///Assets/BG.jpg"
                Stretch="Fill"/>
 
         <Grid VerticalAlignment="Center">
@@ -114,7 +114,7 @@
             </Ellipse>
 
             <!-- Bottom part of album art with controls -->
-            <Ellipse Height="500" Grid.Row="0" Width="500" x:Name="AlbumartContainerDown" Fill="#34353c" >
+            <Ellipse Height="500" Grid.Row="0" Width="500" x:Name="AlbumartContainerDown" Fill="LightSteelBlue" >
                 <Ellipse.Clip >
                     <RectangleGeometry x:Name="AlbumartContainerDownClip" Rect="0,250,500,500" />
                 </Ellipse.Clip>
@@ -143,7 +143,7 @@
                         Height="120"
                         Width="120"
                         Click="{x:Bind ViewModel.PlayButtonClicked}">
-                    <Image Source="ms-appx:///Assets/Play.png"
+                    <Image Source="{x:Bind ViewModel.PlayPauseImage, Mode=OneWay}"
                            Stretch="Uniform"/>
                 </Button>
                 <Button x:Name="btnNext"

@@ -12,7 +12,7 @@ using System.Net.Http;
 
 namespace TraxxPlayer.ViewModels
 {
-    public class MainPageViewModel : ViewModelBase
+    public class MainPageViewModel : CommonViewModel
     {
         public MainPageViewModel()
         {

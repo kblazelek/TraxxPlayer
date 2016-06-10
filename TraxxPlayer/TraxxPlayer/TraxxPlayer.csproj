@@ -97,9 +97,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExtensionProperties\FocusExtension.cs" />
+    <Compile Include="ViewModels\AskForUserNameViewModel.cs" />
+    <Compile Include="ViewModels\CommonViewModel.cs" />
     <Compile Include="ViewModels\MeViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingViewModel.cs" />
     <Compile Include="ViewModels\LikesViewModel.cs" />
+    <Compile Include="Views\AskForUserName.xaml.cs">
+      <DependentUpon>AskForUserName.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Likes.xaml.cs">
       <DependentUpon>Likes.xaml</DependentUpon>
     </Compile>
@@ -139,12 +145,16 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Albumart.png" />
-    <Content Include="Assets\BG.png" />
+    <Content Include="Assets\Albumart2.png" />
+    <Content Include="Assets\BG.jpg" />
+    <Content Include="Assets\Logo.png" />
+    <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\Next.png" />
+    <Content Include="Assets\Pause.png" />
+    <Content Include="Assets\Person.jpg" />
     <Content Include="Assets\Play.png" />
     <Content Include="Assets\Prev.png" />
-    <Content Include="Assets\SplashScreen.jpeg" />
+    <Content Include="Assets\Albumart.jpeg" />
     <Content Include="Help.htm" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
@@ -162,6 +172,10 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\AskForUserName.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Likes.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

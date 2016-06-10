@@ -22,6 +22,10 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!--  TODO: change properties for narrow view  -->
+                        <Setter Target="Albumart.Width"
+                                Value="100" />
+                        <Setter Target="Albumart.Height"
+                                Value="100" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateNormal">
@@ -30,6 +34,10 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!--  TODO: change properties for normal view  -->
+                        <Setter Target="Albumart.Width"
+                                Value="200" />
+                        <Setter Target="Albumart.Height"
+                                Value="200" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateWide">
@@ -38,6 +46,10 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!--  TODO: change properties for wide view  -->
+                        <Setter Target="Albumart.Width"
+                                Value="300" />
+                        <Setter Target="Albumart.Height"
+                                Value="300" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -62,52 +74,80 @@
                          x:Name="Albumart">
                     <Ellipse.Fill>
                         <ImageBrush x:Name="profilePhoto"
-                                    ImageSource="ms-appx:///Assets/Albumart.png"
+                                    ImageSource="{x:Bind ViewModel.ProfilePhoto, Mode=OneWay}"
                                     Stretch="UniformToFill" />
                     </Ellipse.Fill>
                 </Ellipse>
-                <TextBlock Text="First Name"
-                           Style="{StaticResource TitleTextBlockStyle}"
-                           Foreground="Gray" />
-                <TextBlock x:Name="txtFirstname"
-                           Text="{x:Bind ViewModel.FirstName, Mode=OneWay}"
-                           Style="{StaticResource HeaderTextBlockStyle}" />
-                <TextBlock Text="Last Name"
-                           Style="{StaticResource TitleTextBlockStyle}"
-                           Foreground="Gray" />
-                <TextBlock x:Name="txtlastname"
-                           Text="{x:Bind ViewModel.LastName, Mode=OneWay}"
-                           Style="{StaticResource HeaderTextBlockStyle}" />
-                <TextBlock Text="City"
-                           Style="{StaticResource TitleTextBlockStyle}"
-                           Foreground="Gray" />
-                <TextBlock x:Name="txtCity"
-                           Text="{x:Bind ViewModel.City, Mode=OneWay}"
-                           Style="{StaticResource HeaderTextBlockStyle}" />
-                <TextBlock Text="Country"
-                           Style="{StaticResource TitleTextBlockStyle}"
-                           Foreground="Gray" />
-                <TextBlock x:Name="txtCountry"
-                           Text="{x:Bind ViewModel.Country, Mode=OneWay}"
-                           Style="{StaticResource HeaderTextBlockStyle}" />
-                <TextBlock Text="Website"
-                           Style="{StaticResource TitleTextBlockStyle}"
-                           Foreground="Gray" />
-                <TextBlock x:Name="txtWebsite"
-                           Text="{x:Bind ViewModel.Website, Mode=OneWay}"
-                           Style="{StaticResource HeaderTextBlockStyle}" />
-                <TextBlock Text="Following"
-                           Style="{StaticResource TitleTextBlockStyle}"
-                           Foreground="Gray" />
-                <TextBlock x:Name="txtFollowing"
-                           Text="{x:Bind ViewModel.Following, Mode=OneWay}"
-                           Style="{StaticResource HeaderTextBlockStyle}" />
-                <TextBlock Text="Followers"
-                           Style="{StaticResource TitleTextBlockStyle}"
-                           Foreground="Gray" />
-                <TextBlock x:Name="txtFollowers"
-                           Text="{x:Bind ViewModel.Followers, Mode=OneWay}"
-                           Style="{StaticResource HeaderTextBlockStyle}" />
+                <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
+                    <TextBlock Text="First Name"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Foreground="Gray" />
+                    <TextBlock x:Name="txtFirstname"
+                               Margin="10,0,0,0"
+                               Text="{x:Bind ViewModel.FirstName, Mode=OneWay}"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               FontWeight="SemiBold"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
+                    <TextBlock Text="Last Name"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Foreground="Gray" />
+                    <TextBlock x:Name="txtlastname"
+                               Margin="10,0,0,0"
+                               Text="{x:Bind ViewModel.LastName, Mode=OneWay}"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               FontWeight="SemiBold"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
+                    <TextBlock Text="City"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Foreground="Gray" />
+                    <TextBlock x:Name="txtCity"
+                               Margin="10,0,0,0"
+                               Text="{x:Bind ViewModel.City, Mode=OneWay}"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               FontWeight="SemiBold"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
+                    <TextBlock Text="Country"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Foreground="Gray" />
+                    <TextBlock x:Name="txtCountry"
+                               Margin="10,0,0,0"
+                               Text="{x:Bind ViewModel.Country, Mode=OneWay}"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               FontWeight="SemiBold"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
+                    <TextBlock Text="Website"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Foreground="Gray" />
+                    <TextBlock x:Name="txtWebsite"
+                               Margin="10,0,0,0"
+                               Text="{x:Bind ViewModel.Website, Mode=OneWay}"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               FontWeight="SemiBold"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
+                    <TextBlock Text="Following"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Foreground="Gray" />
+                    <TextBlock x:Name="txtFollowing"
+                               Margin="10,0,0,0"
+                               Text="{x:Bind ViewModel.Following, Mode=OneWay}"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               FontWeight="SemiBold"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
+                    <TextBlock Text="Followers"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Foreground="Gray" />
+                    <TextBlock x:Name="txtFollowers"
+                               Margin="10,0,0,0"
+                               Text="{x:Bind ViewModel.Followers, Mode=OneWay}"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               FontWeight="SemiBold"/>
+                </StackPanel>
             </StackPanel>
         </Grid>
     </RelativePanel>

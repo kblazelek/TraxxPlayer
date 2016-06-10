@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Template10.Mvvm;
 using Windows.ApplicationModel.Core;
+using Windows.Media;
 using Windows.Media.Playback;
 using Windows.UI.Core;
 using Windows.UI.Popups;
@@ -19,14 +20,16 @@ using Windows.UI.Xaml.Navigation;
 
 namespace TraxxPlayer.ViewModels
 {
-    public class NowPlayingViewModel : ViewModelBase, INotifyPropertyChanged
+    public class NowPlayingViewModel : CommonViewModel
     {
         private bool isMyBackgroundTaskRunning = false;
-        //AppShell shell = Window.Current.Content as AppShell;
         private AutoResetEvent backgroundAudioTaskStarted;
+        #region private
         private ImageSource _albumImage;
+        private ImageSource _playPauseImage;
         private string _songName;
         private string _albumTitle;
+        #endregion
         public ImageSource AlbumImage
         {
             get
@@ -38,6 +41,11 @@ namespace TraxxPlayer.ViewModels
                 _albumImage = value;
                 OnPropertyChanged(nameof(AlbumImage));
             }
+        }
+        public ImageSource PlayPauseImage
+        {
+            get { return _playPauseImage; }
+            set { _playPauseImage = value; OnPropertyChanged(nameof(PlayPauseImage)); }
         }
         public string SongName
         {
@@ -66,22 +74,6 @@ namespace TraxxPlayer.ViewModels
         public NowPlayingViewModel()
         {
             AlbumImage = new BitmapImage(new Uri(@"ms-appx:///Assets/Albumart.png"));
-        }
-        new public event PropertyChangedEventHandler PropertyChanged;
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (Equals(storage, value))
-            {
-                return false;
-            }
-
-            storage = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>
@@ -118,6 +110,7 @@ namespace TraxxPlayer.ViewModels
         public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
             backgroundAudioTaskStarted = new AutoResetEvent(false);
+            PlayPauseImage = new BitmapImage(new Uri("ms-appx:///Assets/Play.png"));
 
             if (!IsMyBackgroundTaskRunning)
             {
@@ -129,6 +122,7 @@ namespace TraxxPlayer.ViewModels
                 if (MediaPlayerState.Paused == BackgroundMediaPlayer.Current.CurrentState)
                 {
                     BackgroundMediaPlayer.Current.Play();
+                    PlayPauseImage = new BitmapImage(new Uri("ms-appx:///Assets/Pause.png"));
                 }
                 else if (MediaPlayerState.Closed == BackgroundMediaPlayer.Current.CurrentState)
                 {
@@ -156,7 +150,7 @@ namespace TraxxPlayer.ViewModels
                 {
                     MessageService.SendMessageToBackground(new UpdatePlaylistMessage(App.likes));
                     MessageService.SendMessageToBackground(new StartPlaybackMessage());
-
+                    PlayPauseImage = new BitmapImage(new Uri("ms-appx:///Assets/Pause.png"));
                 }
                 else
                 {
@@ -196,6 +190,24 @@ namespace TraxxPlayer.ViewModels
                 backgroundAudioTaskStarted.Set();
                 return;
             }
+
+            UVCButtonPressedMessage uvcButtonPressedMessage;
+            if (MessageService.TryParseMessage(e.Data, out uvcButtonPressedMessage))
+            {
+                await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    switch (uvcButtonPressedMessage.Button)
+                    {
+                        case SystemMediaTransportControlsButton.Play:
+                            PlayPauseImage = new BitmapImage(new Uri("ms-appx:///Assets/Pause.png"));
+                            break;
+                        case SystemMediaTransportControlsButton.Pause:
+                            PlayPauseImage = new BitmapImage(new Uri("ms-appx:///Assets/Play.png"));
+                            break;
+                    }
+                });
+                return;
+            }
         }
 
         public int GetSongIndexById(Uri id)
@@ -230,7 +242,7 @@ namespace TraxxPlayer.ViewModels
                 string albumartImage = Convert.ToString(currentTrack.artwork_url);
                 if (string.IsNullOrWhiteSpace(albumartImage))
                 {
-                    albumartImage = @"ms-appx:///Assets/Albumart.png";
+                    albumartImage = @"ms-appx:///Assets/Albumart.jpg";
 
                 }
                 else
@@ -259,10 +271,12 @@ namespace TraxxPlayer.ViewModels
                 if (MediaPlayerState.Playing == BackgroundMediaPlayer.Current.CurrentState)
                 {
                     BackgroundMediaPlayer.Current.Pause();
+                    PlayPauseImage = new BitmapImage(new Uri("ms-appx:///Assets/Play.png"));
                 }
                 else if (MediaPlayerState.Paused == BackgroundMediaPlayer.Current.CurrentState)
                 {
                     BackgroundMediaPlayer.Current.Play();
+                    PlayPauseImage = new BitmapImage(new Uri("ms-appx:///Assets/Pause.png"));
                 }
                 else if (MediaPlayerState.Closed == BackgroundMediaPlayer.Current.CurrentState)
                 {

@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace TraxxPlayer.ViewModels
 {
-    public class LikesViewModel : ViewModelBase
+    public class LikesViewModel : CommonViewModel
     {
         public ObservableCollection<SoundCloudTrack> Likes { get; set; }
         public LikesViewModel()

@@ -26,6 +26,7 @@ namespace TraxxPlayer
         public static string SoundCloudLink = "http://api.soundcloud.com/";
 
         public static string SoundCloudAPIUsers = "users/";
+        public static string SoundCloudUserName = "";
         public static List<SoundCloudTrack> likes = new List<SoundCloudTrack>();
         public static int nowplayingTrackId = 0;
         public static SoundCloudUser SCUser { get; set; }
@@ -40,22 +41,16 @@ namespace TraxxPlayer
             RequestedTheme = _settings.AppTheme;
             CacheMaxDuration = _settings.CacheMaxDuration;
             ShowShellBackButton = _settings.UseShellBackButton;
-            GetUserDetails();
-
             #endregion
         }
 
-        private async void GetUserDetails()
+        public static async Task GetUserDetails()
         {
             try
             {
-                string responseText = await GetjsonStream(App.SoundCloudLink + App.SoundCloudAPIUsers + "krzysztofb-a-e-ek" + ".json?client_id=" + App.SoundCloudClientId);
-                App.SCUser = JsonConvert.DeserializeObject<SoundCloudUser>(responseText);
-
-                App.SCUserID = App.SCUser.id;
-
-                //Get Likes 
-                GetLikes();
+                string responseText = await GetjsonStream(SoundCloudLink + SoundCloudAPIUsers + SoundCloudUserName + ".json?client_id=" + SoundCloudClientId);
+                SCUser = JsonConvert.DeserializeObject<SoundCloudUser>(responseText);
+                SCUserID = SCUser.id;
             }
             catch (Exception ex)
             {
@@ -64,20 +59,18 @@ namespace TraxxPlayer
             }
         }
 
-        private async void GetLikes()
+        public static async Task GetLikes()
         {
-
             try
             {
-
-                string responseText = await GetjsonStream(App.SoundCloudLink + App.SoundCloudAPIUsers + App.SCUserID + "/favorites.json?client_id=" + App.SoundCloudClientId);
-                App.likes = JsonConvert.DeserializeObject<List<SoundCloudTrack>>(responseText);
+                string responseText = await GetjsonStream(SoundCloudLink + SoundCloudAPIUsers + SCUserID + "/favorites.json?client_id=" + SoundCloudClientId);
+                likes = JsonConvert.DeserializeObject<List<SoundCloudTrack>>(responseText);
 
                 //remove songs which do not have stream url
-                App.likes = App.likes.Where(t => t.stream_url != null).ToList<SoundCloudTrack>();
+                likes = likes.Where(t => t.stream_url != null).ToList();
 
                 //add "?client_id=" + App.SoundCloudClientId to stream url
-                App.likes = App.likes.Select(t => { t.stream_url += "?client_id=" + App.SoundCloudClientId; return t; }).ToList<SoundCloudTrack>();
+                likes = likes.Select(t => { t.stream_url += "?client_id=" + SoundCloudClientId; return t; }).ToList();
             }
             catch (Exception ex)
             {
@@ -87,11 +80,10 @@ namespace TraxxPlayer
 
         }
 
-        public async Task<string> GetjsonStream(string url) //Function to read from given url
+        public static async Task<string> GetjsonStream(string url) //Function to read from given url
         {
             HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync(url);
-            HttpResponseMessage v = new HttpResponseMessage();
             return await response.Content.ReadAsStringAsync();
         }
 
@@ -116,9 +108,18 @@ namespace TraxxPlayer
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
         {
             // long-running startup tasks go here
-            await Task.Delay(5000);
-
-            NavigationService.Navigate(typeof(Views.NowPlaying));
+            ApplicationSettingsHelper.ReadResetSettingsValue(ApplicationSettingsConstants.SCUserName);
+            SoundCloudUserName =  ApplicationSettingsHelper.ReadSettingsValue(ApplicationSettingsConstants.SCUserName) as string;
+            await GetUserDetails();
+            if (SCUserID != 0)
+            {
+                await GetLikes();
+                NavigationService.Navigate(typeof(Views.NowPlaying));
+            }
+            else
+            {
+                NavigationService.Navigate(typeof(Views.AskForUserName));
+            } 
             await Task.CompletedTask;
         }
     }
