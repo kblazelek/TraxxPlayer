@@ -44,7 +44,7 @@ namespace TraxxPlayer.ViewModels
         {
             App.SoundCloudUserName = SCUserName;
             await App.GetUserDetails();
-            if (App.SCUserID == 0)
+            if (App.SCUser == null)
             {
                 MessageDialog showMessgae = new MessageDialog("User not found");
                 await showMessgae.ShowAsync();

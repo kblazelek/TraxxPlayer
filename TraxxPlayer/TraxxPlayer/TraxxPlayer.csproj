@@ -218,9 +218,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\BackgroundAudioShared\BackgroundAudioShared.csproj">
       <Project>{62c43640-d9fb-41b8-81b7-a02be8facd09}</Project>

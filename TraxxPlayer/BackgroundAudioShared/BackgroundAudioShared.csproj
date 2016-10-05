@@ -108,11 +108,11 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationSettingsHelper.cs" />
-    <Compile Include="AppState.cs" />
-    <Compile Include="BackgroundTaskState.cs" />
-    <Compile Include="ApplicationSettingsConstants.cs" />
-    <Compile Include="EnumHelper.cs" />
+    <Compile Include="Helpers\ApplicationSettingsHelper.cs" />
+    <Compile Include="Enums and constants\AppState.cs" />
+    <Compile Include="Enums and constants\BackgroundTaskState.cs" />
+    <Compile Include="Enums and constants\ApplicationSettingsConstants.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Messages\StartPlaybackMessage.cs" />
     <Compile Include="Messages\SkipNextMessage.cs" />
     <Compile Include="Messages\UpdatePlaylistMessage.cs" />
@@ -125,10 +125,11 @@
     <Compile Include="Messages\UVCButtonPressedMessage.cs" />
     <Compile Include="Models\SongModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SoundCloudCreatedWith.cs" />
-    <Compile Include="SoundCloudTrack.cs" />
-    <Compile Include="SoundCloudUser.cs" />
+    <Compile Include="Models\SoundCloudCreatedWith.cs" />
+    <Compile Include="Models\SoundCloudTrack.cs" />
+    <Compile Include="Models\SoundCloudUser.cs" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

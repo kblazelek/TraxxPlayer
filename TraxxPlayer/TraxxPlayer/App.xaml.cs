@@ -22,7 +22,6 @@ namespace TraxxPlayer
     sealed partial class App : Template10.Common.BootStrapper
     {
         public static string SoundCloudClientId = "9c79c1a0aeb2fc8972d215e07934a8bf";
-        public static int SCUserID = 0;
         public static string SoundCloudLink = "http://api.soundcloud.com/";
 
         public static string SoundCloudAPIUsers = "users/";
@@ -49,8 +48,11 @@ namespace TraxxPlayer
             try
             {
                 string responseText = await GetjsonStream(SoundCloudLink + SoundCloudAPIUsers + SoundCloudUserName + ".json?client_id=" + SoundCloudClientId);
-                SCUser = JsonConvert.DeserializeObject<SoundCloudUser>(responseText);
-                SCUserID = SCUser.id;
+                SoundCloudUser tempUser = JsonConvert.DeserializeObject<SoundCloudUser>(responseText);
+                if (tempUser.id != 0)
+                {
+                    SCUser = tempUser;
+                }
             }
             catch (Exception ex)
             {
@@ -63,7 +65,7 @@ namespace TraxxPlayer
         {
             try
             {
-                string responseText = await GetjsonStream(SoundCloudLink + SoundCloudAPIUsers + SCUserID + "/favorites.json?client_id=" + SoundCloudClientId);
+                string responseText = await GetjsonStream(SoundCloudLink + SoundCloudAPIUsers + SCUser.id + "/favorites.json?client_id=" + SoundCloudClientId);
                 likes = JsonConvert.DeserializeObject<List<SoundCloudTrack>>(responseText);
 
                 //remove songs which do not have stream url
@@ -111,7 +113,7 @@ namespace TraxxPlayer
             ApplicationSettingsHelper.ReadResetSettingsValue(ApplicationSettingsConstants.SCUserName);
             SoundCloudUserName =  ApplicationSettingsHelper.ReadSettingsValue(ApplicationSettingsConstants.SCUserName) as string;
             await GetUserDetails();
-            if (SCUserID != 0)
+            if (SCUser != null)
             {
                 await GetLikes();
                 NavigationService.Navigate(typeof(Views.NowPlaying));

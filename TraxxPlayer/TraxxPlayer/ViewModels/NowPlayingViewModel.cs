@@ -110,10 +110,10 @@ namespace TraxxPlayer.ViewModels
         public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
             backgroundAudioTaskStarted = new AutoResetEvent(false);
-            PlayPauseImage = new BitmapImage(new Uri("ms-appx:///Assets/Play.png"));
 
             if (!IsMyBackgroundTaskRunning)
             {
+                PlayPauseImage = new BitmapImage(new Uri("ms-appx:///Assets/Play.png"));
                 StartBackgroundAudioTask();
             }
             else
