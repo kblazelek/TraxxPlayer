@@ -15,7 +15,6 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using BackgroundAudioShared.Messages;
-using BackgroundAudioTask;
 using BackgroundAudioShared;
 using System.Threading;
 using Windows.ApplicationModel;

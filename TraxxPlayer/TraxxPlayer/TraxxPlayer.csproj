@@ -222,11 +222,11 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Windows10-UWP-master %281%29\Windows10-UWP-master\MusicPlayer\BackgroundAudioShared\BackgroundAudioShared.csproj">
+    <ProjectReference Include="..\BackgroundAudioShared\BackgroundAudioShared.csproj">
       <Project>{62c43640-d9fb-41b8-81b7-a02be8facd09}</Project>
       <Name>BackgroundAudioShared</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Windows10-UWP-master %281%29\Windows10-UWP-master\MusicPlayer\BackgroundAudioTask\BackgroundAudioTask.csproj">
+    <ProjectReference Include="..\BackgroundAudioTask\BackgroundAudioTask.csproj">
       <Project>{8d0109b3-fea4-4740-b850-24a1522348cb}</Project>
       <Name>BackgroundAudioTask</Name>
     </ProjectReference>
