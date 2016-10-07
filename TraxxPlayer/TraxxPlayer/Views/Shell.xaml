@@ -61,6 +61,18 @@
                                Text="Likes" />
                 </StackPanel>
             </Controls:HamburgerButtonInfo>
+            <Controls:HamburgerButtonInfo ClearHistory="True"
+                                          PageType="views:Charts"
+                                          AutomationProperties.Name="Jerry">
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Width="48"
+                                Height="48"
+                                Symbol="Go" />
+                    <TextBlock Margin="12,0,0,0"
+                               VerticalAlignment="Center"
+                               Text="Charts" />
+                </StackPanel>
+            </Controls:HamburgerButtonInfo>
 
         </Controls:HamburgerMenu.PrimaryButtons>
 

@@ -99,12 +99,16 @@
     </Compile>
     <Compile Include="ExtensionProperties\FocusExtension.cs" />
     <Compile Include="ViewModels\AskForUserNameViewModel.cs" />
+    <Compile Include="ViewModels\ChartsViewModel.cs" />
     <Compile Include="ViewModels\CommonViewModel.cs" />
     <Compile Include="ViewModels\MeViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingViewModel.cs" />
     <Compile Include="ViewModels\LikesViewModel.cs" />
     <Compile Include="Views\AskForUserName.xaml.cs">
       <DependentUpon>AskForUserName.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Charts.xaml.cs">
+      <DependentUpon>Charts.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Likes.xaml.cs">
       <DependentUpon>Likes.xaml</DependentUpon>
@@ -175,6 +179,10 @@
     <Page Include="Views\AskForUserName.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Charts.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Likes.xaml">
       <Generator>MSBuild:Compile</Generator>

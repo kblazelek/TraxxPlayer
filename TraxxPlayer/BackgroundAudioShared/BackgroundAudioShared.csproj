@@ -108,11 +108,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums and constants\SoundCloudConstants.cs" />
     <Compile Include="Helpers\ApplicationSettingsHelper.cs" />
     <Compile Include="Enums and constants\AppState.cs" />
     <Compile Include="Enums and constants\BackgroundTaskState.cs" />
     <Compile Include="Enums and constants\ApplicationSettingsConstants.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
+    <Compile Include="Helpers\JsonHelper.cs" />
+    <Compile Include="Helpers\SoundCloudHelper.cs" />
     <Compile Include="Messages\StartPlaybackMessage.cs" />
     <Compile Include="Messages\SkipNextMessage.cs" />
     <Compile Include="Messages\UpdatePlaylistMessage.cs" />
