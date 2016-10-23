@@ -13,25 +13,95 @@
         <vm:ChartsViewModel x:Name="ViewModel" />
     </Page.DataContext>
 
-    <!--  content  -->
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-          RelativePanel.Below="pageHeader"
-          RelativePanel.AlignLeftWithPanel="True"
-          RelativePanel.AlignRightWithPanel="True">
-        <ComboBox x:Name="comboBox"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Top"
-                  Width="120"
-                  Margin="62,110,0,0"
-                  ItemsSource="{x:Bind ViewModel.Genres}"
-                  SelectedItem="{Binding SelectedGenre, Mode=TwoWay}" />
-        <ComboBox x:Name="comboBox1"
-                  HorizontalAlignment="Left"
-                  Margin="187,110,0,0"
-                  VerticalAlignment="Top"
-                  Width="120"
-                  ItemsSource="{x:Bind ViewModel.Kinds}"
-                  SelectedItem="{Binding SelectedKind, Mode=TwoWay}" />
+    <Page.Resources>
+        <DataTemplate x:Key="ImageOverlayTemplate"
+                      x:DataType="data:SoundCloudTrack">
+            <StackPanel Height="130"
+                        Width="190"
+                        Margin="4,4,4,8">
+                <TextBlock Text="{x:Bind title}"
+                           Margin="8,4"
+                           Width="186"
+                           Style="{StaticResource BaseTextBlockStyle}"
+                           HorizontalAlignment="Left" />
+                <Image Source="{x:Bind AlbumArtUri}"
+                       Margin="8,0,8,8"
+                       Stretch="UniformToFill" />
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
 
-    </Grid>
+    <!--  content  -->
+    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="AdaptiveVisualStateGroup">
+                <VisualState x:Name="VisualStateNarrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO: change properties for narrow view  -->
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateNormal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO: change properties for normal view  -->
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateWide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO: change properties for wide view  -->
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <!--  header  -->
+        <controls:PageHeader x:Name="pageHeader"
+                             Frame="{x:Bind Frame}"
+                             RelativePanel.AlignLeftWithPanel="True"
+                             RelativePanel.AlignRightWithPanel="True"
+                             RelativePanel.AlignTopWithPanel="True"
+                             Text="Charts" />
+        <Grid x:Name="gridChooseKindAndGenre" RelativePanel.AlignLeftWithPanel="True"
+              RelativePanel.AlignRightWithPanel="True"
+              RelativePanel.Below="pageHeader"
+              HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ComboBox x:Name="comboBox"
+                      Grid.Column="0"
+                      HorizontalAlignment="Stretch"
+                      ItemsSource="{x:Bind ViewModel.Genres}"
+                      SelectedItem="{Binding SelectedGenre, Mode=TwoWay}" />
+            <ComboBox x:Name="comboBox1"
+                      Grid.Column="1"
+                      HorizontalAlignment="Stretch"
+                      ItemsSource="{x:Bind ViewModel.Kinds}"
+                      SelectedItem="{Binding SelectedKind, Mode=TwoWay}" />
+        </Grid>
+        <!--  content  -->
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+              RelativePanel.Below="gridChooseKindAndGenre"
+              RelativePanel.AlignLeftWithPanel="True"
+              RelativePanel.AlignRightWithPanel="True">
+
+            <GridView x:Name="grdTracks"
+                      ItemTemplate="{StaticResource ImageOverlayTemplate }"
+                      IsItemClickEnabled="True"
+                      IsSwipeEnabled="False"
+                      CanDragItems="False"
+                      SelectionMode="None"
+                      ItemClick="{x:Bind ViewModel.ItemClicked}"
+                      ItemsSource="{x:Bind ViewModel.Tracks, Mode=OneWay}" />
+        </Grid>
+    </RelativePanel>
 </Page>

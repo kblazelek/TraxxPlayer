@@ -127,6 +127,8 @@
     <Compile Include="Messages\MessageService.cs" />
     <Compile Include="Messages\UVCButtonPressedMessage.cs" />
     <Compile Include="Models\SongModel.cs" />
+    <Compile Include="Models\SoundCloudChart.cs" />
+    <Compile Include="Models\SoundCloudTrackScore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\SoundCloudCreatedWith.cs" />
     <Compile Include="Models\SoundCloudTrack.cs" />

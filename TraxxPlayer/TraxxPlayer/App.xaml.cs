@@ -90,7 +90,7 @@ namespace TraxxPlayer
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
         {
             // long-running startup tasks go here
-            ApplicationSettingsHelper.ReadResetSettingsValue(ApplicationSettingsConstants.SCUserName);
+            //ApplicationSettingsHelper.ReadResetSettingsValue(ApplicationSettingsConstants.SCUserName);
             SoundCloudUserName =  ApplicationSettingsHelper.ReadSettingsValue(ApplicationSettingsConstants.SCUserName) as string;
             await GetUserDetails();
             if (SCUser != null)
