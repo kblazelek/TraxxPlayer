@@ -1,3 +1,5 @@
+using BackgroundAudioShared;
+using BackgroundAudioShared.Helpers;
 using System.ComponentModel;
 using System.Linq;
 using Template10.Common;
@@ -18,6 +20,7 @@ namespace TraxxPlayer.Views
         {
             Instance = this;
             InitializeComponent();
+            this.DataContext = App.Current;
         }
 
         public Shell(INavigationService navigationService) : this()
@@ -28,6 +31,12 @@ namespace TraxxPlayer.Views
         public void SetNavigationService(INavigationService navigationService)
         {
             MyHamburgerMenu.NavigationService = navigationService;
+        }
+
+        private void lstViewPlaylist_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var track = e.ClickedItem as SoundCloudTrack;
+            App.PlaylistManager.PlayTrack(track);
         }
     }
 }

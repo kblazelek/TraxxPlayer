@@ -14,12 +14,25 @@ using Windows.UI.Popups;
 using System.Net.Http;
 using BackgroundAudioShared.Helpers;
 using BackgroundAudioShared.Enums_and_constants;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Collections.ObjectModel;
+using Windows.UI.Xaml.Controls;
 
 namespace TraxxPlayer
 {
     [Bindable]
     sealed partial class App : Template10.Common.BootStrapper
-    { 
+    {
+
+        private static PlaylistManager playlistManager = new PlaylistManager();
+        public static Views.Shell Shell;
+
+        public static PlaylistManager PlaylistManager
+        {
+            get { return playlistManager; }
+            set { playlistManager = value; }
+        }
         public static string SoundCloudUserName = "";
         public static List<SoundCloudTrack> likes = new List<SoundCloudTrack>();
         public static int nowplayingTrackId = 0;
@@ -60,6 +73,12 @@ namespace TraxxPlayer
             try
             {
                 likes = await SoundCloudHelper.GetLikedTracks(SCUser.id);
+                // TEST
+                foreach(var track in likes)
+                {
+                    PlaylistManager.CurrentPlaylist.Add(track);
+                    PlaylistManager.CurrentPlaylist.Add(track);
+                }
             }
             catch (Exception ex)
             {
@@ -75,12 +94,12 @@ namespace TraxxPlayer
             {
                 // create a new frame 
                 var nav = NavigationServiceFactory(BackButton.Attach, ExistingContent.Include);
-
+                Shell = new Views.Shell(nav);
                 // create modal root
                 Window.Current.Content = new ModalDialog
                 {
                     DisableBackButtonWhenModal = true,
-                    Content = new Views.Shell(nav),
+                    Content = Shell,
                     ModalContent = new Views.Busy(),
                 };
             }

@@ -132,8 +132,12 @@ namespace TraxxPlayer.ViewModels
             var trackId = GetCurrentTrackId();
             if (trackId != null)
             {
+                //TODO: Dodać obsługę playlisty zamiast likes
                 var song = App.likes.Where(t => t.stream_url == trackId.ToString()).FirstOrDefault();
-                LoadTrack(song);
+                if (song != null)
+                {
+                    LoadTrack(song);
+                }
             }
             return base.OnNavigatedToAsync(parameter, mode, state);
 
@@ -238,8 +242,12 @@ namespace TraxxPlayer.ViewModels
         {
             try
             {
+                string albumartImage = "";
                 //Change album art
-                string albumartImage = Convert.ToString(currentTrack.artwork_url);
+                if (currentTrack.artwork_url != null)
+                {
+                    albumartImage = Convert.ToString(currentTrack.artwork_url);
+                }
                 if (string.IsNullOrWhiteSpace(albumartImage))
                 {
                     albumartImage = @"ms-appx:///Assets/Albumart.jpg";

@@ -8,91 +8,127 @@
       xmlns:local="using:TraxxPlayer.Views"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:views="using:TraxxPlayer.Views"
+      xmlns:data="using:BackgroundAudioShared"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       mc:Ignorable="d">
+    <Page.Resources>
+        <DataTemplate x:Key="ImageOverlayTemplate"
+                      x:DataType="data:SoundCloudTrack">
+            <StackPanel Height="130"
+                        Width="190"
+                        Margin="4,4,4,8">
+                <TextBlock Text="{x:Bind title}"
+                           Margin="8,4"
+                           Width="186"
+                           Style="{StaticResource BaseTextBlockStyle}"
+                           HorizontalAlignment="Left" />
+                <Image Source="{x:Bind AlbumArtUri}"
+                       Margin="8,0,8,8"
+                       Stretch="UniformToFill" />
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Controls:HamburgerMenu x:Name="MyHamburgerMenu"
+                                Grid.ColumnSpan="2">
 
-    <Controls:HamburgerMenu x:Name="MyHamburgerMenu">
+            <Controls:HamburgerMenu.PrimaryButtons>
+                <!--  mainpage button  -->
+                <Controls:HamburgerButtonInfo ClearHistory="True"
+                                              PageType="views:MainPage"
+                                              AutomationProperties.Name="Jerry">
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Width="48"
+                                    Height="48"
+                                    Symbol="Home" />
+                        <TextBlock Margin="12,0,0,0"
+                                   VerticalAlignment="Center"
+                                   Text="Home" />
+                    </StackPanel>
+                </Controls:HamburgerButtonInfo>
+                <Controls:HamburgerButtonInfo ClearHistory="True"
+                                              PageType="views:NowPlaying"
+                                              AutomationProperties.Name="Jerry">
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Width="48"
+                                    Height="48"
+                                    Symbol="Play" />
+                        <TextBlock Margin="12,0,0,0"
+                                   VerticalAlignment="Center"
+                                   Text="NowPlaying" />
+                    </StackPanel>
+                </Controls:HamburgerButtonInfo>
+                <Controls:HamburgerButtonInfo ClearHistory="True"
+                                              PageType="views:Me"
+                                              AutomationProperties.Name="Jerry">
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Width="48"
+                                    Height="48"
+                                    Symbol="Contact" />
+                        <TextBlock Margin="12,0,0,0"
+                                   VerticalAlignment="Center"
+                                   Text="Me" />
+                    </StackPanel>
+                </Controls:HamburgerButtonInfo>
+                <Controls:HamburgerButtonInfo ClearHistory="True"
+                                              PageType="views:Likes"
+                                              AutomationProperties.Name="Jerry">
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Width="48"
+                                    Height="48"
+                                    Symbol="Like" />
+                        <TextBlock Margin="12,0,0,0"
+                                   VerticalAlignment="Center"
+                                   Text="Likes" />
+                    </StackPanel>
+                </Controls:HamburgerButtonInfo>
+                <Controls:HamburgerButtonInfo ClearHistory="True"
+                                              PageType="views:Charts"
+                                              AutomationProperties.Name="Jerry">
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Width="48"
+                                    Height="48"
+                                    Symbol="Go" />
+                        <TextBlock Margin="12,0,0,0"
+                                   VerticalAlignment="Center"
+                                   Text="Charts" />
+                    </StackPanel>
+                </Controls:HamburgerButtonInfo>
 
-        <Controls:HamburgerMenu.PrimaryButtons>
-            <!--  mainpage button  -->
-            <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:MainPage" 
-                                          AutomationProperties.Name="Jerry"
-                                          >
-                <StackPanel Orientation="Horizontal">
-                    <SymbolIcon Width="48" Height="48"
-                                Symbol="Home" />
-                    <TextBlock Margin="12,0,0,0" VerticalAlignment="Center"
-                               Text="Home" />
-                </StackPanel>
-            </Controls:HamburgerButtonInfo>
-            <Controls:HamburgerButtonInfo ClearHistory="True"
-                                          PageType="views:NowPlaying"
-                                          AutomationProperties.Name="Jerry">
-                <StackPanel Orientation="Horizontal">
-                    <SymbolIcon Width="48"
-                                Height="48"
-                                Symbol="Play" />
-                    <TextBlock Margin="12,0,0,0"
-                               VerticalAlignment="Center"
-                               Text="NowPlaying" />
-                </StackPanel>
-            </Controls:HamburgerButtonInfo>
-            <Controls:HamburgerButtonInfo ClearHistory="True"
-                                          PageType="views:Me"
-                                          AutomationProperties.Name="Jerry">
-                <StackPanel Orientation="Horizontal">
-                    <SymbolIcon Width="48"
-                                Height="48"
-                                Symbol="Contact" />
-                    <TextBlock Margin="12,0,0,0"
-                               VerticalAlignment="Center"
-                               Text="Me" />
-                </StackPanel>
-            </Controls:HamburgerButtonInfo>
-            <Controls:HamburgerButtonInfo ClearHistory="True"
-                                          PageType="views:Likes"
-                                          AutomationProperties.Name="Jerry">
-                <StackPanel Orientation="Horizontal">
-                    <SymbolIcon Width="48"
-                                Height="48"
-                                Symbol="Like" />
-                    <TextBlock Margin="12,0,0,0"
-                               VerticalAlignment="Center"
-                               Text="Likes" />
-                </StackPanel>
-            </Controls:HamburgerButtonInfo>
-            <Controls:HamburgerButtonInfo ClearHistory="True"
-                                          PageType="views:Charts"
-                                          AutomationProperties.Name="Jerry">
-                <StackPanel Orientation="Horizontal">
-                    <SymbolIcon Width="48"
-                                Height="48"
-                                Symbol="Go" />
-                    <TextBlock Margin="12,0,0,0"
-                               VerticalAlignment="Center"
-                               Text="Charts" />
-                </StackPanel>
-            </Controls:HamburgerButtonInfo>
+            </Controls:HamburgerMenu.PrimaryButtons>
 
-        </Controls:HamburgerMenu.PrimaryButtons>
+            <Controls:HamburgerMenu.SecondaryButtons>
+                <!--  settingspage button  -->
+                <Controls:HamburgerButtonInfo x:Name="SettingsButton"
+                                              PageParameter="0"
+                                              PageType="views:SettingsPage">
+                    <Controls:HamburgerButtonInfo.NavigationTransitionInfo>
+                        <SuppressNavigationTransitionInfo />
+                    </Controls:HamburgerButtonInfo.NavigationTransitionInfo>
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Width="48"
+                                    Height="48"
+                                    Symbol="Setting" />
+                        <TextBlock Margin="12,0,0,0"
+                                   VerticalAlignment="Center"
+                                   Text="Settings" />
+                    </StackPanel>
+                </Controls:HamburgerButtonInfo>
+            </Controls:HamburgerMenu.SecondaryButtons>
 
-        <Controls:HamburgerMenu.SecondaryButtons>
-            <!--  settingspage button  -->
-            <Controls:HamburgerButtonInfo x:Name="SettingsButton" PageParameter="0"
-                                          PageType="views:SettingsPage">
-                <Controls:HamburgerButtonInfo.NavigationTransitionInfo>
-                    <SuppressNavigationTransitionInfo />
-                </Controls:HamburgerButtonInfo.NavigationTransitionInfo>
-                <StackPanel Orientation="Horizontal">
-                    <SymbolIcon Width="48" Height="48"
-                                Symbol="Setting" />
-                    <TextBlock Margin="12,0,0,0" VerticalAlignment="Center"
-                               Text="Settings" />
-                </StackPanel>
-            </Controls:HamburgerButtonInfo>
-        </Controls:HamburgerMenu.SecondaryButtons>
-
-    </Controls:HamburgerMenu>
-
+        </Controls:HamburgerMenu>
+        <ScrollViewer Grid.Column="1">
+            <ListView x:Name="lstViewPlaylist" 
+                ItemTemplate="{StaticResource ImageOverlayTemplate }"
+                      ItemsSource="{Binding PlaylistManager.CurrentPlaylist}"
+                      IsItemClickEnabled="True"
+                      ItemClick="lstViewPlaylist_ItemClick"
+                       />
+        </ScrollViewer>
+    </Grid>
 </Page>
 

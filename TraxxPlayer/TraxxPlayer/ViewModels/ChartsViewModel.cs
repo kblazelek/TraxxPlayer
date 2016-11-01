@@ -69,7 +69,7 @@ namespace TraxxPlayer.ViewModels
             {
                 try
                 {
-                    string responseText = await JsonHelper.GetjsonStream(@"https://api-v2.soundcloud.com/" + "charts?kind=" + KindsDictionary.FirstOrDefault(x => x.Value == SelectedKind).Key + "&genre=soundcloud%3Agenres%3A" + GenresDictionary.FirstOrDefault(x => x.Value == SelectedGenre).Key + "&client_id=" + SoundCloudConstants.SoundCloudClientId + "&limit=10&linked_partitioning=1");
+                    string responseText = await JsonHelper.GetjsonStream(@"https://api-v2.soundcloud.com/" + "charts?kind=" + KindsDictionary.FirstOrDefault(x => x.Value == SelectedKind).Key + "&genre=soundcloud%3Agenres%3A" + GenresDictionary.FirstOrDefault(x => x.Value == SelectedGenre).Key + "&client_id=" + SoundCloudConstants.SoundCloudClientId + "&limit=50&linked_partitioning=1");
                     SoundCloudChart chart = JsonConvert.DeserializeObject<SoundCloudChart>(responseText);
                     Tracks.Clear();
                     var tempTracks = chart.collection.Select(ts => ts.track);
