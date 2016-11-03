@@ -236,6 +236,10 @@
       <Project>{8d0109b3-fea4-4740-b850-24a1522348cb}</Project>
       <Name>BackgroundAudioTask</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TraxxPlayer.Data\TraxxPlayer.Data.csproj">
+      <Project>{995cd735-2024-435e-9709-c29e9550f8fb}</Project>
+      <Name>TraxxPlayer.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
