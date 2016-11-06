@@ -62,7 +62,6 @@ namespace TraxxPlayer
                 foreach (var track in likes)
                 {
                     PlaylistManager.CurrentPlaylist.Add(track);
-                    PlaylistManager.CurrentPlaylist.Add(track);
                 }
             }
             catch (Exception ex)

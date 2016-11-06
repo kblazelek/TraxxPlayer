@@ -34,5 +34,6 @@ namespace TraxxPlayer.Data.Models
         public int followers_count { get; set; }
         public int followings_count { get; set; }
         public bool isDefault { get; set; }
+        public List<Playlist> Playlists { get; set; }
     }
 }

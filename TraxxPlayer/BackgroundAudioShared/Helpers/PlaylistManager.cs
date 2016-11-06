@@ -30,9 +30,9 @@ namespace BackgroundAudioShared.Helpers
             }
             if (track.stream_url != null)
             {
-                if (CurrentPlaylist.Contains(track)) // Przetestować
+                if (CurrentPlaylist.Contains(track))
                 {
-                    MessageService.SendMessageToBackground(new TrackChangedMessage(new Uri(track.uri)));
+                    MessageService.SendMessageToBackground(new TrackChangedMessage(new Uri(track.stream_url)));
                     MessageService.SendMessageToBackground(new StartPlaybackMessage());
                 }
                 else

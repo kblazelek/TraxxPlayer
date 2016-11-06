@@ -68,34 +68,41 @@ namespace TraxxPlayer.Services
             using (var db = new TraxxPlayerContext())
             {
                 var user = db.Users.Where(u => u.id == id).FirstOrDefault();
-                return new UserToAddAndDisplay()
+                if (user != null)
                 {
-                    id = user.id,
-                    avatar_url = user.avatar_url,
-                    city = user.city,
-                    country = user.country,
-                    description = user.description,
-                    discogs_name = user.discogs_name,
-                    first_name = user.first_name,
-                    followers_count = user.followers_count,
-                    followings_count = user.followings_count,
-                    full_name = user.full_name,
-                    kind = user.kind,
-                    last_modified = user.last_modified,
-                    last_name = user.last_name,
-                    myspace_name = user.myspace_name,
-                    online = user.online,
-                    permalink = user.permalink,
-                    permalink_url = user.permalink_url,
-                    plan = user.plan,
-                    playlist_count = user.playlist_count,
-                    public_favorites_count = user.public_favorites_count,
-                    track_count = user.track_count,
-                    uri = user.uri,
-                    username = user.username,
-                    website = user.website,
-                    website_title = user.website_title
-                };
+                    return new UserToAddAndDisplay()
+                    {
+                        id = user.id,
+                        avatar_url = user.avatar_url,
+                        city = user.city,
+                        country = user.country,
+                        description = user.description,
+                        discogs_name = user.discogs_name,
+                        first_name = user.first_name,
+                        followers_count = user.followers_count,
+                        followings_count = user.followings_count,
+                        full_name = user.full_name,
+                        kind = user.kind,
+                        last_modified = user.last_modified,
+                        last_name = user.last_name,
+                        myspace_name = user.myspace_name,
+                        online = user.online,
+                        permalink = user.permalink,
+                        permalink_url = user.permalink_url,
+                        plan = user.plan,
+                        playlist_count = user.playlist_count,
+                        public_favorites_count = user.public_favorites_count,
+                        track_count = user.track_count,
+                        uri = user.uri,
+                        username = user.username,
+                        website = user.website,
+                        website_title = user.website_title
+                    };
+                }
+                else
+                {
+                    throw new Exception("User with the id provided does not exist. Get user failed.");
+                }
             }
         }
 

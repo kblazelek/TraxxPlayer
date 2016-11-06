@@ -104,6 +104,7 @@
     <Compile Include="ViewModels\MeViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingViewModel.cs" />
     <Compile Include="ViewModels\LikesViewModel.cs" />
+    <Compile Include="ViewModels\PlaylistsViewModel.cs" />
     <Compile Include="Views\AskForUserName.xaml.cs">
       <DependentUpon>AskForUserName.xaml</DependentUpon>
     </Compile>
@@ -112,6 +113,9 @@
     </Compile>
     <Compile Include="Views\Likes.xaml.cs">
       <DependentUpon>Likes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Playlists.xaml.cs">
+      <DependentUpon>Playlists.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Me.xaml.cs">
       <DependentUpon>Me.xaml</DependentUpon>
@@ -185,6 +189,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Likes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Playlists.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -115,7 +115,13 @@
     <Compile Include="Migrations\20161105165325_AddIsDefaultField.designer.cs">
       <DependentUpon>20161105165325_AddIsDefaultField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20161106224502_AddPlaylistAndPlaylistTrack.cs" />
+    <Compile Include="Migrations\20161106224502_AddPlaylistAndPlaylistTrack.designer.cs">
+      <DependentUpon>20161106224502_AddPlaylistAndPlaylistTrack.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\TraxxPlayerContextModelSnapshot.cs" />
+    <Compile Include="Models\Playlist.cs" />
+    <Compile Include="Models\PlaylistTrack.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TraxxPlayerContext.cs" />
