@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TraxxPlayer.Data.Models
 {
-    public class SoundCloudUser
+    public class User
     {
         public int id { get; set; }
         public string permalink { get; set; }
@@ -14,7 +14,6 @@ namespace TraxxPlayer.Data.Models
         public string uri { get; set; }
         public string permalink_url { get; set; }
         public string avatar_url { get; set; }
-
         public string kind { get; set; }
         public string last_modified { get; set; }
         public string country { get; set; }
@@ -34,5 +33,6 @@ namespace TraxxPlayer.Data.Models
         public int public_favorites_count { get; set; }
         public int followers_count { get; set; }
         public int followings_count { get; set; }
+        public bool isDefault { get; set; }
     }
 }

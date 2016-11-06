@@ -25,6 +25,22 @@ namespace TraxxPlayer.Views
         public AskForUserName()
         {
             this.InitializeComponent();
+            this.Loaded += AskForUserName_Loaded;
+        }
+
+        private void AskForUserName_Loaded(object sender, RoutedEventArgs e)
+        {
+            autoSuggestBoxUserName.Focus(FocusState.Programmatic);
+            autoSuggestBoxUserName.Focus(FocusState.Keyboard);
+            autoSuggestBoxUserName.Focus(FocusState.Pointer);
+        }
+
+        private void autoSuggestBoxUserName_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                ViewModel.AddSoundCloudUser();
+            }
         }
     }
 }

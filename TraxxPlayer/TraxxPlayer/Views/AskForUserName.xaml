@@ -5,7 +5,6 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:vm="using:TraxxPlayer.ViewModels"
-      xmlns:ep="using:TraxxPlayer.ExtensionProperties"
       xmlns:controls="using:Template10.Controls"
       mc:Ignorable="d">
 
@@ -67,27 +66,29 @@
                Source="ms-appx:///Assets/Person.jpg"
                VerticalAlignment="Top"
                Stretch="UniformToFill"
-               RelativePanel.Below="pageHeader"/>
-        <TextBlock x:Name="textBlockProvideUserName" Text="Please provide your SoundCloud user name"
+               RelativePanel.Below="pageHeader" />
+        <TextBlock x:Name="textBlockProvideUserName"
+                   Text="Please provide your SoundCloud user name"
                    Margin="10,10,10,10"
                    Style="{StaticResource TitleTextBlockStyle}"
                    Foreground="Gray"
                    RelativePanel.AlignLeftWithPanel="True"
                    RelativePanel.AlignRightWithPanel="True"
                    RelativePanel.Below="headerImage" />
-        <TextBox x:Name="textBoxUserName"
-                 ep:FocusExtension.IsFocused="{x:Bind ViewModel.IsUserNameFocused, Mode=OneTime}"
-                 Margin="10,10,10,10"
-                 KeyDown="{x:Bind ViewModel.TextBoxUserName_KeyDown}"
-                 Text="{Binding SCUserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 RelativePanel.Below="textBlockProvideUserName"
-                 RelativePanel.AlignLeftWithPanel="True"
-                 RelativePanel.AlignRightWithPanel="True" />
+        <AutoSuggestBox x:Name="autoSuggestBoxUserName"
+                        Margin="10,10,10,10"
+                        PlaceholderText="Type your user name..."
+                        Text="{Binding SCUserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        ItemsSource="{x:Bind ViewModel.PreviousUsersQuery}"
+                        KeyUp="autoSuggestBoxUserName_KeyUp"
+                        RelativePanel.Below="textBlockProvideUserName"
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True" />
         <Button x:Name="btnAddUser"
                 Margin="10,10,10,10"
                 Content="OK"
                 Click="{x:Bind ViewModel.AddSoundCloudUser}"
-                RelativePanel.Below="textBoxUserName"
+                RelativePanel.Below="autoSuggestBoxUserName"
                 RelativePanel.AlignLeftWithPanel="True"
                 RelativePanel.AlignRightWithPanel="True"
                 HorizontalAlignment="Stretch" />

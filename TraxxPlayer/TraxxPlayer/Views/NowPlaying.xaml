@@ -69,10 +69,10 @@
                         <Setter Target="AlbumartRing.Width" Value="325"/>
 
 
-                        <Setter Target="txtSongTitle.FontSize" Value="20"/>
+                        <Setter Target="txtSongTitle.FontSize" Value="15"/>
                         <Setter Target="txtSongTitle.Margin" Value="0,160,0,0"/>
 
-                        <Setter Target="txtAlbumTitle.FontSize" Value="15"/>
+                        <Setter Target="txtAlbumTitle.FontSize" Value="10"/>
                         <Setter Target="txtAlbumTitle.Margin" Value="0,190,0,0"/>
 
 

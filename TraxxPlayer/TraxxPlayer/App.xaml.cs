@@ -18,6 +18,8 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Controls;
+using TraxxPlayer.Services;
+using TraxxPlayer.Services.Helpers;
 
 namespace TraxxPlayer
 {
@@ -33,7 +35,6 @@ namespace TraxxPlayer
             get { return playlistManager; }
             set { playlistManager = value; }
         }
-        public static string SoundCloudUserName = "";
         public static List<SoundCloudTrack> likes = new List<SoundCloudTrack>();
         public static int nowplayingTrackId = 0;
         public static SoundCloudUser SCUser { get; set; }
@@ -50,23 +51,7 @@ namespace TraxxPlayer
             #endregion
         }
 
-        public static async Task GetUserDetails()
-        {
-            try
-            {
-                string responseText = await JsonHelper.GetjsonStream(SoundCloudConstants.SoundCloudAPILink + SoundCloudConstants.SoundCloudAPIUsers + SoundCloudUserName + ".json?client_id=" + SoundCloudConstants.SoundCloudClientId);
-                SoundCloudUser tempUser = JsonConvert.DeserializeObject<SoundCloudUser>(responseText);
-                if (tempUser.id != 0)
-                {
-                    SCUser = tempUser;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageDialog showMessgae = new MessageDialog("Something went wrong. Please try again. Error Details : " + ex.Message);
-                await showMessgae.ShowAsync();
-            }
-        }
+
 
         public static async Task GetLikes()
         {
@@ -74,7 +59,7 @@ namespace TraxxPlayer
             {
                 likes = await SoundCloudHelper.GetLikedTracks(SCUser.id);
                 // TEST
-                foreach(var track in likes)
+                foreach (var track in likes)
                 {
                     PlaylistManager.CurrentPlaylist.Add(track);
                     PlaylistManager.CurrentPlaylist.Add(track);
@@ -108,20 +93,49 @@ namespace TraxxPlayer
 
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
         {
-            // long-running startup tasks go here
-            //ApplicationSettingsHelper.ReadResetSettingsValue(ApplicationSettingsConstants.SCUserName);
-            SoundCloudUserName =  ApplicationSettingsHelper.ReadSettingsValue(ApplicationSettingsConstants.SCUserName) as string;
-            await GetUserDetails();
-            if (SCUser != null)
+            string SoundCloudUserName = "";
+            SoundCloudUser tempUser = null;
+            UserToAddAndDisplay defaultUser = null;
+            try
             {
-                await GetLikes();
-                NavigationService.Navigate(typeof(Views.NowPlaying));
+                // UserService.MigrateDatabase();
+                // Get default user from db
+                defaultUser = UserService.GetDefaultUser();
+                if (defaultUser != null)
+                {
+                    SoundCloudUserName = defaultUser.permalink;
+                }
+
+                // Check whether saved user still exists in SoundCloud
+                if (SoundCloudUserName != "")
+                {
+                    tempUser = await SoundCloudHelper.GetUserDetails(SoundCloudUserName);
+                }
+                if (tempUser != null)
+                {
+                    SCUser = tempUser;
+                    if (defaultUser != null)
+                    {
+                        // Replace user info in db if it differs from SoundCloud
+                        if (!defaultUser.Equals(SCUser))
+                        {
+                            UserService.ModifyUser(new UserToAddAndDisplay(SCUser));
+                        }
+                    }
+                    await GetLikes();
+                    NavigationService.Navigate(typeof(Views.NowPlaying));
+                }
+                else
+                {
+                    NavigationService.Navigate(typeof(Views.AskForUserName));
+                }
+                await Task.CompletedTask;
             }
-            else
+            catch (Exception ex)
             {
-                NavigationService.Navigate(typeof(Views.AskForUserName));
-            } 
-            await Task.CompletedTask;
+                MessageDialog showMessgae = new MessageDialog("Something went wrong. Please try again. Error Details : " + ex.Message);
+                await showMessgae.ShowAsync();
+            }
         }
     }
 }

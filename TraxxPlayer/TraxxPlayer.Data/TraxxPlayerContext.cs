@@ -10,7 +10,7 @@ namespace TraxxPlayer.Data
 {
     public class TraxxPlayerContext : DbContext
     {
-        public DbSet<SoundCloudUser> Users { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

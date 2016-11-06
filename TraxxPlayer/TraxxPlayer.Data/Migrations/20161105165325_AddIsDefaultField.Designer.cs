@@ -8,9 +8,10 @@ using TraxxPlayer.Data;
 namespace TraxxPlayer.Data.Migrations
 {
     [DbContext(typeof(TraxxPlayerContext))]
-    partial class TraxxPlayerContextModelSnapshot : ModelSnapshot
+    [Migration("20161105165325_AddIsDefaultField")]
+    partial class AddIsDefaultField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-preview1-22509");
