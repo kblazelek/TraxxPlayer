@@ -22,7 +22,7 @@ namespace TraxxPlayer.Services
                     TrackID = x.TrackID,
                     TrackOrder = x.TrackOrder,
                     id = x.id 
-                });
+                }).ToList();
             }
         }
 

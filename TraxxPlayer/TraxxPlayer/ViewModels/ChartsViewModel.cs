@@ -10,6 +10,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Template10.Mvvm;
+using TraxxPlayer.Services;
+using TraxxPlayer.Services.Helpers;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -23,6 +26,9 @@ namespace TraxxPlayer.ViewModels
         public ObservableCollection<SoundCloudTrack> Tracks { get; set; } = new ObservableCollection<SoundCloudTrack>();
         public ObservableCollection<string> Genres { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<string> Kinds { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<PlaylistToDisplay> Playlists { get; set; } = new ObservableCollection<PlaylistToDisplay>();
+        DelegateCommand<PlaylistTrackToAdd> addTrackToPlaylistCommand;
+        public DelegateCommand<PlaylistToDisplay> AddTrackToPlaylistCommand => addTrackToPlaylistCommand ?? (addTrackToPlaylistCommand = new DelegateCommand<PlaylistTrackToAdd>(AddTrackToPlaylist));
         private string _selectedGenre;
 
         public string SelectedGenre
@@ -98,6 +104,10 @@ namespace TraxxPlayer.ViewModels
             foreach (var k in KindsDictionary)
             {
                 Kinds.Add(k.Value);
+            }
+            foreach (var p in PlaylistService.GetPlaylists(App.SCUser.id))
+            {
+                Playlists.Add(p);
             }
             SelectedGenre = Genres.FirstOrDefault();
             SelectedKind = Kinds.FirstOrDefault();

@@ -97,6 +97,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DependencyProperties\BindableFlyout.cs" />
     <Compile Include="ExtensionProperties\FocusExtension.cs" />
     <Compile Include="ViewModels\AskForUserNameViewModel.cs" />
     <Compile Include="ViewModels\ChartsViewModel.cs" />
@@ -105,6 +106,12 @@
     <Compile Include="ViewModels\NowPlayingViewModel.cs" />
     <Compile Include="ViewModels\LikesViewModel.cs" />
     <Compile Include="ViewModels\PlaylistsViewModel.cs" />
+    <Compile Include="Views\EditPlaylistDialog.xaml.cs">
+      <DependentUpon>EditPlaylistDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddPlaylistDialog.xaml.cs">
+      <DependentUpon>AddPlaylistDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AskForUserName.xaml.cs">
       <DependentUpon>AskForUserName.xaml</DependentUpon>
     </Compile>
@@ -180,6 +187,14 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\EditPlaylistDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AddPlaylistDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AskForUserName.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -234,7 +249,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Converters\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BackgroundAudioShared\BackgroundAudioShared.csproj">
       <Project>{62c43640-d9fb-41b8-81b7-a02be8facd09}</Project>

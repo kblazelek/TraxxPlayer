@@ -22,7 +22,7 @@ namespace TraxxPlayer.Services
                     CreationDate = x.CreationDate,
                     Name = x.Name,
                     UserID = x.UserID
-                });
+                }).ToList();
             }
         }
 
@@ -53,6 +53,30 @@ namespace TraxxPlayer.Services
             using (var db = new TraxxPlayerContext())
             {
                 return db.Playlists.Any(p => p.id == playlistID);
+            }
+        }
+
+        public static void ModifyPlaylist(PlaylistToDisplay playlist)
+        {
+            if (playlist != null)
+            {
+                using (var db = new TraxxPlayerContext())
+                {
+                    if (PlaylistExist(playlist.id))
+                    {
+                        var playlistToModify = db.Playlists.First(p => p.id == playlist.id);
+                        playlistToModify.Name = playlist.Name;
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        throw new Exception("Playlist with provided id doesn't exist. Modify failed");
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception("Playlist cannot be null. Modify failed");
             }
         }
 

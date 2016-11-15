@@ -97,7 +97,7 @@ namespace TraxxPlayer
             UserToAddAndDisplay defaultUser = null;
             try
             {
-                // UserService.MigrateDatabase();
+                 UserService.MigrateDatabase();
                 // Get default user from db
                 defaultUser = UserService.GetDefaultUser();
                 if (defaultUser != null)

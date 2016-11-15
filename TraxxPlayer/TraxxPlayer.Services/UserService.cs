@@ -24,7 +24,7 @@ namespace TraxxPlayer.Services
         {
             using (var db = new TraxxPlayerContext())
             {
-                return db.Users.ToList().Select(user => new UserToAddAndDisplay()
+                return db.Users.Select(user => new UserToAddAndDisplay()
                 {
                     id = user.id,
                     avatar_url = user.avatar_url,
@@ -51,7 +51,7 @@ namespace TraxxPlayer.Services
                     username = user.username,
                     website = user.website,
                     website_title = user.website_title
-                });
+                }).ToList();
             }
         }
 

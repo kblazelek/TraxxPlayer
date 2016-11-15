@@ -1,4 +1,5 @@
-﻿<Page x:Class="TraxxPlayer.Views.Charts"
+﻿<Page x:Name="ChartsPage"
+      x:Class="TraxxPlayer.Views.Charts"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:local="using:TraxxPlayer.Views"
@@ -7,6 +8,10 @@
       xmlns:vm="using:TraxxPlayer.ViewModels"
       xmlns:controls="using:Template10.Controls"
       xmlns:data="using:BackgroundAudioShared"
+      xmlns:i="using:Microsoft.Xaml.Interactivity"
+      xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:dp="using:TraxxPlayer.DependencyProperties"
+      xmlns:Behaviors="using:Template10.Behaviors"
       mc:Ignorable="d">
 
     <Page.DataContext>
@@ -19,6 +24,28 @@
             <StackPanel Height="130"
                         Width="190"
                         Margin="4,4,4,8">
+                <i:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="RightTapped">
+                        <Behaviors:OpenFlyoutAction />
+                    </core:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+                <FlyoutBase.AttachedFlyout>
+                    <Flyout>
+                        <Button Content="Add to playlist">
+                            <Button.Flyout>
+                                <Flyout>
+                                    <ListBox ItemsSource="{Binding DataContext.Playlists, ElementName=ChartsPage}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Name}" />
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
+                    </Flyout>
+                </FlyoutBase.AttachedFlyout>
                 <TextBlock Text="{x:Bind title}"
                            Margin="8,4"
                            Width="186"
@@ -69,7 +96,8 @@
                              RelativePanel.AlignRightWithPanel="True"
                              RelativePanel.AlignTopWithPanel="True"
                              Text="Charts" />
-        <Grid x:Name="gridChooseKindAndGenre" RelativePanel.AlignLeftWithPanel="True"
+        <Grid x:Name="gridChooseKindAndGenre"
+              RelativePanel.AlignLeftWithPanel="True"
               RelativePanel.AlignRightWithPanel="True"
               RelativePanel.Below="pageHeader"
               HorizontalAlignment="Stretch">
