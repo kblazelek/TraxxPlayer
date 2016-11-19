@@ -62,7 +62,17 @@ namespace TraxxPlayer.Services
             {
                 if (playlistTrack != null)
                 {
-                    db.PlaylistTracks.Add(new PlaylistTrack() { PlaylistID = playlistTrack.PlaylistID, TrackID = playlistTrack.TrackID });
+                    if(GetPlaylistTracks(playlistTrack.PlaylistID).Where(pt => pt.TrackID == playlistTrack.TrackID).FirstOrDefault() != null)
+                    {
+                        throw new Exception("Playlist track with the TrackID and PlaylistID provided already exists. Add playlist track failed.");
+                    }
+                    int trackOrder = 0;
+                    var trackWithHighestTrackOrder = GetPlaylistTracks(playlistTrack.PlaylistID).OrderByDescending(pt => pt.TrackOrder).FirstOrDefault();
+                    if(trackWithHighestTrackOrder != null)
+                    {
+                        trackOrder = trackWithHighestTrackOrder.TrackOrder + 1;
+                    }
+                    db.PlaylistTracks.Add(new PlaylistTrack() { PlaylistID = playlistTrack.PlaylistID, TrackID = playlistTrack.TrackID, TrackOrder = trackOrder });
                     db.SaveChanges();
                 }
                 else

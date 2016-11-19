@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,8 +28,11 @@ namespace TraxxPlayer.ViewModels
         public ObservableCollection<string> Genres { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<string> Kinds { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<PlaylistToDisplay> Playlists { get; set; } = new ObservableCollection<PlaylistToDisplay>();
-        DelegateCommand<PlaylistTrackToAdd> addTrackToPlaylistCommand;
-        public DelegateCommand<PlaylistToDisplay> AddTrackToPlaylistCommand => addTrackToPlaylistCommand ?? (addTrackToPlaylistCommand = new DelegateCommand<PlaylistTrackToAdd>(AddTrackToPlaylist));
+        DelegateCommand<PlaylistToDisplay> addTrackToPlaylistCommand;
+        public DelegateCommand<PlaylistToDisplay> AddTrackToPlaylistCommand => addTrackToPlaylistCommand ?? (addTrackToPlaylistCommand = new DelegateCommand<PlaylistToDisplay>(AddTrackToPlaylist));
+        DelegateCommand<SoundCloudTrack> soundCloudTrackRightTappedCommand;
+        public DelegateCommand<SoundCloudTrack> SoundCloudTrackRightTappedCommand => soundCloudTrackRightTappedCommand ?? (soundCloudTrackRightTappedCommand = new DelegateCommand<SoundCloudTrack>(TrackRightTapped));
+        SoundCloudTrack rightTappedTrack = null;
         private string _selectedGenre;
 
         public string SelectedGenre
@@ -58,7 +62,7 @@ namespace TraxxPlayer.ViewModels
         public void ItemClicked(object sender, ItemClickEventArgs e)
         {
             var song = e.ClickedItem as SoundCloudTrack;
-            if(song.stream_url == null && song.uri != null)
+            if (song.stream_url == null && song.uri != null)
             {
                 song.stream_url = song.uri + "/stream?client_id=" + SoundCloudConstants.SoundCloudClientId;
             }
@@ -67,6 +71,19 @@ namespace TraxxPlayer.ViewModels
                 MessageService.SendMessageToBackground(new UpdatePlaylistMessage(new List<SoundCloudTrack> { song }));
                 MessageService.SendMessageToBackground(new StartPlaybackMessage());
             }
+        }
+
+        public void AddTrackToPlaylist(PlaylistToDisplay playlistSelected)
+        {
+            if (rightTappedTrack != null && playlistSelected != null)
+            {
+                PlaylistTrackService.AddPlaylistTrack(new PlaylistTrackToAdd() { PlaylistID = playlistSelected.id, TrackID = rightTappedTrack.id });
+            }
+        }
+
+        public void TrackRightTapped(SoundCloudTrack track)
+        {
+            rightTappedTrack = track;
         }
 
         public async Task GetTracks()
@@ -79,7 +96,7 @@ namespace TraxxPlayer.ViewModels
                     SoundCloudChart chart = JsonConvert.DeserializeObject<SoundCloudChart>(responseText);
                     Tracks.Clear();
                     var tempTracks = chart.collection.Select(ts => ts.track);
-                    foreach(var track in tempTracks)
+                    foreach (var track in tempTracks)
                     {
                         Tracks.Add(track);
                     }
@@ -95,23 +112,32 @@ namespace TraxxPlayer.ViewModels
 
         public async override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            GenresDictionary = await SoundCloudHelper.GetGenres();
-            KindsDictionary = await SoundCloudHelper.GetKinds();
-            foreach (var g in GenresDictionary)
+            try
             {
-                Genres.Add(g.Value);
+                GenresDictionary = await SoundCloudHelper.GetGenres();
+                KindsDictionary = await SoundCloudHelper.GetKinds();
+                foreach (var g in GenresDictionary)
+                {
+                    Genres.Add(g.Value);
+                }
+                foreach (var k in KindsDictionary)
+                {
+                    Kinds.Add(k.Value);
+                }
+                foreach (var p in PlaylistService.GetPlaylists(App.SCUser.id))
+                {
+                    Playlists.Add(p);
+                }
+                SelectedGenre = Genres.FirstOrDefault();
+                SelectedKind = Kinds.FirstOrDefault();
+                await base.OnNavigatedToAsync(parameter, mode, state);
+
             }
-            foreach (var k in KindsDictionary)
+            catch (Exception ex)
             {
-                Kinds.Add(k.Value);
+                MessageDialog showMessgae = new MessageDialog("Something went wrong. Please try again. Error Details : " + ex.Message);
+                await showMessgae.ShowAsync();
             }
-            foreach (var p in PlaylistService.GetPlaylists(App.SCUser.id))
-            {
-                Playlists.Add(p);
-            }
-            SelectedGenre = Genres.FirstOrDefault();
-            SelectedKind = Kinds.FirstOrDefault();
-            await base.OnNavigatedToAsync(parameter, mode, state);
         }
     }
 }

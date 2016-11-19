@@ -27,6 +27,8 @@
                 <i:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="RightTapped">
                         <Behaviors:OpenFlyoutAction />
+                        <core:InvokeCommandAction Command="{Binding DataContext.SoundCloudTrackRightTappedCommand, ElementName=ChartsPage}"
+                                                  CommandParameter="{Binding}" />
                     </core:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
                 <FlyoutBase.AttachedFlyout>
@@ -34,13 +36,15 @@
                         <Button Content="Add to playlist">
                             <Button.Flyout>
                                 <Flyout>
-                                    <ListBox ItemsSource="{Binding DataContext.Playlists, ElementName=ChartsPage}">
-                                        <ListBox.ItemTemplate>
+                                    <GridView ItemsSource="{Binding DataContext.Playlists, ElementName=ChartsPage}">
+                                        <GridView.ItemTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Name}" />
+                                                <Button Content="{Binding Name}"
+                                                        Command="{Binding DataContext.AddTrackToPlaylistCommand, ElementName=ChartsPage}"
+                                                        CommandParameter="{Binding}"/>
                                             </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>
+                                        </GridView.ItemTemplate>
+                                    </GridView>
                                 </Flyout>
                             </Button.Flyout>
                         </Button>
