@@ -74,14 +74,68 @@ namespace TraxxPlayer.ViewModels
             {
                 if (!UserService.UserExist(App.SCUser.id))
                 {
-                    UserService.AddUser(new UserToAddAndDisplay(App.SCUser));
+                    UserService.AddUser(new UserToAddAndDisplay()
+                    {
+                        id = App.SCUser.id,
+                        avatar_url = App.SCUser.avatar_url,
+                        city = (string)App.SCUser.city,
+                        country = (string)App.SCUser.country,
+                        description = (string)App.SCUser.description,
+                        discogs_name = (string)App.SCUser.discogs_name,
+                        first_name = App.SCUser.first_name,
+                        followers_count = App.SCUser.followers_count,
+                        followings_count = App.SCUser.followings_count,
+                        full_name = App.SCUser.full_name,
+                        kind = App.SCUser.kind,
+                        last_modified = App.SCUser.last_modified,
+                        last_name = App.SCUser.last_name,
+                        myspace_name = (string)App.SCUser.myspace_name,
+                        online = App.SCUser.online,
+                        permalink = App.SCUser.permalink,
+                        permalink_url = App.SCUser.permalink_url,
+                        plan = App.SCUser.plan,
+                        playlist_count = App.SCUser.playlist_count,
+                        public_favorites_count = App.SCUser.public_favorites_count,
+                        track_count = App.SCUser.track_count,
+                        uri = App.SCUser.uri,
+                        username = App.SCUser.username,
+                        website = (string)App.SCUser.website,
+                        website_title = (string)App.SCUser.website_title
+                    });
                 }
                 else
                 {
                     var userFromDB = UserService.GetUser(App.SCUser.id);
                     if (!userFromDB.Equals(App.SCUser))
                     {
-                        UserService.ModifyUser(new UserToAddAndDisplay(App.SCUser));
+                        UserService.ModifyUser((new UserToAddAndDisplay()
+                        {
+                            id = App.SCUser.id,
+                            avatar_url = App.SCUser.avatar_url,
+                            city = (string)App.SCUser.city,
+                            country = (string)App.SCUser.country,
+                            description = (string)App.SCUser.description,
+                            discogs_name = (string)App.SCUser.discogs_name,
+                            first_name = App.SCUser.first_name,
+                            followers_count = App.SCUser.followers_count,
+                            followings_count = App.SCUser.followings_count,
+                            full_name = App.SCUser.full_name,
+                            kind = App.SCUser.kind,
+                            last_modified = App.SCUser.last_modified,
+                            last_name = App.SCUser.last_name,
+                            myspace_name = (string)App.SCUser.myspace_name,
+                            online = App.SCUser.online,
+                            permalink = App.SCUser.permalink,
+                            permalink_url = App.SCUser.permalink_url,
+                            plan = App.SCUser.plan,
+                            playlist_count = App.SCUser.playlist_count,
+                            public_favorites_count = App.SCUser.public_favorites_count,
+                            track_count = App.SCUser.track_count,
+                            uri = App.SCUser.uri,
+                            username = App.SCUser.username,
+                            website = (string)App.SCUser.website,
+                            website_title = (string)App.SCUser.website_title
+                        }));
                     }
                 }
                 await App.GetLikes();

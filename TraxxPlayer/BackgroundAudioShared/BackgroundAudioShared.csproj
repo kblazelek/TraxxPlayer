@@ -135,7 +135,12 @@
     <Compile Include="Models\SoundCloudTrack.cs" />
     <Compile Include="Models\SoundCloudUser.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\TraxxPlayer.Services\TraxxPlayer.Services.csproj">
+      <Project>{cb70ddcf-aae7-4dd5-8e51-675b86dc1234}</Project>
+      <Name>TraxxPlayer.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

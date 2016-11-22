@@ -205,7 +205,7 @@
             <ListView x:Name="lstViewPlaylist"
                       ItemContainerStyle="{StaticResource ListViewItemStyle1}"
                       ItemTemplate="{StaticResource ImageOverlayTemplate }"
-                      ItemsSource="{Binding PlaylistManager.CurrentPlaylist}"
+                      ItemsSource="{Binding PlaylistManager.Tracks}"
                       IsItemClickEnabled="True"
                       ItemClick="lstViewPlaylist_ItemClick" />
         </ScrollViewer>

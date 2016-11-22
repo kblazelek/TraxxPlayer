@@ -8,20 +8,51 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using TraxxPlayer.Services;
+using TraxxPlayer.Services.Helpers;
 using Windows.UI.Xaml.Controls;
 
 namespace BackgroundAudioShared.Helpers
 {
     public class PlaylistManager : INotifyPropertyChanged
     {
-        private ObservableCollection<SoundCloudTrack> currentPlaylist = new ObservableCollection<SoundCloudTrack>();
+        public ObservableCollection<SoundCloudTrack> Tracks { get; set; } = new ObservableCollection<SoundCloudTrack>();
+        public PlaylistToDisplay Playlist { get; set; }
 
-        public ObservableCollection<SoundCloudTrack> CurrentPlaylist
+        public async Task PlayPlaylist(PlaylistToDisplay playlist)
         {
-            get { return currentPlaylist; }
-            set { currentPlaylist = value; OnPropertyChanged(nameof(CurrentPlaylist)); }
+            if(playlist != null)
+            {
+                Playlist = playlist;
+                // Clear tracks from current playlist
+                Tracks.Clear();
+                var tracks = PlaylistTrackService.GetPlaylistTracks(playlist.id).OrderBy(pt => pt.TrackOrder);
+                if(tracks != null)
+                {
+                    if(tracks.Count() > 0)
+                    {
+                        foreach(var t in tracks)
+                        {
+                            var tempTrack = await SoundCloudHelper.GetSoundCloudTrack(t.TrackID);
+                            if(tempTrack != null)
+                            {
+                                Tracks.Add(tempTrack);
+                            }
+                        }
+                        MessageService.SendMessageToBackground(new UpdatePlaylistMessage(Tracks.ToList()));
+                        MessageService.SendMessageToBackground(new StartPlaybackMessage());
+                    }
+                    else
+                    {
+                        throw new Exception("Playlist does not contain any tracks.");
+                    }
+                }
+                else
+                {
+                    throw new Exception("There was an error during fetching tracks for playlist. Play playlist failed.");
+                }
+            }
         }
-
         public void PlayTrack(SoundCloudTrack track)
         {
             if (track.stream_url == null && track.uri != null)
@@ -30,7 +61,7 @@ namespace BackgroundAudioShared.Helpers
             }
             if (track.stream_url != null)
             {
-                if (CurrentPlaylist.Contains(track))
+                if (Tracks.Contains(track))
                 {
                     MessageService.SendMessageToBackground(new TrackChangedMessage(new Uri(track.stream_url)));
                     MessageService.SendMessageToBackground(new StartPlaybackMessage());

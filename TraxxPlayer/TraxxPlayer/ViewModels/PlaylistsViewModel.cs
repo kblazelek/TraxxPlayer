@@ -77,9 +77,10 @@ namespace TraxxPlayer.ViewModels
             RefreshPlaylists();
         }
 
-        public void PlaylistClicked(object sender, ItemClickEventArgs e)
+        public async Task PlaylistClicked(object sender, ItemClickEventArgs e)
         {
             var playlist = e.ClickedItem as PlaylistToDisplay;
+            await App.PlaylistManager.PlayPlaylist(playlist);
         }
 
         public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)

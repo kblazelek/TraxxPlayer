@@ -123,5 +123,15 @@ namespace BackgroundAudioShared.Helpers
                 });
                 return task.Result;
         }
+
+        public static async Task<SoundCloudTrack> GetSoundCloudTrack(int id)
+        {
+            string responseText = await JsonHelper.GetjsonStream(SoundCloudConstants.SoundCloudAPILink + SoundCloudConstants.SoundCloudAPITracks + id + ".json?client_id=" + SoundCloudConstants.SoundCloudClientId);
+            Task<SoundCloudTrack> task = Task.Run(() =>
+            {
+                return JsonConvert.DeserializeObject<SoundCloudTrack>(responseText);
+            });
+            return task.Result;
+        }
     }
 }

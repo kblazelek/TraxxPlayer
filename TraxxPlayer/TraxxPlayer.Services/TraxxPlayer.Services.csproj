@@ -119,10 +119,6 @@
     <EmbeddedResource Include="Properties\TraxxPlayer.Services.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BackgroundAudioShared\BackgroundAudioShared.csproj">
-      <Project>{62c43640-d9fb-41b8-81b7-a02be8facd09}</Project>
-      <Name>BackgroundAudioShared</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TraxxPlayer.Data\TraxxPlayer.Data.csproj">
       <Project>{995cd735-2024-435e-9709-c29e9550f8fb}</Project>
       <Name>TraxxPlayer.Data</Name>
