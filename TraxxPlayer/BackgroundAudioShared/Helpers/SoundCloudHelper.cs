@@ -129,8 +129,24 @@ namespace BackgroundAudioShared.Helpers
             string responseText = await JsonHelper.GetjsonStream(SoundCloudConstants.SoundCloudAPILink + SoundCloudConstants.SoundCloudAPITracks + id + ".json?client_id=" + SoundCloudConstants.SoundCloudClientId);
             Task<SoundCloudTrack> task = Task.Run(() =>
             {
-                return JsonConvert.DeserializeObject<SoundCloudTrack>(responseText);
+                var track = JsonConvert.DeserializeObject<SoundCloudTrack>(responseText);
+                if (track != null)
+                {
+                    if (String.IsNullOrEmpty(track.stream_url))
+                    {
+                        if (String.IsNullOrEmpty(track.uri))
+                        {
+                            track.stream_url = track.uri + "/stream?client_id=" + SoundCloudConstants.SoundCloudClientId;
+                        }
+                    }
+                    else
+                    {
+                        track.stream_url += "?client_id=" + SoundCloudConstants.SoundCloudClientId;
+                    }
+                }
+                return track;
             });
+            
             return task.Result;
         }
     }

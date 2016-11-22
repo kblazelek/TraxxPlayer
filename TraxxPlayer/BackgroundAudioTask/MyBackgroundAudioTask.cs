@@ -501,6 +501,12 @@ namespace BackgroundAudioTask
         /// <param name="songs"></param>
         void CreatePlaybackList(IEnumerable<SoundCloudTrack> songs) // TODO: utworzyć dla lokalnej listy
         {
+            // unsubscribe from list changes
+            if (playbackList != null)
+            {
+                playbackList.CurrentItemChanged -= PlaybackList_CurrentItemChanged;
+                playbackList = null;
+            }
             // Make a new list and enable looping
             playbackList = new MediaPlaybackList();
             playbackList.AutoRepeatEnabled = true;

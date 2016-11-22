@@ -21,43 +21,54 @@ namespace BackgroundAudioShared.Helpers
 
         public async Task PlayPlaylist(PlaylistToDisplay playlist)
         {
-            if(playlist != null)
+            if (playlist == null)
             {
-                Playlist = playlist;
-                // Clear tracks from current playlist
-                Tracks.Clear();
-                var tracks = PlaylistTrackService.GetPlaylistTracks(playlist.id).OrderBy(pt => pt.TrackOrder);
-                if(tracks != null)
+                throw new Exception("There was an error during fetching tracks for playlist. Play playlist failed.");
+            }
+            var tracks = PlaylistTrackService.GetPlaylistTracks(playlist.id).OrderBy(pt => pt.TrackOrder);
+            if (tracks == null)
+            {
+                throw new Exception("Playlist does not contain any tracks.");
+            }
+            else if (tracks.Count() == 0)
+            {
+                throw new Exception("Playlist does not contain any tracks.");
+            }
+
+            Playlist = playlist;
+            // Clear tracks from current playlist
+            Tracks.Clear();
+            foreach (var t in tracks)
+            {
+                var tempTrack = await SoundCloudHelper.GetSoundCloudTrack(t.TrackID);
+                if (tempTrack != null)
                 {
-                    if(tracks.Count() > 0)
-                    {
-                        foreach(var t in tracks)
-                        {
-                            var tempTrack = await SoundCloudHelper.GetSoundCloudTrack(t.TrackID);
-                            if(tempTrack != null)
-                            {
-                                Tracks.Add(tempTrack);
-                            }
-                        }
-                        MessageService.SendMessageToBackground(new UpdatePlaylistMessage(Tracks.ToList()));
-                        MessageService.SendMessageToBackground(new StartPlaybackMessage());
-                    }
-                    else
-                    {
-                        throw new Exception("Playlist does not contain any tracks.");
-                    }
+                    Tracks.Add(tempTrack);
                 }
                 else
                 {
-                    throw new Exception("There was an error during fetching tracks for playlist. Play playlist failed.");
+                    // TODO: Add custom exception containting track id to ask user whether he/she want's to delete deleted track from playlist.
                 }
             }
+            MessageService.SendMessageToBackground(new UpdatePlaylistMessage(Tracks.ToList()));
+            MessageService.SendMessageToBackground(new StartPlaybackMessage());
         }
+
+        private static string GetStreamUrlFromUri(string uri)
+        {
+            return uri + "/stream?client_id=" + SoundCloudConstants.SoundCloudClientId;
+        }
+
+        // TODO: zamienic przyjmowany parametr na id i pobierac z soundcloudhelpera
         public void PlayTrack(SoundCloudTrack track)
         {
+            if (track == null)
+            {
+                throw new Exception("Track is empty. Play track failed.");
+            }
             if (track.stream_url == null && track.uri != null)
             {
-                track.stream_url = track.uri + "/stream?client_id=" + SoundCloudConstants.SoundCloudClientId;
+                track.stream_url = GetStreamUrlFromUri(track.uri);
             }
             if (track.stream_url != null)
             {
@@ -74,6 +85,7 @@ namespace BackgroundAudioShared.Helpers
             }
         }
 
+        #region INotifyPropertyChanged implementation
         new public event PropertyChangedEventHandler PropertyChanged;
         protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
@@ -89,6 +101,7 @@ namespace BackgroundAudioShared.Helpers
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        } 
+        #endregion
     }
 }

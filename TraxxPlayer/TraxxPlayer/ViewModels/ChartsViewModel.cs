@@ -61,16 +61,7 @@ namespace TraxxPlayer.ViewModels
 
         public void ItemClicked(object sender, ItemClickEventArgs e)
         {
-            var song = e.ClickedItem as SoundCloudTrack;
-            if (song.stream_url == null && song.uri != null)
-            {
-                song.stream_url = song.uri + "/stream?client_id=" + SoundCloudConstants.SoundCloudClientId;
-            }
-            if (song.stream_url != null)
-            {
-                MessageService.SendMessageToBackground(new UpdatePlaylistMessage(new List<SoundCloudTrack> { song }));
-                MessageService.SendMessageToBackground(new StartPlaybackMessage());
-            }
+            App.PlaylistManager.PlayTrack(e.ClickedItem as SoundCloudTrack);
         }
 
         public void AddTrackToPlaylist(PlaylistToDisplay playlistSelected)
