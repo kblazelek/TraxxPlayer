@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BackgroundAudioShared.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -29,7 +30,7 @@ namespace TraxxPlayer.ViewModels
 
         private void EditPlaylist(PlaylistToDisplay obj)
         {
-            if(obj != null)
+            if (obj != null)
             {
                 WindowWrapper.Current().Dispatcher.Dispatch(() =>
                 {
@@ -45,17 +46,14 @@ namespace TraxxPlayer.ViewModels
 
         private void DeletePlaylist(PlaylistToDisplay obj)
         {
-            if(obj != null)
+            try
             {
-                try
-                {
-                    PlaylistService.DeletePlaylist(obj.id);
-                    RefreshPlaylists();
-                }
-                catch(Exception ex)
-                {
-                    Debug.WriteLine(ex.Message); // dodać obsługę wyjątków
-                }
+                PlaylistService.DeletePlaylist(obj.id);
+                RefreshPlaylists();
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage(ex.Message);
             }
         }
 
@@ -72,8 +70,6 @@ namespace TraxxPlayer.ViewModels
             });
         }
 
-
-
         private void DialogClosed()
         {
             RefreshPlaylists();
@@ -86,25 +82,44 @@ namespace TraxxPlayer.ViewModels
                 var playlist = e.ClickedItem as PlaylistToDisplay;
                 await App.PlaylistManager.PlayPlaylist(playlist);
             }
-            catch(Exception ex)
+            catch (EmptyPlaylistException ex)
             {
                 ShowWarningMessage(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage(ex.Message);
             }
         }
 
         public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            LoadPlaylists();
-            return base.OnNavigatedToAsync(parameter, mode, state);
+            try
+            {
+                LoadPlaylists();
+                return base.OnNavigatedToAsync(parameter, mode, state);
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage(ex.Message);
+                return Task.FromException(ex);
+            }
         }
 
         public void RefreshPlaylists()
         {
-            if(Playlists.Count > 0)
+            try
             {
-                Playlists.Clear();
+                if (Playlists.Count > 0)
+                {
+                    Playlists.Clear();
+                }
+                LoadPlaylists();
             }
-            LoadPlaylists();
+            catch(Exception ex)
+            {
+                ShowErrorMessage(ex.Message);
+            }
 
         }
         public void LoadPlaylists()

@@ -1,4 +1,5 @@
 ﻿using BackgroundAudioShared.Enums_and_constants;
+using BackgroundAudioShared.Exceptions;
 using BackgroundAudioShared.Messages;
 using System;
 using System.Collections.Generic;
@@ -23,16 +24,16 @@ namespace BackgroundAudioShared.Helpers
         {
             if (playlist == null)
             {
-                throw new Exception("There was an error during fetching tracks for playlist. Play playlist failed.");
+                throw new ArgumentNullException("There was an error during fetching tracks for playlist. Play playlist failed.");
             }
             var tracks = PlaylistTrackService.GetPlaylistTracks(playlist.id).OrderBy(pt => pt.TrackOrder);
             if (tracks == null)
             {
-                throw new Exception("Playlist does not contain any tracks.");
+                throw new EmptyPlaylistException("Playlist does not contain any tracks.");
             }
             else if (tracks.Count() == 0)
             {
-                throw new Exception("Playlist does not contain any tracks.");
+                throw new EmptyPlaylistException("Playlist does not contain any tracks.");
             }
 
             Playlist = playlist;
