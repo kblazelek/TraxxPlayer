@@ -20,6 +20,8 @@ using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Controls;
 using TraxxPlayer.Services;
 using TraxxPlayer.Services.Helpers;
+using Windows.UI.ViewManagement;
+using Windows.Foundation;
 
 namespace TraxxPlayer
 {
@@ -74,6 +76,7 @@ namespace TraxxPlayer
 
         public override async Task OnInitializeAsync(IActivatedEventArgs args)
         {
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 400, Height = 600 });
             if (Window.Current.Content as ModalDialog == null)
             {
                 // create a new frame 

@@ -72,6 +72,8 @@ namespace TraxxPlayer.ViewModels
             });
         }
 
+
+
         private void DialogClosed()
         {
             RefreshPlaylists();
@@ -79,8 +81,15 @@ namespace TraxxPlayer.ViewModels
 
         public async Task PlaylistClicked(object sender, ItemClickEventArgs e)
         {
-            var playlist = e.ClickedItem as PlaylistToDisplay;
-            await App.PlaylistManager.PlayPlaylist(playlist);
+            try
+            {
+                var playlist = e.ClickedItem as PlaylistToDisplay;
+                await App.PlaylistManager.PlayPlaylist(playlist);
+            }
+            catch(Exception ex)
+            {
+                ShowWarningMessage(ex.Message);
+            }
         }
 
         public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)

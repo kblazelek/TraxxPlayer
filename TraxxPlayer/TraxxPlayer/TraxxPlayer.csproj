@@ -118,6 +118,9 @@
     <Compile Include="Views\Charts.xaml.cs">
       <DependentUpon>Charts.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ErrorDialog.xaml.cs">
+      <DependentUpon>ErrorDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Likes.xaml.cs">
       <DependentUpon>Likes.xaml</DependentUpon>
     </Compile>
@@ -152,6 +155,9 @@
     </Compile>
     <Compile Include="Views\Splash.xaml.cs">
       <DependentUpon>Splash.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WarningDialog.xaml.cs">
+      <DependentUpon>WarningDialog.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -203,6 +209,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\ErrorDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Likes.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -245,6 +255,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Splash.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\WarningDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
