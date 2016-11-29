@@ -25,7 +25,27 @@
         <DataTemplate x:Key="ImageOverlayTemplate"
                       x:DataType="data:SoundCloudTrack">
             <StackPanel Height="130"
+                        RightTapped="StackPanel_RightTapped"
                         Width="190">
+                <FlyoutBase.AttachedFlyout>
+                    <Flyout Placement="Left">
+                        <Button Content="Remove from playlist">
+                            <Button.Flyout>
+                                <Flyout>
+                                    <GridView ItemsSource="{Binding DataContext.Playlists, ElementName=ChartsPage}">
+                                        <GridView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Button Content="{Binding Name}"
+                                                        Command="{Binding DataContext.AddTrackToPlaylistCommand, ElementName=ChartsPage}"
+                                                        CommandParameter="{Binding}" />
+                                            </DataTemplate>
+                                        </GridView.ItemTemplate>
+                                    </GridView>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
+                    </Flyout>
+                </FlyoutBase.AttachedFlyout>
                 <TextBlock Text="{x:Bind title}"
                            Width="186"
                            Style="{StaticResource BaseTextBlockStyle}"
@@ -207,7 +227,8 @@
                       ItemTemplate="{StaticResource ImageOverlayTemplate }"
                       ItemsSource="{Binding PlaylistManager.Tracks}"
                       IsItemClickEnabled="True"
-                      ItemClick="lstViewPlaylist_ItemClick" />
+                      ItemClick="lstViewPlaylist_ItemClick">
+            </ListView>
         </ScrollViewer>
     </Grid>
 </Page>

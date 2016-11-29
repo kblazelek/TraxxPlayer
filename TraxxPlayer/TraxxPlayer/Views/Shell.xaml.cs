@@ -8,6 +8,7 @@ using Template10.Services.NavigationService;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace TraxxPlayer.Views
 {
@@ -37,6 +38,11 @@ namespace TraxxPlayer.Views
         {
             var track = e.ClickedItem as SoundCloudTrack;
             App.PlaylistManager.PlayTrack(track);
+        }
+
+        private void StackPanel_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
         }
     }
 }
