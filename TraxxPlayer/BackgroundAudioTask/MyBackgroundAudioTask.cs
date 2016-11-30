@@ -474,6 +474,15 @@ namespace BackgroundAudioTask
                 return;
             }
 
+            DeleteTrackFromPlaybackList deleteTrackFromPlaybackList;
+            if (MessageService.TryParseMessage(e.Data, out deleteTrackFromPlaybackList))
+            {
+                // User has chosen to skip track from app context.
+                Debug.WriteLine($"Deleting track {deleteTrackFromPlaybackList.Track.id} from playback list.");
+                DeleteTrackFromPlaybackList(deleteTrackFromPlaybackList.Track.stream_url.ToString());
+                return;
+            }
+
             TrackChangedMessage trackChangedMessage;
             if (MessageService.TryParseMessage(e.Data, out trackChangedMessage))
             {
@@ -495,6 +504,18 @@ namespace BackgroundAudioTask
             }
         } // Dodać obsługę lokalnych
 
+        void DeleteTrackFromPlaybackList(string stream_url)
+        {
+            var mediaPlaybackItem = playbackList.Items.Where(mpi => mpi.Source.CustomProperties[TrackIdKey].ToString() == stream_url).FirstOrDefault();
+            if (mediaPlaybackItem != null)
+            {
+                playbackList.Items.Remove(mediaPlaybackItem);
+            }
+            else
+            {
+                throw new Exception($"There is no track in current playback list with stream_url {stream_url}");
+            }
+        }
         /// <summary>
         /// Create a playback list from the list of songs received from the foreground app.
         /// </summary>

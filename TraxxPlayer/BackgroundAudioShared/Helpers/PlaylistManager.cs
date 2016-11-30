@@ -55,6 +55,25 @@ namespace BackgroundAudioShared.Helpers
             MessageService.SendMessageToBackground(new StartPlaybackMessage());
         }
 
+        public void RemoveTrackFromCurrentPlaylist(SoundCloudTrack track)
+        {
+            if(track == null)
+            {
+                throw new Exception("Track to remove is null. Remove track from current playlist failed.");
+            }
+            if(Playlist == null)
+            {
+                throw new Exception("Playlist is null. Remove track from current playlist failed.");
+            }
+            if(!Tracks.Contains(track))
+            {
+                throw new Exception($"There is no track with id {track.id} in current playlist. Remove track from current playlist failed.");
+            }
+            // Remove later when syncing with background task
+            Tracks.Remove(track);
+            MessageService.SendMessageToBackground(new DeleteTrackFromPlaybackList(track));
+        }
+
         private static string GetStreamUrlFromUri(string uri)
         {
             return uri + "/stream?client_id=" + SoundCloudConstants.SoundCloudClientId;
