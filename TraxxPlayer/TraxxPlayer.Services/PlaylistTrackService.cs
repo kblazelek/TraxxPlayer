@@ -98,5 +98,26 @@ namespace TraxxPlayer.Services
                 }
             }
         }
+
+        public static void DeletePlaylistTrack(int playlistID, int trackID)
+        {
+            using (var db = new TraxxPlayerContext())
+            {
+                if(!PlaylistService.PlaylistExist(playlistID))
+                {
+                    throw new Exception($"Could not find playlist with ID {playlistID}. Delete playlist track failed.");
+                }
+                var playlistTrack = db.PlaylistTracks.Where(pt => pt.PlaylistID == playlistID && pt.TrackID == trackID).FirstOrDefault();
+                if(playlistTrack != null)
+                {
+                    db.PlaylistTracks.Remove(playlistTrack);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception($"Playlist with ID {playlistID} does not contain track with ID {trackID}. Delete playlist track failed.");
+                }
+            }
+        }
     }
 }

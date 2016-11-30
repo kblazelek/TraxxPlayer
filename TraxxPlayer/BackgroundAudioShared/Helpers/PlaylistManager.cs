@@ -60,8 +60,26 @@ namespace BackgroundAudioShared.Helpers
             return uri + "/stream?client_id=" + SoundCloudConstants.SoundCloudClientId;
         }
 
+        public void PlaySingleTrack(SoundCloudTrack track)
+        {
+            if (track == null)
+            {
+                throw new Exception("Track is empty. Play track failed.");
+            }
+            if (track.stream_url == null && track.uri != null)
+            {
+                track.stream_url = GetStreamUrlFromUri(track.uri);
+            }
+            if (track.stream_url != null)
+            {
+                MessageService.SendMessageToBackground(new UpdatePlaylistMessage(new List<SoundCloudTrack> { track }));
+                MessageService.SendMessageToBackground(new StartPlaybackMessage());
+            }
+            Tracks.Clear();
+            Tracks.Add(track);
+        }
         // TODO: zamienic przyjmowany parametr na id i pobierac z soundcloudhelpera
-        public void PlayTrack(SoundCloudTrack track)
+        public void PlayPlaylistTrack(SoundCloudTrack track)
         {
             if (track == null)
             {
@@ -80,8 +98,7 @@ namespace BackgroundAudioShared.Helpers
                 }
                 else
                 {
-                    MessageService.SendMessageToBackground(new UpdatePlaylistMessage(new List<SoundCloudTrack> { track }));
-                    MessageService.SendMessageToBackground(new StartPlaybackMessage());
+                    throw new Exception("Playlist is empty. Play playlist track failed.");
                 }
             }
         }
@@ -102,7 +119,7 @@ namespace BackgroundAudioShared.Helpers
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        } 
+        }
         #endregion
     }
 }

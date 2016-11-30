@@ -61,7 +61,7 @@ namespace TraxxPlayer.ViewModels
 
         public void ItemClicked(object sender, ItemClickEventArgs e)
         {
-            App.PlaylistManager.PlayTrack(e.ClickedItem as SoundCloudTrack);
+            App.PlaylistManager.PlaySingleTrack(e.ClickedItem as SoundCloudTrack);
         }
 
         public void AddTrackToPlaylist(PlaylistToDisplay playlistSelected)
