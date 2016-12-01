@@ -509,6 +509,10 @@ namespace BackgroundAudioTask
             var mediaPlaybackItem = playbackList.Items.Where(mpi => mpi.Source.CustomProperties[TrackIdKey].ToString() == stream_url).FirstOrDefault();
             if (mediaPlaybackItem != null)
             {
+                if(playbackList.Items.Count == 1)
+                {
+                    BackgroundMediaPlayer.Shutdown();
+                }
                 playbackList.Items.Remove(mediaPlaybackItem);
             }
             else
