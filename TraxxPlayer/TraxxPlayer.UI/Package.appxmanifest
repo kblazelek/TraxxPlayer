@@ -21,7 +21,7 @@
         <uap:SplashScreen Image="Assets\Logo.png" />
       </uap:VisualElements>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="BackgroundAudioTask.MyBackgroundAudioTask">
+        <Extension Category="windows.backgroundTasks" EntryPoint="TraxxPlayer.BackgroundAudioTask.BackgroundAudioTask">
           <BackgroundTasks>
             <Task Type="audio" />
           </BackgroundTasks>

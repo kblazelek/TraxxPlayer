@@ -1,15 +1,4 @@
-﻿//*********************************************************
-//
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//
-//*********************************************************
-
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Linq;
@@ -25,27 +14,9 @@ using TraxxPlayer.Common.Enums_and_constants;
 using TraxxPlayer.Common.Models;
 using TraxxPlayer.Common.Helpers;
 
-/* This background task will start running the first time the
- * MediaPlayer singleton instance is accessed from foreground. When a new audio 
- * or video app comes into picture the task is expected to recieve the cancelled 
- * event. User can save state and shutdown MediaPlayer at that time. When foreground 
- * app is resumed or restarted check if your music is still playing or continue from
- * previous state.
- * 
- * This task also implements SystemMediaTransportControl APIs for windows phone universal 
- * volume control. Unlike Windows 8.1 where there are different views in phone context, 
- * SystemMediaTransportControl is singleton in nature bound to the process in which it is 
- * initialized. If you want to hook up volume controls for the background task, do not 
- * implement SystemMediaTransportControls in foreground app process.
- */
-
-namespace BackgroundAudioTask
+namespace TraxxPlayer.BackgroundAudioTask
 {
-    /// <summary>
-    /// Impletements IBackgroundTask to provide an entry point for app code to be run in background. 
-    /// Also takes care of handling UVC and communication channel with foreground
-    /// </summary>
-    public sealed class MyBackgroundAudioTask : IBackgroundTask
+    public sealed class BackgroundAudioTask : IBackgroundTask
     {
         #region Private fields, properties
         private const string TrackIdKey = "trackid";
@@ -53,7 +24,7 @@ namespace BackgroundAudioTask
         private const string AlbumArtKey = "albumart";
         private SystemMediaTransportControls smtc;
         private MediaPlaybackList playbackList = new MediaPlaybackList();
-        private BackgroundTaskDeferral deferral; // Used to keep task alive
+        private BackgroundTaskDeferral deferral;
         private AppState foregroundAppState = AppState.Unknown;
         private ManualResetEvent backgroundTaskStarted = new ManualResetEvent(false);
         private bool playbackStartedPreviously = false;
@@ -71,17 +42,13 @@ namespace BackgroundAudioTask
         Uri GetTrackId(MediaPlaybackItem item)
         {
             if (item == null)
-                return null; // no track playing
+                return null;
             string trackIdKey = item.Source.CustomProperties[TrackIdKey].ToString();
             return new Uri(trackIdKey);
         }
         #endregion
 
         #region IBackgroundTask and IBackgroundTaskInstance Interface Members and handlers
-        /// <summary>
-        /// The Run method is the entry point of a background task. 
-        /// </summary>
-        /// <param name="taskInstance"></param>
         public void Run(IBackgroundTaskInstance taskInstance)
         {
             Debug.WriteLine("Background Audio Task " + taskInstance.Task.Name + " starting...");
@@ -134,7 +101,7 @@ namespace BackgroundAudioTask
         /// </summary>       
         void TaskCompleted(BackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs args)
         {
-            Debug.WriteLine("MyBackgroundAudioTask " + sender.TaskId + " Completed...");
+            Debug.WriteLine("BackgroundAudioTask " + sender.TaskId + " Completed...");
             deferral.Complete();
         }
 
@@ -147,7 +114,7 @@ namespace BackgroundAudioTask
         private void OnCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
         {
             // You get some time here to save your state before process and resources are reclaimed
-            Debug.WriteLine("MyBackgroundAudioTask " + sender.Task.TaskId + " Cancel Requested...");
+            Debug.WriteLine("BackgroundAudioTask " + sender.Task.TaskId + " Cancel Requested...");
             try
             {
                 // immediately set not running
@@ -178,7 +145,7 @@ namespace BackgroundAudioTask
                 Debug.WriteLine(ex.ToString());
             }
             deferral.Complete(); // signals task completion. 
-            Debug.WriteLine("MyBackgroundAudioTask Cancel complete...");
+            Debug.WriteLine("BackgroundAudioTask Cancel complete...");
         }
         #endregion
 

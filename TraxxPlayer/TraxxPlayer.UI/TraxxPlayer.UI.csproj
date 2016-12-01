@@ -268,9 +268,9 @@
       <Project>{62c43640-d9fb-41b8-81b7-a02be8facd09}</Project>
       <Name>TraxxPlayer.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BackgroundAudioTask\BackgroundAudioTask.csproj">
+    <ProjectReference Include="..\TraxxPlayer.BackgroundAudioTask\TraxxPlayer.BackgroundAudioTask.csproj">
       <Project>{8d0109b3-fea4-4740-b850-24a1522348cb}</Project>
-      <Name>BackgroundAudioTask</Name>
+      <Name>TraxxPlayer.BackgroundAudioTask</Name>
     </ProjectReference>
     <ProjectReference Include="..\TraxxPlayer.Data\TraxxPlayer.Data.csproj">
       <Project>{995cd735-2024-435e-9709-c29e9550f8fb}</Project>

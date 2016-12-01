@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraxxPlayer.UI", "TraxxPlay
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraxxPlayer.Common", "TraxxPlayer.Common\TraxxPlayer.Common.csproj", "{62C43640-D9FB-41B8-81B7-A02BE8FACD09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundAudioTask", "BackgroundAudioTask\BackgroundAudioTask.csproj", "{8D0109B3-FEA4-4740-B850-24A1522348CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraxxPlayer.BackgroundAudioTask", "TraxxPlayer.BackgroundAudioTask\TraxxPlayer.BackgroundAudioTask.csproj", "{8D0109B3-FEA4-4740-B850-24A1522348CB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraxxPlayer.Data", "TraxxPlayer.Data\TraxxPlayer.Data.csproj", "{995CD735-2024-435E-9709-C29E9550F8FB}"
 EndProject
