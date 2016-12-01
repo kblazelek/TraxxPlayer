@@ -36,8 +36,6 @@
                 <i:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="RightTapped">
                         <Behaviors:OpenFlyoutAction />
-                        <core:InvokeCommandAction Command="{Binding DataContext.PlaylistTrackRightTappedCommand, ElementName=ShellPage}"
-                                                  CommandParameter="{Binding}" />
                     </core:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
                 <FlyoutBase.AttachedFlyout>
