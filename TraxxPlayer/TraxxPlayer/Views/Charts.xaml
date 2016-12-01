@@ -39,9 +39,15 @@
                                     <GridView ItemsSource="{Binding DataContext.Playlists, ElementName=ChartsPage}">
                                         <GridView.ItemTemplate>
                                             <DataTemplate>
-                                                <Button Content="{Binding Name}"
-                                                        Command="{Binding DataContext.AddTrackToPlaylistCommand, ElementName=ChartsPage}"
-                                                        CommandParameter="{Binding}"/>
+                                                <Button Content="{Binding Name}">
+                                                    <i:Interaction.Behaviors>
+                                                        <core:EventTriggerBehavior EventName="Click">
+                                                            <core:InvokeCommandAction Command="{Binding DataContext.AddTrackToPlaylistCommand, ElementName=ChartsPage}"
+                                                                                      CommandParameter="{Binding}" />
+                                                            <Behaviors:CloseFlyoutAction />
+                                                        </core:EventTriggerBehavior>
+                                                    </i:Interaction.Behaviors>
+                                                </Button>
                                             </DataTemplate>
                                         </GridView.ItemTemplate>
                                     </GridView>
