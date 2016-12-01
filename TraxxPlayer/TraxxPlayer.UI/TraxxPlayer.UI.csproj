@@ -7,8 +7,8 @@
     <ProjectGuid>{003BE99B-63BB-4912-A4A6-CD0A02EDC387}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TraxxPlayer</RootNamespace>
-    <AssemblyName>TraxxPlayer</AssemblyName>
+    <RootNamespace>TraxxPlayer.UI</RootNamespace>
+    <AssemblyName>TraxxPlayer.UI</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
