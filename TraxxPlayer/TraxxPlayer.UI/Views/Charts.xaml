@@ -10,7 +10,6 @@
       xmlns:data="using:BackgroundAudioShared"
       xmlns:i="using:Microsoft.Xaml.Interactivity"
       xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-      xmlns:dp="using:TraxxPlayer.UI.DependencyProperties"
       xmlns:Behaviors="using:Template10.Behaviors"
       mc:Ignorable="d">
 
