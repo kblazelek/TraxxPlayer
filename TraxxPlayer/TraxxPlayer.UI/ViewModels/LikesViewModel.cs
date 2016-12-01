@@ -1,7 +1,7 @@
-﻿using BackgroundAudioShared;
-using BackgroundAudioShared.Messages;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
+using TraxxPlayer.Common.Messages;
+using TraxxPlayer.Common.Models;
 using Windows.UI.Xaml.Controls;
 
 namespace TraxxPlayer.UI.ViewModels

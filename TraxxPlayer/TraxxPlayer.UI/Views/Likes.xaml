@@ -6,7 +6,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:vm="using:TraxxPlayer.UI.ViewModels"
       xmlns:controls="using:Template10.Controls"
-      xmlns:data="using:BackgroundAudioShared"
+      xmlns:data="using:TraxxPlayer.Common.Models"
       mc:Ignorable="d">
 
     <Page.DataContext>

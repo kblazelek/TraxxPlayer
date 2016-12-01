@@ -1,7 +1,7 @@
-﻿using BackgroundAudioShared.Helpers;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using TraxxPlayer.Common.Helpers;
 using TraxxPlayer.Services;
 using TraxxPlayer.Services.Helpers;
 using Windows.UI.Popups;

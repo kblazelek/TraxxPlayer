@@ -1,10 +1,12 @@
-﻿using BackgroundAudioShared;
-using BackgroundAudioShared.Messages;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using TraxxPlayer.Common.Enums_and_constants;
+using TraxxPlayer.Common.Helpers;
+using TraxxPlayer.Common.Messages;
+using TraxxPlayer.Common.Models;
 using Windows.ApplicationModel.Core;
 using Windows.Media;
 using Windows.Media.Playback;

@@ -9,7 +9,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:views="using:TraxxPlayer.UI.Views"
       xmlns:vm="using:TraxxPlayer.UI.ViewModels"
-      xmlns:data="using:BackgroundAudioShared"
+      xmlns:data="using:TraxxPlayer.Common.Models"
       xmlns:i="using:Microsoft.Xaml.Interactivity"
       xmlns:core="using:Microsoft.Xaml.Interactions.Core"
       xmlns:Behaviors="using:Template10.Behaviors"

@@ -4,15 +4,15 @@ using Windows.ApplicationModel.Activation;
 using Template10.Controls;
 using System;
 using Windows.UI.Xaml.Data;
-using BackgroundAudioShared;
 using System.Collections.Generic;
 using Windows.UI.Popups;
-using BackgroundAudioShared.Helpers;
 using TraxxPlayer.Services;
 using TraxxPlayer.Services.Helpers;
 using Windows.UI.ViewManagement;
 using Windows.Foundation;
 using TraxxPlayer.UI.Services.SettingsServices;
+using TraxxPlayer.Common.Helpers;
+using TraxxPlayer.Common.Models;
 
 namespace TraxxPlayer.UI
 {

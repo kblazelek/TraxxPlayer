@@ -264,9 +264,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\BackgroundAudioShared\BackgroundAudioShared.csproj">
+    <ProjectReference Include="..\TraxxPlayer.Common\TraxxPlayer.Common.csproj">
       <Project>{62c43640-d9fb-41b8-81b7-a02be8facd09}</Project>
-      <Name>BackgroundAudioShared</Name>
+      <Name>TraxxPlayer.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\BackgroundAudioTask\BackgroundAudioTask.csproj">
       <Project>{8d0109b3-fea4-4740-b850-24a1522348cb}</Project>

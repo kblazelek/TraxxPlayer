@@ -1,10 +1,10 @@
-﻿using BackgroundAudioShared;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Template10.Mvvm;
+using TraxxPlayer.Common.Models;
 using TraxxPlayer.Services;
 using Windows.UI.Xaml.Navigation;
 

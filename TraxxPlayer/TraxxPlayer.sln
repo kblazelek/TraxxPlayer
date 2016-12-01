@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraxxPlayer.UI", "TraxxPlayer.UI\TraxxPlayer.UI.csproj", "{003BE99B-63BB-4912-A4A6-CD0A02EDC387}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundAudioShared", "BackgroundAudioShared\BackgroundAudioShared.csproj", "{62C43640-D9FB-41B8-81B7-A02BE8FACD09}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraxxPlayer.Common", "TraxxPlayer.Common\TraxxPlayer.Common.csproj", "{62C43640-D9FB-41B8-81B7-A02BE8FACD09}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundAudioTask", "BackgroundAudioTask\BackgroundAudioTask.csproj", "{8D0109B3-FEA4-4740-B850-24A1522348CB}"
 EndProject

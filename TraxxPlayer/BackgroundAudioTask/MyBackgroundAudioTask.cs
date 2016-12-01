@@ -16,16 +16,14 @@ using System.Linq;
 using Windows.ApplicationModel.Background;
 using Windows.Media;
 using Windows.Media.Playback;
-
-using Windows.Foundation.Collections;
-using Windows.Storage;
 using Windows.Media.Core;
 using System.Collections.Generic;
-
-using BackgroundAudioShared;
 using Windows.Foundation;
-using BackgroundAudioShared.Messages;
+using TraxxPlayer.Common.Messages;
 using Windows.Storage.Streams;
+using TraxxPlayer.Common.Enums_and_constants;
+using TraxxPlayer.Common.Models;
+using TraxxPlayer.Common.Helpers;
 
 /* This background task will start running the first time the
  * MediaPlayer singleton instance is accessed from foreground. When a new audio 

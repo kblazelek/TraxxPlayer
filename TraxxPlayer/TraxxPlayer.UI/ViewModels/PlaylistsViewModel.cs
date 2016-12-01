@@ -1,5 +1,4 @@
-﻿using BackgroundAudioShared.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -14,6 +13,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using TraxxPlayer.UI.Views;
+using TraxxPlayer.Common.Exceptions;
 
 namespace TraxxPlayer.UI.ViewModels
 {
