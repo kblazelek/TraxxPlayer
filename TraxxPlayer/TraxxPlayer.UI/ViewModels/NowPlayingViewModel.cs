@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Template10.Services.NavigationService;
 using TraxxPlayer.Common.Enums_and_constants;
 using TraxxPlayer.Common.Helpers;
 using TraxxPlayer.Common.Messages;
@@ -22,12 +23,10 @@ namespace TraxxPlayer.UI.ViewModels
     {
         private bool isMyBackgroundTaskRunning = false;
         private AutoResetEvent backgroundAudioTaskStarted;
-        #region private
         private ImageSource _albumImage;
         private ImageSource _playPauseImage;
         private string _songName;
         private string _albumTitle;
-        #endregion
         public ImageSource AlbumImage
         {
             get
@@ -74,10 +73,6 @@ namespace TraxxPlayer.UI.ViewModels
             AlbumImage = new BitmapImage(new Uri(@"ms-appx:///Assets/Albumart.png"));
         }
 
-        /// <summary>
-        /// Gets the information about background task is running or not by reading the setting saved by background task.
-        /// This is used to determine when to start the task and also when to avoid sending messages.
-        /// </summary>
         private bool IsMyBackgroundTaskRunning
         {
             get
@@ -107,6 +102,7 @@ namespace TraxxPlayer.UI.ViewModels
 
         public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
+            AddMediaPlayerEventHandlers();
             backgroundAudioTaskStarted = new AutoResetEvent(false);
 
             if (!IsMyBackgroundTaskRunning)
@@ -127,11 +123,14 @@ namespace TraxxPlayer.UI.ViewModels
                     StartBackgroundAudioTask();
                 }
             }
+            PlayPauseImage = new BitmapImage(new Uri("ms-appx:///Assets/Pause.png"));
             var trackId = GetCurrentTrackId();
             if (trackId != null)
             {
                 //TODO: Dodać obsługę playlisty zamiast likes
-                var song = App.likes.Where(t => t.stream_url == trackId.ToString()).FirstOrDefault();
+                //var song = App.likes.Where(t => t.stream_url == trackId.ToString()).FirstOrDefault();
+
+                var song = App.PlaylistManager.Tracks.Where(t => t.stream_url == trackId.ToString()).FirstOrDefault();
                 if (song != null)
                 {
                     LoadTrack(song);
@@ -143,7 +142,6 @@ namespace TraxxPlayer.UI.ViewModels
 
         private void StartBackgroundAudioTask()
         {
-            AddMediaPlayerEventHandlers();
             var startResult = CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 bool result = backgroundAudioTaskStarted.WaitOne(10000);
@@ -163,10 +161,18 @@ namespace TraxxPlayer.UI.ViewModels
 
         private void AddMediaPlayerEventHandlers()
         {
-            BackgroundMediaPlayer.MessageReceivedFromBackground += this.BackgroundMediaPlayer_MessageReceivedFromBackground;
+            BackgroundMediaPlayer.MessageReceivedFromBackground += BackgroundMediaPlayer_MessageReceivedFromBackground;
+        }
+        private void RemoveMediaPlayerEventHandlers()
+        {
+            BackgroundMediaPlayer.MessageReceivedFromBackground -= BackgroundMediaPlayer_MessageReceivedFromBackground;
         }
 
-
+        public override Task OnNavigatingFromAsync(NavigatingEventArgs args)
+        {
+            RemoveMediaPlayerEventHandlers();
+            return base.OnNavigatingFromAsync(args);
+        }
 
         async void BackgroundMediaPlayer_MessageReceivedFromBackground(object sender, MediaPlayerDataReceivedEventArgs e)
         {
@@ -176,11 +182,10 @@ namespace TraxxPlayer.UI.ViewModels
                 // When foreground app is active change track based on background message
                 await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    var songIndex = GetSongIndexById(trackChangedMessage.TrackId);
-                    if (songIndex >= 0)
+                    var track = GetTrackFromStreamURL(trackChangedMessage.TrackId.ToString());
+                    if (track != null)
                     {
-                        var song = App.likes[songIndex];
-                        LoadTrack(song); //Update UI
+                        LoadTrack(track); //Update UI
                     }
                 });
                 return;
@@ -212,9 +217,10 @@ namespace TraxxPlayer.UI.ViewModels
             }
         }
 
-        public int GetSongIndexById(Uri id)
+        public SoundCloudTrack GetTrackFromStreamURL(string streamURL)
         {
-            return App.likes.FindIndex(s => new Uri(s.stream_url) == id);
+            // Dodac sprawdzanie, gdy stream_url jest pusty, ale mozna go uzyskac z innych pól
+            return App.PlaylistManager.Tracks.Where(t => t.stream_url == streamURL).FirstOrDefault();
         }
 
         public override Task OnNavigatedFromAsync(IDictionary<string, object> pageState, bool suspending)
