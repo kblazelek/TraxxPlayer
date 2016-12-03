@@ -62,9 +62,16 @@ namespace TraxxPlayer.UI.ViewModels
 
         public void AddTrackToPlaylist(PlaylistToDisplay playlistSelected)
         {
-            if (rightTappedTrack != null && playlistSelected != null)
+            try
             {
-                PlaylistTrackService.AddPlaylistTrack(new PlaylistTrackToAdd() { PlaylistID = playlistSelected.id, TrackID = rightTappedTrack.id });
+                if (rightTappedTrack != null && playlistSelected != null)
+                {
+                    PlaylistTrackService.AddPlaylistTrack(new PlaylistTrackToAdd() { PlaylistID = playlistSelected.id, TrackID = rightTappedTrack.id });
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage(ex.Message);
             }
         }
 

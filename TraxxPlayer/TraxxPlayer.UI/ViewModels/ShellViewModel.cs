@@ -7,7 +7,6 @@ using Template10.Mvvm;
 using TraxxPlayer.Common.Models;
 using TraxxPlayer.Services;
 using Windows.UI.Xaml.Navigation;
-using System.Diagnostics;
 
 namespace TraxxPlayer.UI.ViewModels
 {
