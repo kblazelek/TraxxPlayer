@@ -191,7 +191,10 @@ namespace TraxxPlayer.UI.ViewModels
                 // Enable media buttons
                 if (BackgroundMediaPlayer.Current.CurrentState == MediaPlayerState.Playing)
                 {
-                    MediaButtonsEnabled = true;
+                    await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        MediaButtonsEnabled = true;
+                    });
                 }
                 // When foreground app is active change track based on background message
                 await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
