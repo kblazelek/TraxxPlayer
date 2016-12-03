@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -68,6 +69,14 @@ namespace TraxxPlayer.UI.ViewModels
                 OnPropertyChanged(nameof(AlbumTitle));
             }
         }
+        private bool mediaButtonsEnabled = true;
+
+        public bool MediaButtonsEnabled
+        {
+            get { return mediaButtonsEnabled; }
+            set { mediaButtonsEnabled = value; OnPropertyChanged(nameof(MediaButtonsEnabled)); }
+        }
+
         public NowPlayingViewModel()
         {
             AlbumImage = new BitmapImage(new Uri(@"ms-appx:///Assets/Albumart.png"));
@@ -149,7 +158,6 @@ namespace TraxxPlayer.UI.ViewModels
                 if (result == true)
                 {
                     MessageService.SendMessageToBackground(new UpdatePlaylistMessage(App.likes));
-                    MessageService.SendMessageToBackground(new StartPlaybackMessage());
                     PlayPauseImage = new BitmapImage(new Uri("ms-appx:///Assets/Pause.png"));
                 }
                 else
@@ -179,6 +187,12 @@ namespace TraxxPlayer.UI.ViewModels
             TrackChangedMessage trackChangedMessage;
             if (MessageService.TryParseMessage(e.Data, out trackChangedMessage))
             {
+                Debug.WriteLine("NowPlayingViewModel.BackgroundMediaPlayer_MessageReceivedFromBackground: Received TrackChangedMessage from Background");
+                // Enable media buttons
+                if (BackgroundMediaPlayer.Current.CurrentState == MediaPlayerState.Playing)
+                {
+                    MediaButtonsEnabled = true;
+                }
                 // When foreground app is active change track based on background message
                 await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
@@ -212,6 +226,21 @@ namespace TraxxPlayer.UI.ViewModels
                             PlayPauseImage = new BitmapImage(new Uri("ms-appx:///Assets/Play.png"));
                             break;
                     }
+                });
+                return;
+            }
+
+            PlaybackListEmptyMessage playbackListEmptyMessage;
+            if (MessageService.TryParseMessage(e.Data, out playbackListEmptyMessage))
+            {
+                await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    Debug.WriteLine("NowPlayingViewModel.BackgroundMediaPlayer_MessageReceivedFromBackground: Received PlaybackListEmptyMessage from Background");
+                    AlbumImage = new BitmapImage(new Uri(@"ms-appx:///Assets/Albumart.png"));
+                    PlayPauseImage = new BitmapImage(new Uri("ms-appx:///Assets/Play.png"));
+                    MediaButtonsEnabled = false;
+                    SongName = "";
+                    AlbumTitle = "";
                 });
                 return;
             }

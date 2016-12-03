@@ -197,6 +197,7 @@
                         Background="Transparent"
                         Height="80"
                         Width="80"
+                        IsHitTestVisible="{x:Bind ViewModel.MediaButtonsEnabled, Mode=OneWay}"
                         Click="{x:Bind ViewModel.PreviousButtonClicked}">
                     <Image  Source="ms-appx:///Assets/Prev.png"
                             Stretch="Uniform" />
@@ -205,6 +206,7 @@
                         Background="Transparent"
                         Height="120"
                         Width="120"
+                        IsHitTestVisible="{x:Bind ViewModel.MediaButtonsEnabled, Mode=OneWay}"
                         Click="{x:Bind ViewModel.PlayButtonClicked}">
                     <Image Source="{x:Bind ViewModel.PlayPauseImage, Mode=OneWay}"
                            Stretch="Uniform" />
@@ -213,6 +215,7 @@
                         Background="Transparent"
                         Height="80"
                         Width="80"
+                        IsHitTestVisible="{x:Bind ViewModel.MediaButtonsEnabled, Mode=OneWay}"
                         Click="{x:Bind ViewModel.NextButtonClicked}">
                     <Image  Source="ms-appx:///Assets/Next.png"
                             Stretch="Uniform" />

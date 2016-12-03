@@ -7,6 +7,7 @@ using Template10.Mvvm;
 using TraxxPlayer.Common.Models;
 using TraxxPlayer.Services;
 using Windows.UI.Xaml.Navigation;
+using System.Diagnostics;
 
 namespace TraxxPlayer.UI.ViewModels
 {
@@ -30,14 +31,14 @@ namespace TraxxPlayer.UI.ViewModels
                 App.PlaylistManager.PlayPlaylistTrack(selectedTrack);
             }
         }
-        private async void DeleteTrackFromPlaylist(SoundCloudTrack track)
+        private void DeleteTrackFromPlaylist(SoundCloudTrack track)
         {
             try
             {
                 if (App.PlaylistManager.Playlist != null)
                 {
                     // TODO: Dodać zamianę kolejności
-                    Debug.WriteLine($"Deleting track {track.id} from playlist {App.PlaylistManager.Playlist.id}");
+                    Debug.WriteLine($"ShellViewModel.DeleteTrackFromPlaylist: Deleting track {track.id} from playlist {App.PlaylistManager.Playlist.id}");
                     PlaylistTrackService.DeletePlaylistTrack(App.PlaylistManager.Playlist.id, track.id);
                     // Poprawić, żeby przy usuwaniu nie odtwarzał na nowo
                     //await App.PlaylistManager.PlayPlaylist(App.PlaylistManager.Playlist);

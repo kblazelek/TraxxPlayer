@@ -51,7 +51,6 @@ namespace TraxxPlayer.Common.Helpers
                 }
             }
             MessageService.SendMessageToBackground(new UpdatePlaylistMessage(Tracks.ToList()));
-            MessageService.SendMessageToBackground(new StartPlaybackMessage());
         }
 
         public void RemoveTrackFromCurrentPlaylist(SoundCloudTrack track)
@@ -91,7 +90,6 @@ namespace TraxxPlayer.Common.Helpers
             if (track.stream_url != null)
             {
                 MessageService.SendMessageToBackground(new UpdatePlaylistMessage(new List<SoundCloudTrack> { track }));
-                MessageService.SendMessageToBackground(new StartPlaybackMessage());
             }
             Tracks.Clear();
             Tracks.Add(track);

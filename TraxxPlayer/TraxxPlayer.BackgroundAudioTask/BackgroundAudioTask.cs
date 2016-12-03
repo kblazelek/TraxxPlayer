@@ -442,8 +442,6 @@ namespace TraxxPlayer.BackgroundAudioTask
             DeleteTrackFromPlaybackList deleteTrackFromPlaybackList;
             if (MessageService.TryParseMessage(e.Data, out deleteTrackFromPlaybackList))
             {
-                // User has chosen to skip track from app context.
-                Debug.WriteLine($"Deleting track {deleteTrackFromPlaybackList.Track.id} from playback list.");
                 DeleteTrackFromPlaybackList(deleteTrackFromPlaybackList.Track.stream_url.ToString());
                 return;
             }
@@ -464,21 +462,30 @@ namespace TraxxPlayer.BackgroundAudioTask
             UpdatePlaylistMessage updatePlaylistMessage;
             if (MessageService.TryParseMessage(e.Data, out updatePlaylistMessage))
             {
-                CreatePlaybackList(updatePlaylistMessage.Songs);
+                CreatePlaybackListAndStartPlaying(updatePlaylistMessage.Songs);
                 return;
             }
         } // Dodać obsługę lokalnych
 
         void DeleteTrackFromPlaybackList(string stream_url)
         {
+            Debug.WriteLine($"BackgroundAudioTask.DeleteTrackFromPlaybackList: Deleting track {stream_url} from playback list.");
+            //MessageService.SendMessageToForeground(new PlaybackListEmptyMessage());
             var mediaPlaybackItem = playbackList.Items.Where(mpi => mpi.Source.CustomProperties[TrackIdKey].ToString() == stream_url).FirstOrDefault();
             if (mediaPlaybackItem != null)
             {
-                if(playbackList.Items.Count == 1)
-                {
-                    BackgroundMediaPlayer.Shutdown();
-                }
                 playbackList.Items.Remove(mediaPlaybackItem);
+                if (playbackList.Items.Count == 0)
+                {
+                    if (playbackList != null)
+                    {
+                        playbackList.CurrentItemChanged -= PlaybackList_CurrentItemChanged;
+                        playbackList = null;
+                    }
+                    BackgroundMediaPlayer.Current.Pause();
+                    // Inform foreground that playback list is empty
+                    MessageService.SendMessageToForeground(new PlaybackListEmptyMessage());
+                }
             }
             else
             {
@@ -486,23 +493,34 @@ namespace TraxxPlayer.BackgroundAudioTask
             }
         }
         /// <summary>
-        /// Create a playback list from the list of songs received from the foreground app.
+        /// Create a playback list from the list of tracks received from the foreground app and starts playing.
         /// </summary>
-        /// <param name="songs"></param>
-        void CreatePlaybackList(IEnumerable<SoundCloudTrack> songs) // TODO: utworzyć dla lokalnej listy
+        /// <param name="tracks"></param>
+        void CreatePlaybackListAndStartPlaying(IEnumerable<SoundCloudTrack> tracks)
         {
-            // unsubscribe from list changes
+            // Remove handler for item changes from current playback list
             if (playbackList != null)
             {
                 playbackList.CurrentItemChanged -= PlaybackList_CurrentItemChanged;
                 playbackList = null;
             }
-            // Make a new list and enable looping
+
+            // Create a new list and enable looping
             playbackList = new MediaPlaybackList();
             playbackList.AutoRepeatEnabled = true;
 
-            // Add playback items to the list
-            foreach (var song in songs)
+            // Check if tracks collection is empty
+            if (tracks == null)
+            {
+                throw new Exception("Cannot create playlist from empty list of tracks. Create playback list failed.");
+            }
+            else if (tracks.Count() == 0)
+            {
+                throw new Exception("Cannot create playlist from empty list of tracks. Create playback list failed.");
+            }
+
+            // Add tracks to the new playback list
+            foreach (var song in tracks)
             {
                 if (!string.IsNullOrEmpty(song.stream_url))
                 {
@@ -514,8 +532,14 @@ namespace TraxxPlayer.BackgroundAudioTask
                 }
             }
 
-            // Don't auto start
-            BackgroundMediaPlayer.Current.AutoPlay = false;
+            // Check if playback list contains valid tracks
+            if (playbackList.Items.Count == 0)
+            {
+                throw new Exception("Cannot create playlist, because passed tracks are not valid. Create playback list failed.");
+            }
+
+            // Enable AutoPlay
+            BackgroundMediaPlayer.Current.AutoPlay = true;
 
             // Assign the list to the player
             BackgroundMediaPlayer.Current.Source = playbackList;
