@@ -40,5 +40,12 @@ namespace TraxxPlayer.UI.ViewModels
             }
             return base.OnNavigatedToAsync(parameter, mode, state);
         }
+
+        public void ChangeUser()
+        {
+            // TODO: Stop playing, clear tracks
+            App.PlaylistManager.StopPlayer();
+            NavigationService.Navigate(typeof(Views.AskForUserName));
+        }
     }
 }

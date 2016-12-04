@@ -122,6 +122,7 @@
     <Compile Include="Messages\PlaybackListEmptyMessage.cs" />
     <Compile Include="Messages\StartPlaybackMessage.cs" />
     <Compile Include="Messages\SkipNextMessage.cs" />
+    <Compile Include="Messages\StopBackgroundTaskMessage.cs" />
     <Compile Include="Messages\UpdatePlaylistMessage.cs" />
     <Compile Include="Messages\SkipPreviousMessage.cs" />
     <Compile Include="Messages\BackgroundAudioTaskStartedMessage.cs" />

@@ -61,7 +61,13 @@
                              RelativePanel.AlignLeftWithPanel="True"
                              RelativePanel.AlignRightWithPanel="True"
                              RelativePanel.AlignTopWithPanel="True"
-                             Text="Me" />
+                             Text="Me">
+            <!--  secondary commands  -->
+            <controls:PageHeader.SecondaryCommands>
+                <AppBarButton Label="Change user"
+                              Click="{x:Bind ViewModel.ChangeUser}" />
+            </controls:PageHeader.SecondaryCommands>
+        </controls:PageHeader>
 
         <!--  content  -->
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"

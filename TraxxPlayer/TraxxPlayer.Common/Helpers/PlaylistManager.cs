@@ -119,6 +119,12 @@ namespace TraxxPlayer.Common.Helpers
             }
         }
 
+        public void StopPlayer()
+        {
+            Tracks.Clear();
+            Playlist = null;
+            MessageService.SendMessageToBackground(new StopBackgroundTaskMessage());
+        }
         #region INotifyPropertyChanged implementation
         new public event PropertyChangedEventHandler PropertyChanged;
         protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
