@@ -6,6 +6,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:vm="using:TraxxPlayer.UI.ViewModels"
       xmlns:controls="using:Template10.Controls"
+      xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:Behaviors="using:Template10.Behaviors"
+      xmlns:i="using:Microsoft.Xaml.Interactivity"
       mc:Ignorable="d">
 
     <Page.DataContext>
@@ -80,10 +83,21 @@
                         PlaceholderText="Type your user name..."
                         Text="{Binding SCUserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         ItemsSource="{x:Bind ViewModel.PreviousUsersQuery}"
-                        KeyUp="autoSuggestBoxUserName_KeyUp"
                         RelativePanel.Below="textBlockProvideUserName"
                         RelativePanel.AlignLeftWithPanel="True"
-                        RelativePanel.AlignRightWithPanel="True" />
+                        RelativePanel.AlignRightWithPanel="True">
+            <i:Interaction.Behaviors>
+                <!--  enable submit on enter key  -->
+                <Behaviors:KeyBehavior Key="Enter">
+                    <core:CallMethodAction MethodName="AddSoundCloudUser"
+                                           TargetObject="{Binding}" />
+                </Behaviors:KeyBehavior>
+                <!--  focus on textbox when page loads  -->
+                <core:EventTriggerBehavior>
+                    <Behaviors:FocusAction />
+                </core:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </AutoSuggestBox>
         <Button x:Name="btnAddUser"
                 Margin="10,10,10,10"
                 Content="OK"
