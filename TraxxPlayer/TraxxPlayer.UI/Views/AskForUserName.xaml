@@ -71,7 +71,7 @@
                Stretch="UniformToFill"
                RelativePanel.Below="pageHeader" />
         <TextBlock x:Name="textBlockProvideUserName"
-                   Text="Please provide your SoundCloud user name"
+                   Text="Please provide your user name"
                    Margin="10,10,10,10"
                    Style="{StaticResource TitleTextBlockStyle}"
                    Foreground="Gray"
@@ -98,11 +98,16 @@
                 </core:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </AutoSuggestBox>
+        <CheckBox  x:Name="checkBoxIsDefault"
+                   Margin="10,0,0,0"
+                   Content="Default"
+                   RelativePanel.Below="autoSuggestBoxUserName"
+                   IsChecked="{x:Bind ViewModel.IsDefault, Mode=TwoWay}" />
         <Button x:Name="btnAddUser"
                 Margin="10,10,10,10"
                 Content="OK"
                 Click="{x:Bind ViewModel.AddUser}"
-                RelativePanel.Below="autoSuggestBoxUserName"
+                RelativePanel.Below="checkBoxIsDefault"
                 RelativePanel.AlignLeftWithPanel="True"
                 RelativePanel.AlignRightWithPanel="True"
                 HorizontalAlignment="Stretch" />

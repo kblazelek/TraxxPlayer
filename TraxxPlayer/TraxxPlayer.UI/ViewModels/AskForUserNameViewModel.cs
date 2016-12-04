@@ -14,6 +14,14 @@ namespace TraxxPlayer.UI.ViewModels
         private string _userName;
         private ObservableCollection<string> previousUsers { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<string> PreviousUsersQuery { get; set; } = new ObservableCollection<string>();
+        private bool? isDefault;
+
+        public bool? IsDefault
+        {
+            get { return isDefault; }
+            set { isDefault = value; OnPropertyChanged(nameof(IsDefault)); }
+        }
+
 
         public string UserName
         {
@@ -33,17 +41,9 @@ namespace TraxxPlayer.UI.ViewModels
             }
         }
 
-        private bool _isUserNameFocused;
-
-        public bool IsUserNameFocused
-        {
-            get { return _isUserNameFocused; }
-            set { _isUserNameFocused = value; OnPropertyChanged(nameof(UserName)); }
-        }
-
         public AskForUserNameViewModel()
         {
-            IsUserNameFocused = true;
+            IsDefault = false;
             foreach (var p in UserService.GetUsers().Select(user => user.username))
             {
                 previousUsers.Add(p);
@@ -52,14 +52,30 @@ namespace TraxxPlayer.UI.ViewModels
 
         public void AddUser()
         {
-            UserToAddAndDisplay tempUser;
+            UserToAddAndDisplay tempUser = null;
             if (!UserService.UserExist(UserName))
             {
-                tempUser = new UserToAddAndDisplay()
+                if (IsDefault == true)
                 {
-                    username = UserName,
-                    isDefault = false
-                };
+                    var defaultUser = UserService.GetDefaultUser();
+                    if (defaultUser != null)
+                    {
+                        UserService.RemoveDefaultUser(defaultUser.id);
+                    }
+                    tempUser = new UserToAddAndDisplay()
+                    {
+                        username = UserName,
+                        isDefault = true
+                    };
+                }
+                else
+                {
+                    tempUser = new UserToAddAndDisplay()
+                    {
+                        username = UserName,
+                        isDefault = false
+                    };
+                }
                 UserService.AddUser(tempUser);
                 App.User = tempUser;
                 NavigationService.Navigate(typeof(Views.NowPlaying));
@@ -67,11 +83,13 @@ namespace TraxxPlayer.UI.ViewModels
             else
             {
                 tempUser = UserService.GetUser(UserName);
-                if(tempUser != null)
+                if (tempUser.isDefault != IsDefault)
                 {
-                    App.User = tempUser;
-                    NavigationService.Navigate(typeof(Views.NowPlaying));
+                    tempUser.isDefault = (bool)IsDefault;
+                    UserService.ModifyUser(tempUser);
                 }
+                App.User = tempUser;
+                NavigationService.Navigate(typeof(Views.NowPlaying));
             }
         }
     }

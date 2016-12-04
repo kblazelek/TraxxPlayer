@@ -243,7 +243,7 @@ namespace TraxxPlayer.UI.ViewModels
                 await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     Debug.WriteLine("NowPlayingViewModel.BackgroundMediaPlayer_MessageReceivedFromBackground: Received PlaybackListEmptyMessage from Background");
-                    AlbumImage = new BitmapImage(new Uri(@"ms-appx:///Assets/Albumart.png"));
+                    AlbumImage = new BitmapImage(new Uri(@"ms-appx:///Assets/Albumart.jpeg"));
                     PlayPauseImage = new BitmapImage(new Uri("ms-appx:///Assets/Play.png"));
                     MediaButtonsEnabled = false;
                     SongName = "";
