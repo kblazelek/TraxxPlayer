@@ -4,10 +4,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TraxxPlayer.Data.Migrations
 {
-    public partial class AddPlaylistAndPlaylistTrack : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    isDefault = table.Column<bool>(nullable: false),
+                    username = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Playlists",
                 columns: table => new
@@ -68,6 +82,9 @@ namespace TraxxPlayer.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Playlists");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

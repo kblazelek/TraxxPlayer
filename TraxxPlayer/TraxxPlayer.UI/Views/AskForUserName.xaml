@@ -81,7 +81,7 @@
         <AutoSuggestBox x:Name="autoSuggestBoxUserName"
                         Margin="10,10,10,10"
                         PlaceholderText="Type your user name..."
-                        Text="{Binding SCUserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         ItemsSource="{x:Bind ViewModel.PreviousUsersQuery}"
                         RelativePanel.Below="textBlockProvideUserName"
                         RelativePanel.AlignLeftWithPanel="True"
@@ -89,7 +89,7 @@
             <i:Interaction.Behaviors>
                 <!--  enable submit on enter key  -->
                 <Behaviors:KeyBehavior Key="Enter">
-                    <core:CallMethodAction MethodName="AddSoundCloudUser"
+                    <core:CallMethodAction MethodName="AddUser"
                                            TargetObject="{Binding}" />
                 </Behaviors:KeyBehavior>
                 <!--  focus on textbox when page loads  -->
@@ -101,7 +101,7 @@
         <Button x:Name="btnAddUser"
                 Margin="10,10,10,10"
                 Content="OK"
-                Click="{x:Bind ViewModel.AddSoundCloudUser}"
+                Click="{x:Bind ViewModel.AddUser}"
                 RelativePanel.Below="autoSuggestBoxUserName"
                 RelativePanel.AlignLeftWithPanel="True"
                 RelativePanel.AlignRightWithPanel="True"

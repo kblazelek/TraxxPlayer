@@ -118,7 +118,7 @@ namespace TraxxPlayer.UI.ViewModels
                 {
                     Kinds.Add(k.Value);
                 }
-                foreach (var p in PlaylistService.GetPlaylists(App.SCUser.id))
+                foreach (var p in PlaylistService.GetPlaylists(App.User.id))
                 {
                     Playlists.Add(p);
                 }

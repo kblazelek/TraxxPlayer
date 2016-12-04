@@ -122,7 +122,7 @@ namespace TraxxPlayer.UI.ViewModels
         public void LoadPlaylists()
         {
             // Uniezależnić od App
-            var tempPlaylists = PlaylistService.GetPlaylists(App.SCUser.id);
+            var tempPlaylists = PlaylistService.GetPlaylists(App.User.id);
             foreach (var playlist in tempPlaylists)
             {
                 Playlists.Add(playlist);

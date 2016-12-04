@@ -23,7 +23,7 @@ namespace TraxxPlayer.UI.Views
         // TODO: Add validation
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
-            PlaylistService.AddPlaylist(new PlaylistToAdd() { Name = txtBoxPlaylistName.Text, UserID = App.SCUser.id });
+            PlaylistService.AddPlaylist(new PlaylistToAdd() { Name = txtBoxPlaylistName.Text, UserID = App.User.id });
             CloseDialog();
         }
 

@@ -107,17 +107,9 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\20161102225209_AddSoundCloudUser.cs" />
-    <Compile Include="Migrations\20161102225209_AddSoundCloudUser.designer.cs">
-      <DependentUpon>20161102225209_AddSoundCloudUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20161105165325_AddIsDefaultField.cs" />
-    <Compile Include="Migrations\20161105165325_AddIsDefaultField.designer.cs">
-      <DependentUpon>20161105165325_AddIsDefaultField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20161106224502_AddPlaylistAndPlaylistTrack.cs" />
-    <Compile Include="Migrations\20161106224502_AddPlaylistAndPlaylistTrack.designer.cs">
-      <DependentUpon>20161106224502_AddPlaylistAndPlaylistTrack.cs</DependentUpon>
+    <Compile Include="Migrations\20161204144335_Initial.cs" />
+    <Compile Include="Migrations\20161204144335_Initial.designer.cs">
+      <DependentUpon>20161204144335_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\TraxxPlayerContextModelSnapshot.cs" />
     <Compile Include="Models\Playlist.cs" />
@@ -127,6 +119,7 @@
     <Compile Include="TraxxPlayerContext.cs" />
     <EmbeddedResource Include="Properties\TraxxPlayer.Data.rd.xml" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

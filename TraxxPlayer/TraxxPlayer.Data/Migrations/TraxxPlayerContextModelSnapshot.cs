@@ -13,7 +13,7 @@ namespace TraxxPlayer.Data.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.0-preview1-22509");
+                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
 
             modelBuilder.Entity("TraxxPlayer.Data.Models.Playlist", b =>
                 {
@@ -56,55 +56,9 @@ namespace TraxxPlayer.Data.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("avatar_url");
-
-                    b.Property<string>("city");
-
-                    b.Property<string>("country");
-
-                    b.Property<string>("description");
-
-                    b.Property<string>("discogs_name");
-
-                    b.Property<string>("first_name");
-
-                    b.Property<int>("followers_count");
-
-                    b.Property<int>("followings_count");
-
-                    b.Property<string>("full_name");
-
                     b.Property<bool>("isDefault");
 
-                    b.Property<string>("kind");
-
-                    b.Property<string>("last_modified");
-
-                    b.Property<string>("last_name");
-
-                    b.Property<string>("myspace_name");
-
-                    b.Property<bool>("online");
-
-                    b.Property<string>("permalink");
-
-                    b.Property<string>("permalink_url");
-
-                    b.Property<string>("plan");
-
-                    b.Property<int>("playlist_count");
-
-                    b.Property<int>("public_favorites_count");
-
-                    b.Property<int>("track_count");
-
-                    b.Property<string>("uri");
-
                     b.Property<string>("username");
-
-                    b.Property<string>("website");
-
-                    b.Property<string>("website_title");
 
                     b.HasKey("id");
 
@@ -114,7 +68,7 @@ namespace TraxxPlayer.Data.Migrations
             modelBuilder.Entity("TraxxPlayer.Data.Models.Playlist", b =>
                 {
                     b.HasOne("TraxxPlayer.Data.Models.User", "User")
-                        .WithMany("Playlists")
+                        .WithMany()
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

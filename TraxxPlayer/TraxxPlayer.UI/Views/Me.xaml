@@ -78,75 +78,26 @@
                                     Stretch="UniformToFill" />
                     </Ellipse.Fill>
                 </Ellipse>
-                <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
-                    <TextBlock Text="First Name"
+                <StackPanel Orientation="Horizontal"
+                            Margin="10,10,10,10">
+                    <TextBlock Text="User name"
                                Style="{StaticResource TitleTextBlockStyle}"
                                Foreground="Gray" />
-                    <TextBlock x:Name="txtFirstname"
+                    <TextBlock x:Name="txtUserName"
                                Margin="10,0,0,0"
-                               Text="{x:Bind ViewModel.FirstName, Mode=OneWay}"
+                               Text="{x:Bind ViewModel.UserName, Mode=OneWay}"
                                Style="{StaticResource TitleTextBlockStyle}"
-                               FontWeight="SemiBold"/>
+                               FontWeight="SemiBold" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
-                    <TextBlock Text="Last Name"
+                <StackPanel Orientation="Horizontal"
+                            Margin="10,10,10,10">
+                    <TextBlock Text="Is default"
                                Style="{StaticResource TitleTextBlockStyle}"
                                Foreground="Gray" />
-                    <TextBlock x:Name="txtlastname"
+                    <CheckBox  x:Name="checkBoxIsDefault"
+                               IsEnabled="False"
                                Margin="10,0,0,0"
-                               Text="{x:Bind ViewModel.LastName, Mode=OneWay}"
-                               Style="{StaticResource TitleTextBlockStyle}"
-                               FontWeight="SemiBold"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
-                    <TextBlock Text="City"
-                               Style="{StaticResource TitleTextBlockStyle}"
-                               Foreground="Gray" />
-                    <TextBlock x:Name="txtCity"
-                               Margin="10,0,0,0"
-                               Text="{x:Bind ViewModel.City, Mode=OneWay}"
-                               Style="{StaticResource TitleTextBlockStyle}"
-                               FontWeight="SemiBold"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
-                    <TextBlock Text="Country"
-                               Style="{StaticResource TitleTextBlockStyle}"
-                               Foreground="Gray" />
-                    <TextBlock x:Name="txtCountry"
-                               Margin="10,0,0,0"
-                               Text="{x:Bind ViewModel.Country, Mode=OneWay}"
-                               Style="{StaticResource TitleTextBlockStyle}"
-                               FontWeight="SemiBold"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
-                    <TextBlock Text="Website"
-                               Style="{StaticResource TitleTextBlockStyle}"
-                               Foreground="Gray" />
-                    <TextBlock x:Name="txtWebsite"
-                               Margin="10,0,0,0"
-                               Text="{x:Bind ViewModel.Website, Mode=OneWay}"
-                               Style="{StaticResource TitleTextBlockStyle}"
-                               FontWeight="SemiBold"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
-                    <TextBlock Text="Following"
-                               Style="{StaticResource TitleTextBlockStyle}"
-                               Foreground="Gray" />
-                    <TextBlock x:Name="txtFollowing"
-                               Margin="10,0,0,0"
-                               Text="{x:Bind ViewModel.Following, Mode=OneWay}"
-                               Style="{StaticResource TitleTextBlockStyle}"
-                               FontWeight="SemiBold"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
-                    <TextBlock Text="Followers"
-                               Style="{StaticResource TitleTextBlockStyle}"
-                               Foreground="Gray" />
-                    <TextBlock x:Name="txtFollowers"
-                               Margin="10,0,0,0"
-                               Text="{x:Bind ViewModel.Followers, Mode=OneWay}"
-                               Style="{StaticResource TitleTextBlockStyle}"
-                               FontWeight="SemiBold"/>
+                               IsChecked="{x:Bind ViewModel.IsDefault, Mode=OneWay}" />
                 </StackPanel>
             </StackPanel>
         </Grid>

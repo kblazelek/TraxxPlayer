@@ -10,49 +10,19 @@ namespace TraxxPlayer.UI.ViewModels
     public class MeViewModel : CommonViewModel
     {
         #region private
-        private string _firstName;
-        private string _lastName;
-        private string _website;
-        private string _city;
-        private string _country;
-        private string _followers;
-        private string _following;
+        private string _userName;
+        private bool? _isDefault;
         private ImageSource _profilePhoto;
         #endregion
-        public string FirstName
+        public string UserName
         {
-            get { return _firstName; }
-            set { _firstName = value; OnPropertyChanged(nameof(FirstName)); }
+            get { return _userName; }
+            set { _userName = value; OnPropertyChanged(nameof(UserName)); }
         }
-        public string LastName
+        public bool? IsDefault
         {
-            get { return _lastName; }
-            set { _lastName = value; OnPropertyChanged(nameof(LastName)); }
-        }
-        public string Website
-        {
-            get { return _website; }
-            set { _website = value; OnPropertyChanged(nameof(Website)); }
-        }
-        public string City
-        {
-            get { return _city; }
-            set { _city = value; OnPropertyChanged(nameof(City)); }
-        }
-        public string Country
-        {
-            get { return _country; }
-            set { _country = value; OnPropertyChanged(nameof(Country)); }
-        }
-        public string Followers
-        {
-            get { return _followers; }
-            set { _followers = value; OnPropertyChanged(nameof(Followers)); }
-        }
-        public string Following
-        {
-            get { return _following; }
-            set { _following = value; OnPropertyChanged(nameof(Following)); }
+            get { return _isDefault; }
+            set { _isDefault = value; OnPropertyChanged(nameof(IsDefault)); }
         }
         public ImageSource ProfilePhoto
         {
@@ -62,20 +32,11 @@ namespace TraxxPlayer.UI.ViewModels
 
         public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            if (App.SCUser != null)
+            ProfilePhoto = new BitmapImage(new Uri("ms-appx:///Assets/Person.jpg"));
+            if (App.User != null)
             {
-                FirstName = Convert.ToString(App.SCUser.first_name);
-                LastName = Convert.ToString(App.SCUser.last_name);
-                Website = Convert.ToString(App.SCUser.website);
-                City = Convert.ToString(App.SCUser.city);
-                Country = Convert.ToString(App.SCUser.country);
-                Followers = Convert.ToString(App.SCUser.followers_count);
-                Following = Convert.ToString(App.SCUser.followings_count);
-                ProfilePhoto = new BitmapImage(new Uri(App.SCUser.avatar_url));
-            }
-            else
-            {
-                ProfilePhoto = new BitmapImage(new Uri("ms-appx:///Assets/Person.jpg"));
+                UserName = App.User.username;
+                IsDefault = App.User.isDefault;
             }
             return base.OnNavigatedToAsync(parameter, mode, state);
         }

@@ -69,7 +69,7 @@ namespace TraxxPlayer.UI.ViewModels
                 OnPropertyChanged(nameof(AlbumTitle));
             }
         }
-        private bool mediaButtonsEnabled = true;
+        private bool mediaButtonsEnabled = false;
 
         public bool MediaButtonsEnabled
         {
@@ -111,6 +111,8 @@ namespace TraxxPlayer.UI.ViewModels
 
         public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
+            AlbumImage = new BitmapImage(new Uri(@"ms-appx:///Assets/Albumart.jpeg"));
+            MediaButtonsEnabled = false;
             AddMediaPlayerEventHandlers();
             backgroundAudioTaskStarted = new AutoResetEvent(false);
 
@@ -132,6 +134,7 @@ namespace TraxxPlayer.UI.ViewModels
                     StartBackgroundAudioTask();
                 }
             }
+            // Dodac sprawdzanie czy jaest jakas muzyka do grania
             PlayPauseImage = new BitmapImage(new Uri("ms-appx:///Assets/Pause.png"));
             var trackId = GetCurrentTrackId();
             if (trackId != null)
@@ -143,6 +146,7 @@ namespace TraxxPlayer.UI.ViewModels
                 if (song != null)
                 {
                     LoadTrack(song);
+                    MediaButtonsEnabled = true;
                 }
             }
             return base.OnNavigatedToAsync(parameter, mode, state);

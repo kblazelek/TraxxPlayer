@@ -27,30 +27,8 @@ namespace TraxxPlayer.Services
                 return db.Users.Select(user => new UserToAddAndDisplay()
                 {
                     id = user.id,
-                    avatar_url = user.avatar_url,
-                    city = user.city,
-                    country = user.country,
-                    description = user.description,
-                    discogs_name = user.discogs_name,
-                    first_name = user.first_name,
-                    followers_count = user.followers_count,
-                    followings_count = user.followings_count,
-                    full_name = user.full_name,
-                    kind = user.kind,
-                    last_modified = user.last_modified,
-                    last_name = user.last_name,
-                    myspace_name = user.myspace_name,
-                    online = user.online,
-                    permalink = user.permalink,
-                    permalink_url = user.permalink_url,
-                    plan = user.plan,
-                    playlist_count = user.playlist_count,
-                    public_favorites_count = user.public_favorites_count,
-                    track_count = user.track_count,
-                    uri = user.uri,
                     username = user.username,
-                    website = user.website,
-                    website_title = user.website_title
+                    isDefault = user.isDefault
                 }).ToList();
             }
         }
@@ -60,6 +38,14 @@ namespace TraxxPlayer.Services
             using (var db = new TraxxPlayerContext())
             {
                 return db.Users.Any(user => user.id == id);
+            }
+        }
+
+        public static bool UserExist(string userName)
+        {
+            using (var db = new TraxxPlayerContext())
+            {
+                return db.Users.Any(user => user.username == userName);
             }
         }
 
@@ -73,35 +59,34 @@ namespace TraxxPlayer.Services
                     return new UserToAddAndDisplay()
                     {
                         id = user.id,
-                        avatar_url = user.avatar_url,
-                        city = user.city,
-                        country = user.country,
-                        description = user.description,
-                        discogs_name = user.discogs_name,
-                        first_name = user.first_name,
-                        followers_count = user.followers_count,
-                        followings_count = user.followings_count,
-                        full_name = user.full_name,
-                        kind = user.kind,
-                        last_modified = user.last_modified,
-                        last_name = user.last_name,
-                        myspace_name = user.myspace_name,
-                        online = user.online,
-                        permalink = user.permalink,
-                        permalink_url = user.permalink_url,
-                        plan = user.plan,
-                        playlist_count = user.playlist_count,
-                        public_favorites_count = user.public_favorites_count,
-                        track_count = user.track_count,
-                        uri = user.uri,
                         username = user.username,
-                        website = user.website,
-                        website_title = user.website_title
+                        isDefault = user.isDefault
                     };
                 }
                 else
                 {
                     throw new Exception("User with the id provided does not exist. Get user failed.");
+                }
+            }
+        }
+
+        public static UserToAddAndDisplay GetUser(string userName)
+        {
+            using (var db = new TraxxPlayerContext())
+            {
+                var user = db.Users.Where(u => u.username == userName).FirstOrDefault();
+                if (user != null)
+                {
+                    return new UserToAddAndDisplay()
+                    {
+                        id = user.id,
+                        username = user.username,
+                        isDefault = user.isDefault
+                    };
+                }
+                else
+                {
+                    throw new Exception("User with the user name provided does not exist. Get user failed.");
                 }
             }
         }
@@ -117,30 +102,8 @@ namespace TraxxPlayer.Services
                         db.Users.Add(new User()
                         {
                             id = user.id,
-                            avatar_url = user.avatar_url,
-                            city = user.city,
-                            country = user.country,
-                            description = user.description,
-                            discogs_name = user.discogs_name,
-                            first_name = user.first_name,
-                            followers_count = user.followers_count,
-                            followings_count = user.followings_count,
-                            full_name = user.full_name,
-                            kind = user.kind,
-                            last_modified = user.last_modified,
-                            last_name = user.last_name,
-                            myspace_name = user.myspace_name,
-                            online = user.online,
-                            permalink = user.permalink,
-                            permalink_url = user.permalink_url,
-                            plan = user.plan,
-                            playlist_count = user.playlist_count,
-                            public_favorites_count = user.public_favorites_count,
-                            track_count = user.track_count,
-                            uri = user.uri,
                             username = user.username,
-                            website = user.website,
-                            website_title = user.website_title
+                            isDefault = user.isDefault
                         });
                         db.SaveChanges();
                     }
@@ -182,31 +145,8 @@ namespace TraxxPlayer.Services
                     if (UserExist(user.id))
                     {
                         var userToModify = db.Users.First(u => u.id == user.id);
-                        userToModify.id = user.id;
-                        userToModify.avatar_url = user.avatar_url;
-                        userToModify.city = user.city;
-                        userToModify.country = user.country;
-                        userToModify.description = user.description;
-                        userToModify.discogs_name = user.discogs_name;
-                        userToModify.first_name = user.first_name;
-                        userToModify.followers_count = user.followers_count;
-                        userToModify.followings_count = user.followings_count;
-                        userToModify.full_name = user.full_name;
-                        userToModify.kind = user.kind;
-                        userToModify.last_modified = user.last_modified;
-                        userToModify.last_name = user.last_name;
-                        userToModify.myspace_name = user.myspace_name;
-                        userToModify.online = user.online;
-                        userToModify.permalink = user.permalink;
-                        userToModify.permalink_url = user.permalink_url;
-                        userToModify.plan = user.plan;
-                        userToModify.playlist_count = user.playlist_count;
-                        userToModify.public_favorites_count = user.public_favorites_count;
-                        userToModify.track_count = user.track_count;
-                        userToModify.uri = user.uri;
                         userToModify.username = user.username;
-                        userToModify.website = user.website;
-                        userToModify.website_title = user.website_title;
+                        userToModify.isDefault = user.isDefault;
                         db.SaveChanges();
                     }
                     else
@@ -270,30 +210,8 @@ namespace TraxxPlayer.Services
                     return new UserToAddAndDisplay()
                     {
                         id = defaultUser.id,
-                        avatar_url = defaultUser.avatar_url,
-                        city = defaultUser.city,
-                        country = defaultUser.country,
-                        description = defaultUser.description,
-                        discogs_name = defaultUser.discogs_name,
-                        first_name = defaultUser.first_name,
-                        followers_count = defaultUser.followers_count,
-                        followings_count = defaultUser.followings_count,
-                        full_name = defaultUser.full_name,
-                        kind = defaultUser.kind,
-                        last_modified = defaultUser.last_modified,
-                        last_name = defaultUser.last_name,
-                        myspace_name = defaultUser.myspace_name,
-                        online = defaultUser.online,
-                        permalink = defaultUser.permalink,
-                        permalink_url = defaultUser.permalink_url,
-                        plan = defaultUser.plan,
-                        playlist_count = defaultUser.playlist_count,
-                        public_favorites_count = defaultUser.public_favorites_count,
-                        track_count = defaultUser.track_count,
-                        uri = defaultUser.uri,
-                        username = defaultUser.username,
-                        website = defaultUser.website,
-                        website_title = defaultUser.website_title
+                        isDefault = defaultUser.isDefault,
+                        username = defaultUser.username
                     };
                 }
                 else
