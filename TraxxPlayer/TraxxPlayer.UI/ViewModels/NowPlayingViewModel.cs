@@ -9,6 +9,7 @@ using TraxxPlayer.Common.Enums_and_constants;
 using TraxxPlayer.Common.Helpers;
 using TraxxPlayer.Common.Messages;
 using TraxxPlayer.Common.Models;
+using TraxxPlayer.Services;
 using Windows.ApplicationModel.Core;
 using Windows.Media;
 using Windows.Media.Playback;
@@ -108,7 +109,20 @@ namespace TraxxPlayer.UI.ViewModels
                 }
             }
         }
-
+        private async void PlayLikes()
+        {
+            var likesTrackIDs = LikeService.GetLikes(App.User.id).Select(l => l.TrackID).ToList();
+            if (likesTrackIDs.Count > 0)
+            {
+                List<SoundCloudTrack> likedTracks = new List<SoundCloudTrack>();
+                foreach (var trackID in likesTrackIDs)
+                {
+                    var track = await SoundCloudHelper.GetSoundCloudTrack(trackID);
+                    likedTracks.Add(track);
+                }
+                App.PlaylistManager.PlayTracks(likedTracks);
+            }
+        }
         public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
             AlbumImage = new BitmapImage(new Uri(@"ms-appx:///Assets/Albumart.jpeg"));
@@ -120,6 +134,7 @@ namespace TraxxPlayer.UI.ViewModels
             {
                 PlayPauseImage = new BitmapImage(new Uri("ms-appx:///Assets/Play.png"));
                 StartBackgroundAudioTask();
+                PlayLikes();
             }
             else
             {

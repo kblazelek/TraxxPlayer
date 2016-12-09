@@ -86,6 +86,10 @@ namespace TraxxPlayer.Services
             {
                 if (like != null)
                 {
+                    if(db.Likes.Where(l => l.TrackID == like.TrackID).FirstOrDefault() != null)
+                    {
+                        throw new Exception($"Track with id {like.TrackID} is already in Likes for user {like.UserID} . Add like failed.");
+                    }
                     db.Likes.Add(new Like() { TrackID = like.TrackID, UserID = like.UserID });
                     db.SaveChanges();
                 }

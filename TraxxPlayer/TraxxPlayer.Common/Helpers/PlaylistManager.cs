@@ -94,6 +94,31 @@ namespace TraxxPlayer.Common.Helpers
             Tracks.Clear();
             Tracks.Add(track);
         }
+
+        public void PlayTracks(List<SoundCloudTrack> tracks)
+        {
+            if (tracks == null)
+            {
+                throw new Exception("Track is empty. Play track failed.");
+            }
+            if(tracks.Count == 0)
+            {
+                throw new Exception("Track is empty. Play track failed.");
+            }
+            Tracks.Clear();
+            foreach (var track in tracks)
+            {
+                if (track.stream_url == null && track.uri != null)
+                {
+                    track.stream_url = GetStreamUrlFromUri(track.uri);
+                }
+                if (track.stream_url != null)
+                {
+                    Tracks.Add(track);
+                }
+            }
+            MessageService.SendMessageToBackground(new UpdatePlaylistMessage(Tracks.ToList()));
+        }
         // TODO: zamienic przyjmowany parametr na id i pobierac z soundcloudhelpera
         public void PlayPlaylistTrack(SoundCloudTrack track)
         {

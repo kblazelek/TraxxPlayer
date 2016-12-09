@@ -26,6 +26,24 @@ namespace TraxxPlayer.UI.ViewModels
         public ObservableCollection<PlaylistToDisplay> Playlists { get; set; } = new ObservableCollection<PlaylistToDisplay>();
         DelegateCommand<PlaylistToDisplay> addTrackToPlaylistCommand;
         public DelegateCommand<PlaylistToDisplay> AddTrackToPlaylistCommand => addTrackToPlaylistCommand ?? (addTrackToPlaylistCommand = new DelegateCommand<PlaylistToDisplay>(AddTrackToPlaylist));
+        DelegateCommand addTrackToLikesCommand;
+        public DelegateCommand AddTrackToLikesCommand => addTrackToLikesCommand ?? (addTrackToLikesCommand = new DelegateCommand(AddTrackToLikes));
+
+        public void AddTrackToLikes()
+        {
+            try
+            {
+                if (rightTappedTrack != null)
+                {
+                    LikeService.AddLike(new LikeToAdd() { UserID = App.User.id, TrackID = rightTappedTrack.id });
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage(ex.Message);
+            }
+        }
+
         DelegateCommand<SoundCloudTrack> soundCloudTrackRightTappedCommand;
         public DelegateCommand<SoundCloudTrack> SoundCloudTrackRightTappedCommand => soundCloudTrackRightTappedCommand ?? (soundCloudTrackRightTappedCommand = new DelegateCommand<SoundCloudTrack>(TrackRightTapped));
         SoundCloudTrack rightTappedTrack = null;
