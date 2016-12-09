@@ -107,11 +107,14 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\LikeToAdd.cs" />
+    <Compile Include="Helpers\LikeToDisplay.cs" />
     <Compile Include="Helpers\PlaylistToAdd.cs" />
     <Compile Include="Helpers\PlaylistToDisplay.cs" />
     <Compile Include="Helpers\PlaylistTrackToAdd.cs" />
     <Compile Include="Helpers\PlaylistTrackToDisplay.cs" />
     <Compile Include="Helpers\UserToAddAndDisplay.cs" />
+    <Compile Include="LikeService.cs" />
     <Compile Include="PlaylistService.cs" />
     <Compile Include="PlaylistTrackService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

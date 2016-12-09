@@ -111,7 +111,12 @@
     <Compile Include="Migrations\20161204144335_Initial.designer.cs">
       <DependentUpon>20161204144335_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20161209212920_AddLikeTable.cs" />
+    <Compile Include="Migrations\20161209212920_AddLikeTable.designer.cs">
+      <DependentUpon>20161209212920_AddLikeTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\TraxxPlayerContextModelSnapshot.cs" />
+    <Compile Include="Models\Like.cs" />
     <Compile Include="Models\Playlist.cs" />
     <Compile Include="Models\PlaylistTrack.cs" />
     <Compile Include="Models\User.cs" />

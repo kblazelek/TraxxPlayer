@@ -11,6 +11,7 @@ namespace TraxxPlayer.Data
     public class TraxxPlayerContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Like> Likes { get; set; }
         public DbSet<Playlist> Playlists { get; set; }
         public DbSet<PlaylistTrack> PlaylistTracks { get; set; }
 
