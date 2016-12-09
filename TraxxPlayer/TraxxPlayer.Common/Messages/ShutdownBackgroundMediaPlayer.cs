@@ -3,7 +3,7 @@
 namespace TraxxPlayer.Common.Messages
 {
     [DataContract]
-    public class StopBackgroundTaskMessage
+    public class ShutdownBackgroundMediaPlayer
     {
     }
 }

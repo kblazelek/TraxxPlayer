@@ -159,6 +159,8 @@ namespace TraxxPlayer.BackgroundAudioTask
             {
                 smtc.PlaybackStatus = MediaPlaybackStatus.Stopped;
                 smtc.DisplayUpdater.MusicProperties.Title = string.Empty;
+                smtc.DisplayUpdater.Thumbnail = null;
+                smtc.IsEnabled = false;
                 smtc.DisplayUpdater.Update();
                 return;
             }
@@ -465,7 +467,21 @@ namespace TraxxPlayer.BackgroundAudioTask
                 CreatePlaybackListAndStartPlaying(updatePlaylistMessage.Songs);
                 return;
             }
-        } // Dodać obsługę lokalnych
+
+            ShutdownBackgroundMediaPlayer shutdownBackgroundMediaPlayer;
+            if (MessageService.TryParseMessage(e.Data, out shutdownBackgroundMediaPlayer))
+            {
+                UpdateUVCOnNewTrack(null);
+                if (playbackList != null)
+                {
+                    playbackList.CurrentItemChanged -= PlaybackList_CurrentItemChanged;
+                    playbackList = null;
+                }
+                
+                BackgroundMediaPlayer.Shutdown();
+                return;
+            }
+        }
 
         void DeleteTrackFromPlaybackList(string stream_url)
         {
