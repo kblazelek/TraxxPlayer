@@ -123,7 +123,7 @@ namespace TraxxPlayer.Common.Helpers
         {
             Tracks.Clear();
             Playlist = null;
-            MessageService.SendMessageToBackground(new StopBackgroundTaskMessage());
+            MessageService.SendMessageToBackground(new ShutdownBackgroundMediaPlayer());
         }
         #region INotifyPropertyChanged implementation
         new public event PropertyChangedEventHandler PropertyChanged;
