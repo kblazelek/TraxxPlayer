@@ -20,14 +20,21 @@ namespace TraxxPlayer.UI.ViewModels
 
         private async void GetLikes()
         {
-            var likesTrackIDs = LikeService.GetLikes(App.User.id).Select(l => l.TrackID).ToList();
-            if (likesTrackIDs.Count > 0)
+            try
             {
-                foreach (var trackID in likesTrackIDs)
+                var likesTrackIDs = LikeService.GetLikes(App.User.id).Select(l => l.TrackID).ToList();
+                if (likesTrackIDs.Count > 0)
                 {
-                    var track = await SoundCloudHelper.GetSoundCloudTrack(trackID);
-                    Likes.Add(track);
+                    foreach (var trackID in likesTrackIDs)
+                    {
+                        var track = await SoundCloudHelper.GetSoundCloudTrack(trackID);
+                        Likes.Add(track);
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                ShowErrorMessage(ex.Message);
             }
         }
         public void ItemClicked (object sender, ItemClickEventArgs e)

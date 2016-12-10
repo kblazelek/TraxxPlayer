@@ -1,0 +1,124 @@
+﻿<Page x:Class="TraxxPlayer.UI.Views.Search"
+      x:Name="SearchPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:TraxxPlayer.UI.Views"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:vm="using:TraxxPlayer.UI.ViewModels"
+      xmlns:controls="using:Template10.Controls"
+      xmlns:data="using:TraxxPlayer.Common.Models"
+      xmlns:i="using:Microsoft.Xaml.Interactivity"
+      xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:Behaviors="using:Template10.Behaviors"
+      xmlns:Converters="using:TraxxPlayer.UI.Converters"
+      mc:Ignorable="d">
+
+    <Page.DataContext>
+        <vm:SearchViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+    <Page.Resources>
+        <Converters:AutoSuggestBoxSuggestionChosenParameterConverter x:Key="ArgsConverter" />
+        <DataTemplate x:Key="ImageOverlayTemplate"
+                      x:DataType="data:SoundCloudTrack">
+            <StackPanel Height="130"
+                        Width="190"
+                        Margin="4,4,4,8">
+                <TextBlock Text="{x:Bind title}"
+                           Margin="8,4"
+                           Width="186"
+                           Style="{StaticResource BaseTextBlockStyle}"
+                           HorizontalAlignment="Left" />
+                <Image Source="{x:Bind AlbumArtUri}"
+                       Margin="8,0,8,8"
+                       Stretch="UniformToFill" />
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+
+    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="AdaptiveVisualStateGroup">
+                <VisualState x:Name="VisualStateNarrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO: change properties for narrow view  -->
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateNormal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO: change properties for normal view  -->
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateWide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO: change properties for wide view  -->
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <!--  header  -->
+        <controls:PageHeader x:Name="pageHeader"
+                             Frame="{x:Bind Frame}"
+                             RelativePanel.AlignLeftWithPanel="True"
+                             RelativePanel.AlignRightWithPanel="True"
+                             RelativePanel.AlignTopWithPanel="True"
+                             Text="Search" />
+
+        <!--  content  -->
+        <TextBlock x:Name="textBlockSearch"
+                   Text="Search"
+                   Margin="10,10,10,10"
+                   Style="{StaticResource TitleTextBlockStyle}"
+                   Foreground="Gray"
+                   RelativePanel.AlignLeftWithPanel="True"
+                   RelativePanel.AlignRightWithPanel="True"
+                   RelativePanel.Below="pageHeader" />
+        <AutoSuggestBox x:Name="autoSuggestBoxUserName"
+                        Margin="10,10,10,10"
+                        PlaceholderText="Search track..."
+                        Text="{Binding TextToSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        ItemsSource="{x:Bind ViewModel.SearchQuery}"
+                        UpdateTextOnSelect="False"
+                        RelativePanel.Below="textBlockSearch"
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True">
+            <i:Interaction.Behaviors>
+                <!--  enable submit on enter key  -->
+                <Behaviors:KeyBehavior Key="Enter">
+                    <core:CallMethodAction MethodName="SearchTracks"
+                                           TargetObject="{Binding}" />
+                </Behaviors:KeyBehavior>
+                <!--  focus on textbox when page loads  -->
+                <core:EventTriggerBehavior>
+                    <Behaviors:FocusAction />
+                </core:EventTriggerBehavior>
+                <core:EventTriggerBehavior EventName="SuggestionChosen">
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.SuggestionChosenCommand}"
+                                              InputConverter="{StaticResource ArgsConverter}" />
+                </core:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </AutoSuggestBox>
+        <GridView x:Name="grdTracks"
+                  ItemTemplate="{StaticResource ImageOverlayTemplate }"
+                  IsItemClickEnabled="True"
+                  IsSwipeEnabled="False"
+                  CanDragItems="False"
+                  SelectionMode="None"
+                  RelativePanel.Below="autoSuggestBoxUserName"
+                  RelativePanel.AlignLeftWithPanel="True"
+                  RelativePanel.AlignRightWithPanel="True"
+                  ItemClick="{x:Bind ViewModel.ItemClicked}"
+                  ItemsSource="{x:Bind ViewModel.Tracks, Mode=OneWay}" />
+    </RelativePanel>
+</Page>

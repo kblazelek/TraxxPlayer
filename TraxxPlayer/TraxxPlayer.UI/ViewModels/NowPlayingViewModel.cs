@@ -176,7 +176,6 @@ namespace TraxxPlayer.UI.ViewModels
                 //Send message to initiate playback
                 if (result == true)
                 {
-                    MessageService.SendMessageToBackground(new UpdatePlaylistMessage(App.likes));
                     PlayPauseImage = new BitmapImage(new Uri("ms-appx:///Assets/Pause.png"));
                 }
                 else

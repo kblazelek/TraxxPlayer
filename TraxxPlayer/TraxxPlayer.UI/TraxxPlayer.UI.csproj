@@ -97,9 +97,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\AutoSuggestBoxSuggestionChosenParameterConverter.cs" />
     <Compile Include="ViewModels\AskForUserNameViewModel.cs" />
     <Compile Include="ViewModels\ChartsViewModel.cs" />
     <Compile Include="ViewModels\CommonViewModel.cs" />
+    <Compile Include="ViewModels\SearchViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\MeViewModel.cs" />
     <Compile Include="ViewModels\NowPlayingViewModel.cs" />
@@ -119,6 +121,9 @@
     </Compile>
     <Compile Include="Views\ErrorDialog.xaml.cs">
       <DependentUpon>ErrorDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Search.xaml.cs">
+      <DependentUpon>Search.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Likes.xaml.cs">
       <DependentUpon>Likes.xaml</DependentUpon>
@@ -211,6 +216,10 @@
     <Page Include="Views\ErrorDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Search.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Likes.xaml">
       <Generator>MSBuild:Compile</Generator>

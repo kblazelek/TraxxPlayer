@@ -98,17 +98,18 @@ namespace TraxxPlayer.Common.Helpers
             return Kinds;
         }
 
-        public async static Task<List<SoundCloudTrack>> GetLikedTracks(int userID)
+        public async static Task<List<SoundCloudTrack>> SearchTracks(string query, int maxResults)
         {
-            List<SoundCloudTrack> likes = new List<SoundCloudTrack>();
-            string responseText = await JsonHelper.GetjsonStream(SoundCloudConstants.SoundCloudAPILink + SoundCloudConstants.SoundCloudAPIUsers + userID + "/favorites.json?client_id=" + SoundCloudConstants.SoundCloudClientId);
-            likes = JsonConvert.DeserializeObject<List<SoundCloudTrack>>(responseText);
+            List<SoundCloudTrack> searchedTracks = new List<SoundCloudTrack>();
+            //http://api.soundcloud.com/tracks.json?client_id=9c79c1a0aeb2fc8972d215e07934a8bf&q=odesza&limit=50
+            string responseText = await JsonHelper.GetjsonStream(SoundCloudConstants.SoundCloudAPILink + "tracks.json?" + "client_id=" + SoundCloudConstants.SoundCloudClientId + "&q=" + query + "&limit=" + maxResults.ToString());
+            searchedTracks = JsonConvert.DeserializeObject<List<SoundCloudTrack>>(responseText);
             //remove songs which do not have stream url
-            likes = likes.Where(t => t.stream_url != null).ToList();
+            searchedTracks = searchedTracks.Where(t => t.stream_url != null).ToList();
             //add "?client_id=" + App.SoundCloudClientId to stream url
             Task<List<SoundCloudTrack>> task = Task.Run(() =>
             {
-                return likes.Select(t => { t.stream_url += "?client_id=" + SoundCloudConstants.SoundCloudClientId; return t; }).ToList();
+                return searchedTracks.Select(t => { t.stream_url += "?client_id=" + SoundCloudConstants.SoundCloudClientId; return t; }).ToList();
             });
             return task.Result;
         }
