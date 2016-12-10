@@ -34,7 +34,7 @@ namespace TraxxPlayer.Common.Helpers
             {
                 throw new EmptyPlaylistException("Playlist does not contain any tracks.");
             }
-
+            List<PlaylistTrackToDisplay> deletedPlaylistTracks = new List<PlaylistTrackToDisplay>();
             Playlist = playlist;
             // Clear tracks from current playlist
             Tracks.Clear();
@@ -47,23 +47,76 @@ namespace TraxxPlayer.Common.Helpers
                 }
                 else
                 {
+                    deletedPlaylistTracks.Add(t);
                     // TODO: Add custom exception containting track id to ask user whether he/she want's to delete deleted track from playlist.
                 }
             }
             MessageService.SendMessageToBackground(new UpdatePlaylistMessage(Tracks.ToList()));
+            if (deletedPlaylistTracks.Count > 0)
+            {
+                // handle reordering
+                foreach (var deletedPlaylistTrack in deletedPlaylistTracks)
+                {
+                    PlaylistTrackService.DeletePlaylistTrack(deletedPlaylistTrack.id);
+                }
+                for (int i = 0; i < Tracks.Count; ++i)
+                {
+                    var movedTrack = PlaylistTrackService.GetPlaylistTrack(Playlist.id, Tracks[i].id);
+                    movedTrack.TrackOrder = i;
+                    PlaylistTrackService.ModifyPlaylistTrack(movedTrack);
+                }
+                throw new PlaylistTrackNotAvailableOnSoundCloudException("Some of your tracks were deleted, because they were no longer available on SoundCloud", deletedPlaylistTracks);
+            }
+        }
+
+        public void ReorderTracks(SoundCloudTrack track, int indexFrom, int indexTo)
+        {
+            if (track == null)
+            {
+                throw new Exception("Track to remove is null. Reorder tracks from current playlist failed.");
+            }
+            if (Playlist == null)
+            {
+                throw new Exception("Playlist is null. Reorder tracks from current playlist failed.");
+            }
+            if (!Tracks.Contains(track))
+            {
+                throw new Exception($"There is no track with id {track.id} in current playlist. Reorder tracks from current playlist failed.");
+            }
+            var movedPlaylistTrack = PlaylistTrackService.GetPlaylistTrack(Playlist.id, track.id);
+            movedPlaylistTrack.TrackOrder = indexTo;
+            PlaylistTrackService.ModifyPlaylistTrack(movedPlaylistTrack);
+            if (indexTo - indexFrom > 0)
+            {
+                for (int i = indexFrom; i < indexTo; ++i)
+                {
+                    var movedTrack = PlaylistTrackService.GetPlaylistTrack(Playlist.id, Tracks[i].id);
+                    movedTrack.TrackOrder = i;
+                    PlaylistTrackService.ModifyPlaylistTrack(movedTrack);
+                }
+            }
+            else if (indexTo - indexFrom < 0)
+            {
+                for (int i = indexTo + 1; i <= indexFrom; ++i)
+                {
+                    var movedTrack = PlaylistTrackService.GetPlaylistTrack(Playlist.id, Tracks[i].id);
+                    movedTrack.TrackOrder =i;
+                    PlaylistTrackService.ModifyPlaylistTrack(movedTrack);
+                }
+            }
         }
 
         public void RemoveTrackFromCurrentPlaylist(SoundCloudTrack track)
         {
-            if(track == null)
+            if (track == null)
             {
                 throw new Exception("Track to remove is null. Remove track from current playlist failed.");
             }
-            if(Playlist == null)
+            if (Playlist == null)
             {
                 throw new Exception("Playlist is null. Remove track from current playlist failed.");
             }
-            if(!Tracks.Contains(track))
+            if (!Tracks.Contains(track))
             {
                 throw new Exception($"There is no track with id {track.id} in current playlist. Remove track from current playlist failed.");
             }
@@ -101,7 +154,7 @@ namespace TraxxPlayer.Common.Helpers
             {
                 throw new Exception("Track is empty. Play track failed.");
             }
-            if(tracks.Count == 0)
+            if (tracks.Count == 0)
             {
                 throw new Exception("Track is empty. Play track failed.");
             }

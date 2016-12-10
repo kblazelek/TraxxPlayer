@@ -231,6 +231,9 @@
                       ItemContainerStyle="{StaticResource ListViewItemStyle1}"
                       ItemTemplate="{StaticResource ImageOverlayTemplate }"
                       ItemsSource="{Binding Tracks}"
+                      CanReorderItems="True"
+                      AllowDrop="True"
+                      CanDragItems="True"
                       IsItemClickEnabled="True"
                       SelectedItem="{Binding SelectedTrack, Mode=TwoWay}">
             </ListView>

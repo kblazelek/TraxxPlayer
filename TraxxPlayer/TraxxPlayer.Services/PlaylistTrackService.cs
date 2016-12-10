@@ -48,6 +48,28 @@ namespace TraxxPlayer.Services
             }
         }
 
+        public static PlaylistTrackToDisplay GetPlaylistTrack(int playlistID, int trackID)
+        {
+            using (var db = new TraxxPlayerContext())
+            {
+                var playlistTrack = db.PlaylistTracks.Where(pt => pt.PlaylistID == playlistID && pt.TrackID == trackID).FirstOrDefault();
+                if (playlistTrack != null)
+                {
+                    return new PlaylistTrackToDisplay()
+                    {
+                        PlaylistID = playlistTrack.PlaylistID,
+                        TrackID = playlistTrack.TrackID,
+                        TrackOrder = playlistTrack.TrackOrder,
+                        id = playlistTrack.id
+                    };
+                }
+                else
+                {
+                    throw new Exception($"Playlist track with the track id {trackID} and playlist id {playlistID} does not exist. Get playlist track failed.");
+                }
+            }
+        }
+
         public static bool PlaylistTrackExist(int playlistTrackID)
         {
             using (var db = new TraxxPlayerContext())
@@ -96,6 +118,24 @@ namespace TraxxPlayer.Services
                 {
                     throw new Exception("Playlist track with the id specified does not exist. Delete playlist track failed.");
                 }
+            }
+        }
+
+        public static void ModifyPlaylistTrack(PlaylistTrackToDisplay playlistTrack)
+        {
+            using (var db = new TraxxPlayerContext())
+            {
+                if(!PlaylistTrackExist(playlistTrack.id))
+                {
+                    throw new Exception("Playlist track with the id specified does not exist. Modify playlist track failed.");
+                }
+                var playlistTrackToModify = db.PlaylistTracks.Where(pt => pt.id == playlistTrack.id).FirstOrDefault();
+                playlistTrackToModify.id = playlistTrack.id;
+                playlistTrackToModify.PlaylistID = playlistTrack.PlaylistID;
+                playlistTrackToModify.TrackID = playlistTrack.TrackID;
+                playlistTrackToModify.TrackOrder = playlistTrack.TrackOrder;
+                db.SaveChanges();
+                //db.PlaylistTracks.Update(playlistTrackToModify);
             }
         }
 

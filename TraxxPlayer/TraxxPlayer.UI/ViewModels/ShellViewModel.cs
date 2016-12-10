@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Template10.Mvvm;
+using Template10.Services.NavigationService;
 using TraxxPlayer.Common.Models;
 using TraxxPlayer.Services;
 using Windows.UI.Xaml.Navigation;
@@ -15,6 +16,8 @@ namespace TraxxPlayer.UI.ViewModels
         DelegateCommand<SoundCloudTrack> deleteTrackFromPlaylistCommand;
         public DelegateCommand<SoundCloudTrack> DeleteTrackFromPlaylistCommand => deleteTrackFromPlaylistCommand ?? (deleteTrackFromPlaylistCommand = new DelegateCommand<SoundCloudTrack>(DeleteTrackFromPlaylist));
         public ObservableCollection<SoundCloudTrack> Tracks { get; set; } = App.PlaylistManager.Tracks;
+        private SoundCloudTrack lastRemovedTrack;
+        private int lastRemovedTrackIndex;
 
         private SoundCloudTrack selectedTrack;
         public SoundCloudTrack SelectedTrack
@@ -50,11 +53,40 @@ namespace TraxxPlayer.UI.ViewModels
             }
         }
 
-        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
+        public ShellViewModel()
         {
-            return base.OnNavigatedToAsync(parameter, mode, state);
+            AddEventHandlers();
+        }
+
+        private void AddEventHandlers()
+        {
+            Tracks.CollectionChanged += Tracks_CollectionChanged;
         }
 
 
+
+        private void Tracks_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+                    lastRemovedTrack = (SoundCloudTrack)e.OldItems[0];
+                    lastRemovedTrackIndex = e.OldStartingIndex;
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+                    if(lastRemovedTrack == null)
+                    {
+                        return;
+                    }
+                    var newIndex = e.NewStartingIndex;
+                    if (App.PlaylistManager.Playlist != null)
+                    {
+                        App.PlaylistManager.ReorderTracks(lastRemovedTrack, lastRemovedTrackIndex, newIndex);
+                    }
+                    lastRemovedTrack = null;
+                    lastRemovedTrackIndex = -1;
+                    break;
+            }
+        }
     }
 }

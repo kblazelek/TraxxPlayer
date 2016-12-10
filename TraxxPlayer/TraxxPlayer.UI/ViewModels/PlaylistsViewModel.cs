@@ -83,6 +83,10 @@ namespace TraxxPlayer.UI.ViewModels
             {
                 ShowWarningMessage(ex.Message);
             }
+            catch(PlaylistTrackNotAvailableOnSoundCloudException ex)
+            {
+                ShowWarningMessage(ex.Message);
+            }
             catch (Exception ex)
             {
                 ShowErrorMessage(ex.Message);

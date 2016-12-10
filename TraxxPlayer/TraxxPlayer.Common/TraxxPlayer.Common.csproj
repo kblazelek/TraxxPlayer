@@ -110,6 +110,7 @@
   <ItemGroup>
     <Compile Include="Enums and constants\SoundCloudConstants.cs" />
     <Compile Include="Exceptions\EmptyPlaylistException.cs" />
+    <Compile Include="Exceptions\PlaylistTrackNotAvailableOnSoundCloudException.cs" />
     <Compile Include="Helpers\ApplicationSettingsHelper.cs" />
     <Compile Include="Enums and constants\AppState.cs" />
     <Compile Include="Enums and constants\BackgroundTaskState.cs" />
