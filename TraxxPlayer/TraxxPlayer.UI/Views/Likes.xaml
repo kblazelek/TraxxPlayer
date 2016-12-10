@@ -1,4 +1,5 @@
 ﻿<Page x:Class="TraxxPlayer.UI.Views.Likes"
+      x:Name="LikesPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:local="using:TraxxPlayer.UI.Views"
@@ -7,19 +8,86 @@
       xmlns:vm="using:TraxxPlayer.UI.ViewModels"
       xmlns:controls="using:Template10.Controls"
       xmlns:data="using:TraxxPlayer.Common.Models"
+      xmlns:i="using:Microsoft.Xaml.Interactivity"
+      xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:Behaviors="using:Template10.Behaviors"
       mc:Ignorable="d">
 
     <Page.DataContext>
         <vm:LikesViewModel x:Name="ViewModel" />
     </Page.DataContext>
     <Page.Resources>
-
         <DataTemplate x:Key="ImageOverlayTemplate"
                       x:DataType="data:SoundCloudTrack">
-            <StackPanel Height="130"
+            <StackPanel x:Name="stkPanelTrack"
+                        Height="130"
                         Width="190"
                         Margin="4,4,4,8">
+                <i:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="RightTapped">
+                        <Behaviors:OpenFlyoutAction />
+                        <core:InvokeCommandAction Command="{Binding DataContext.SoundCloudTrackRightTappedCommand, ElementName=LikesPage}"
+                                                  CommandParameter="{Binding}" />
+                    </core:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+                <FlyoutBase.AttachedFlyout>
+                    <MenuFlyout>
+                        <MenuFlyout.MenuFlyoutPresenterStyle>
+                            <Style TargetType="MenuFlyoutPresenter">
+                                <Setter Property="Padding"
+                                        Value="0,0,0,0" />
+                                <Setter Property="Margin"
+                                        Value="0,0,0,0" />
+                            </Style>
+                        </MenuFlyout.MenuFlyoutPresenterStyle>
+                        <MenuFlyoutSubItem Text="Add to playlist">
+                            <MenuFlyoutItem>
+                                <MenuFlyoutItem.Template>
+                                    <ControlTemplate>
+                                        <ItemsControl ItemsSource="{Binding DataContext.Playlists, ElementName=LikesPage}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock x:Name="txtBlockPlaylist"
+                                                               Text="{Binding Name}">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <Setter Property="Foreground"
+                                                                        Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                                                                <Setter Property="Padding"
+                                                                        Value="{ThemeResource MenuFlyoutItemThemePadding}" />
+                                                                <Setter Property="FontSize"
+                                                                        Value="{ThemeResource ControlContentThemeFontSize}" />
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                        <i:Interaction.Behaviors>
+                                                            <core:EventTriggerBehavior EventName="Tapped">
+                                                                <core:InvokeCommandAction Command="{Binding DataContext.AddTrackToPlaylistCommand, ElementName=LikesPage}"
+                                                                                          CommandParameter="{Binding}" />
+                                                                <Behaviors:CloseFlyoutAction />
+                                                            </core:EventTriggerBehavior>
+                                                            <core:EventTriggerBehavior EventName="PointerEntered">
+                                                                <core:ChangePropertyAction TargetObject="{Binding ElementName=txtBlockPlaylist}"
+                                                                                           PropertyName="Foreground"
+                                                                                           Value="SteelBlue" />
+                                                            </core:EventTriggerBehavior>
+                                                            <core:EventTriggerBehavior EventName="PointerExited">
+                                                                <core:ChangePropertyAction TargetObject="{Binding ElementName=txtBlockPlaylist}"
+                                                                                           PropertyName="Foreground"
+                                                                                           Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                                                            </core:EventTriggerBehavior>
+                                                        </i:Interaction.Behaviors>
+                                                    </TextBlock>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ControlTemplate>
+                                </MenuFlyoutItem.Template>
+                            </MenuFlyoutItem>
+                        </MenuFlyoutSubItem>
+                    </MenuFlyout>
+                </FlyoutBase.AttachedFlyout>
                 <TextBlock Text="{x:Bind title}"
+                           x:Name="txtBlockTrack"
                            Margin="8,4"
                            Width="186"
                            Style="{StaticResource BaseTextBlockStyle}"

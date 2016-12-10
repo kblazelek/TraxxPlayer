@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace TraxxPlayer.UI.ViewModels
 {
-    public class SearchViewModel : CommonViewModel
+    public class SearchViewModel : CommonSoundCloudTrackViewModel
     {
         DelegateCommand<string> suggestionChosenCommand;
         public DelegateCommand<string> SuggestionChosenCommand => suggestionChosenCommand ?? (suggestionChosenCommand = new DelegateCommand<string>(SuggestionChosen));

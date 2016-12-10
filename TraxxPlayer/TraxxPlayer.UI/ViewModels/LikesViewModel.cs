@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace TraxxPlayer.UI.ViewModels
 {
-    public class LikesViewModel : CommonViewModel
+    public class LikesViewModel : CommonSoundCloudTrackViewModel
     {
         public ObservableCollection<SoundCloudTrack> Likes { get; set; } = new ObservableCollection<SoundCloudTrack>();
         public LikesViewModel()
@@ -37,10 +37,9 @@ namespace TraxxPlayer.UI.ViewModels
                 ShowErrorMessage(ex.Message);
             }
         }
-        public void ItemClicked (object sender, ItemClickEventArgs e)
+        public void ItemClicked(object sender, ItemClickEventArgs e)
         {
-            var song = e.ClickedItem as SoundCloudTrack;
-            MessageService.SendMessageToBackground(new TrackChangedMessage(new Uri(song.stream_url)));
+            App.PlaylistManager.PlaySingleTrack(e.ClickedItem as SoundCloudTrack);
         }
     }
 }

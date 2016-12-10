@@ -16,37 +16,13 @@ using Windows.UI.Xaml.Navigation;
 
 namespace TraxxPlayer.UI.ViewModels
 {
-    class ChartsViewModel : CommonViewModel
+    class ChartsViewModel : CommonSoundCloudTrackViewModel
     {
         Dictionary<string, string> GenresDictionary;
         Dictionary<string, string> KindsDictionary;
         public ObservableCollection<SoundCloudTrack> Tracks { get; set; } = new ObservableCollection<SoundCloudTrack>();
         public ObservableCollection<string> Genres { get; set; } = new ObservableCollection<string>();
-        public ObservableCollection<string> Kinds { get; set; } = new ObservableCollection<string>();
-        public ObservableCollection<PlaylistToDisplay> Playlists { get; set; } = new ObservableCollection<PlaylistToDisplay>();
-        DelegateCommand<PlaylistToDisplay> addTrackToPlaylistCommand;
-        public DelegateCommand<PlaylistToDisplay> AddTrackToPlaylistCommand => addTrackToPlaylistCommand ?? (addTrackToPlaylistCommand = new DelegateCommand<PlaylistToDisplay>(AddTrackToPlaylist));
-        DelegateCommand addTrackToLikesCommand;
-        public DelegateCommand AddTrackToLikesCommand => addTrackToLikesCommand ?? (addTrackToLikesCommand = new DelegateCommand(AddTrackToLikes));
-
-        public void AddTrackToLikes()
-        {
-            try
-            {
-                if (rightTappedTrack != null)
-                {
-                    LikeService.AddLike(new LikeToAdd() { UserID = App.User.id, TrackID = rightTappedTrack.id });
-                }
-            }
-            catch (Exception ex)
-            {
-                ShowErrorMessage(ex.Message);
-            }
-        }
-
-        DelegateCommand<SoundCloudTrack> soundCloudTrackRightTappedCommand;
-        public DelegateCommand<SoundCloudTrack> SoundCloudTrackRightTappedCommand => soundCloudTrackRightTappedCommand ?? (soundCloudTrackRightTappedCommand = new DelegateCommand<SoundCloudTrack>(TrackRightTapped));
-        SoundCloudTrack rightTappedTrack = null;
+        public ObservableCollection<string> Kinds { get; set; } = new ObservableCollection<string>();   
         private string _selectedGenre;
 
         public string SelectedGenre
@@ -76,26 +52,6 @@ namespace TraxxPlayer.UI.ViewModels
         public void ItemClicked(object sender, ItemClickEventArgs e)
         {
             App.PlaylistManager.PlaySingleTrack(e.ClickedItem as SoundCloudTrack);
-        }
-
-        public void AddTrackToPlaylist(PlaylistToDisplay playlistSelected)
-        {
-            try
-            {
-                if (rightTappedTrack != null && playlistSelected != null)
-                {
-                    PlaylistTrackService.AddPlaylistTrack(new PlaylistTrackToAdd() { PlaylistID = playlistSelected.id, TrackID = rightTappedTrack.id });
-                }
-            }
-            catch (Exception ex)
-            {
-                ShowErrorMessage(ex.Message);
-            }
-        }
-
-        public void TrackRightTapped(SoundCloudTrack track)
-        {
-            rightTappedTrack = track;
         }
 
         public async Task GetTracks()
@@ -135,10 +91,6 @@ namespace TraxxPlayer.UI.ViewModels
                 foreach (var k in KindsDictionary)
                 {
                     Kinds.Add(k.Value);
-                }
-                foreach (var p in PlaylistService.GetPlaylists(App.User.id))
-                {
-                    Playlists.Add(p);
                 }
                 SelectedGenre = Genres.FirstOrDefault();
                 SelectedKind = Kinds.FirstOrDefault();
