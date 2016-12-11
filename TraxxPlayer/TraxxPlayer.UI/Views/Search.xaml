@@ -18,7 +18,8 @@
         <vm:SearchViewModel x:Name="ViewModel" />
     </Page.DataContext>
     <Page.Resources>
-        <Converters:AutoSuggestBoxSuggestionChosenParameterConverter x:Key="ArgsConverter" />
+        <Converters:ItemClickSoundCloudTrackConverter x:Key="ItemClickSoundCloudTrackConverter" />
+        <Converters:AutoSuggestBoxSuggestionChosenParameterConverter x:Key="SuggestionChosenParameterConverter" />
         <DataTemplate x:Key="ImageOverlayTemplate"
                       x:DataType="data:SoundCloudTrack">
             <StackPanel x:Name="stkPanelTrack"
@@ -172,7 +173,7 @@
                 </core:EventTriggerBehavior>
                 <core:EventTriggerBehavior EventName="SuggestionChosen">
                     <core:InvokeCommandAction Command="{x:Bind ViewModel.SuggestionChosenCommand}"
-                                              InputConverter="{StaticResource ArgsConverter}" />
+                                              InputConverter="{StaticResource SuggestionChosenParameterConverter}" />
                 </core:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </AutoSuggestBox>
@@ -185,7 +186,13 @@
                   RelativePanel.Below="autoSuggestBoxUserName"
                   RelativePanel.AlignLeftWithPanel="True"
                   RelativePanel.AlignRightWithPanel="True"
-                  ItemClick="{x:Bind ViewModel.ItemClicked}"
-                  ItemsSource="{x:Bind ViewModel.Tracks, Mode=OneWay}" />
+                  ItemsSource="{x:Bind ViewModel.Tracks, Mode=OneWay}">
+            <i:Interaction.Behaviors>
+            <core:EventTriggerBehavior EventName="ItemClicked">
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.PlaySoundCloudTrackCommand}"
+                                              InputConverter="{StaticResource ItemClickSoundCloudTrackConverter}" />
+            </core:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </GridView>
     </RelativePanel>
 </Page>

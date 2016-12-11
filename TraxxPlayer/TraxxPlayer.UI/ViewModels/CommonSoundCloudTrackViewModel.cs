@@ -18,6 +18,14 @@ namespace TraxxPlayer.UI.ViewModels
         protected DelegateCommand<SoundCloudTrack> soundCloudTrackRightTappedCommand;
         public DelegateCommand<SoundCloudTrack> SoundCloudTrackRightTappedCommand => soundCloudTrackRightTappedCommand ?? (soundCloudTrackRightTappedCommand = new DelegateCommand<SoundCloudTrack>(TrackRightTapped));
         protected SoundCloudTrack rightTappedTrack = null;
+        protected DelegateCommand<SoundCloudTrack> playSoundCloudTrackCommand;
+        public DelegateCommand<SoundCloudTrack> PlaySoundCloudTrackCommand => playSoundCloudTrackCommand ?? (playSoundCloudTrackCommand = new DelegateCommand<SoundCloudTrack>(PlaySoundCloudTrack));
+
+        private void PlaySoundCloudTrack(SoundCloudTrack track)
+        {
+            App.PlaylistManager.PlaySingleTrack(track);
+        }
+
         public ObservableCollection<PlaylistToDisplay> Playlists { get; set; } = new ObservableCollection<PlaylistToDisplay>();
         protected DelegateCommand<PlaylistToDisplay> addTrackToPlaylistCommand;
         public DelegateCommand<PlaylistToDisplay> AddTrackToPlaylistCommand => addTrackToPlaylistCommand ?? (addTrackToPlaylistCommand = new DelegateCommand<PlaylistToDisplay>(AddTrackToPlaylist));

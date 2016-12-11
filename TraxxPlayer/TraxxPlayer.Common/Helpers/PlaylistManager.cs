@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using TraxxPlayer.Services;
 using TraxxPlayer.Services.Helpers;
 using TraxxPlayer.Common.Models;
+using Windows.Media.Playback;
+using System.Diagnostics;
 
 namespace TraxxPlayer.Common.Helpers
 {
@@ -100,7 +102,7 @@ namespace TraxxPlayer.Common.Helpers
                 for (int i = indexTo + 1; i <= indexFrom; ++i)
                 {
                     var movedTrack = PlaylistTrackService.GetPlaylistTrack(Playlist.id, Tracks[i].id);
-                    movedTrack.TrackOrder =i;
+                    movedTrack.TrackOrder = i;
                     PlaylistTrackService.ModifyPlaylistTrack(movedTrack);
                 }
             }
@@ -124,7 +126,6 @@ namespace TraxxPlayer.Common.Helpers
             Tracks.Remove(track);
             MessageService.SendMessageToBackground(new DeleteTrackFromPlaybackList(track));
         }
-
         private static string GetStreamUrlFromUri(string uri)
         {
             return uri + "/stream?client_id=" + SoundCloudConstants.SoundCloudClientId;
@@ -173,6 +174,8 @@ namespace TraxxPlayer.Common.Helpers
             MessageService.SendMessageToBackground(new UpdatePlaylistMessage(Tracks.ToList()));
         }
         // TODO: zamienic przyjmowany parametr na id i pobierac z soundcloudhelpera
+        // TODO: dodac add to playback list
+        // TODO: aktualizowac utwory w shell
         public void PlayPlaylistTrack(SoundCloudTrack track)
         {
             if (track == null)

@@ -14,6 +14,7 @@ namespace TraxxPlayer.Data
         public DbSet<Like> Likes { get; set; }
         public DbSet<Playlist> Playlists { get; set; }
         public DbSet<PlaylistTrack> PlaylistTracks { get; set; }
+        public DbSet<TrackHistory> TracksHistory { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

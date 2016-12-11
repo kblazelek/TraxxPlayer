@@ -64,10 +64,5 @@ namespace TraxxPlayer.UI.ViewModels
             this.textToSearch = suggestion;
             OnPropertyChanged(nameof(TextToSearch));
         }
-
-        public void ItemClicked(object sender, ItemClickEventArgs e)
-        {
-            App.PlaylistManager.PlaySingleTrack(e.ClickedItem as SoundCloudTrack);
-        }
     }
 }

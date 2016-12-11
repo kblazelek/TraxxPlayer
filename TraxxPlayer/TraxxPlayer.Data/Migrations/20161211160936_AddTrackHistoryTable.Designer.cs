@@ -8,9 +8,10 @@ using TraxxPlayer.Data;
 namespace TraxxPlayer.Data.Migrations
 {
     [DbContext(typeof(TraxxPlayerContext))]
-    partial class TraxxPlayerContextModelSnapshot : ModelSnapshot
+    [Migration("20161211160936_AddTrackHistoryTable")]
+    partial class AddTrackHistoryTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");

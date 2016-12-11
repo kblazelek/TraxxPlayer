@@ -23,8 +23,6 @@ namespace TraxxPlayer.UI.ViewModels
 {
     public class NowPlayingViewModel : CommonViewModel
     {
-        private bool isMyBackgroundTaskRunning = false;
-        private AutoResetEvent backgroundAudioTaskStarted;
         private ImageSource _albumImage;
         private ImageSource _playPauseImage;
         private string _songName;
@@ -83,46 +81,6 @@ namespace TraxxPlayer.UI.ViewModels
             AlbumImage = new BitmapImage(new Uri(@"ms-appx:///Assets/Albumart.png"));
         }
 
-        private bool IsMyBackgroundTaskRunning
-        {
-            get
-            {
-                if (isMyBackgroundTaskRunning)
-                    return true;
-
-                string value = ApplicationSettingsHelper.ReadResetSettingsValue(ApplicationSettingsConstants.BackgroundTaskState) as string;
-                if (value == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    try
-                    {
-                        isMyBackgroundTaskRunning = EnumHelper.Parse<BackgroundTaskState>(value) == BackgroundTaskState.Running;
-                    }
-                    catch (ArgumentException)
-                    {
-                        isMyBackgroundTaskRunning = false;
-                    }
-                    return isMyBackgroundTaskRunning;
-                }
-            }
-        }
-        private async void PlayLikes()
-        {
-            var likesTrackIDs = LikeService.GetLikes(App.User.id).Select(l => l.TrackID).ToList();
-            if (likesTrackIDs.Count > 0)
-            {
-                List<SoundCloudTrack> likedTracks = new List<SoundCloudTrack>();
-                foreach (var trackID in likesTrackIDs)
-                {
-                    var track = await SoundCloudHelper.GetSoundCloudTrack(trackID);
-                    likedTracks.Add(track);
-                }
-                App.PlaylistManager.PlayTracks(likedTracks);
-            }
-        }
         public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
             AlbumImage = new BitmapImage(new Uri(@"ms-appx:///Assets/Albumart.jpeg"));
@@ -146,7 +104,8 @@ namespace TraxxPlayer.UI.ViewModels
                 }
                 else if (MediaPlayerState.Closed == BackgroundMediaPlayer.Current.CurrentState)
                 {
-                    StartBackgroundAudioTask();
+                    PlayLikes();
+                    //StartBackgroundAudioTask();
                 }
             }
             // Dodac sprawdzanie czy jaest jakas muzyka do grania
@@ -168,22 +127,7 @@ namespace TraxxPlayer.UI.ViewModels
 
         }
 
-        private void StartBackgroundAudioTask()
-        {
-            var startResult = CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                bool result = backgroundAudioTaskStarted.WaitOne(10000);
-                //Send message to initiate playback
-                if (result == true)
-                {
-                    PlayPauseImage = new BitmapImage(new Uri("ms-appx:///Assets/Pause.png"));
-                }
-                else
-                {
-                    throw new Exception("Background Audio Task didn't start in expected time");
-                }
-            });
-        }
+
 
         private void AddMediaPlayerEventHandlers()
         {
