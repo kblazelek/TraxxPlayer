@@ -10,20 +10,16 @@ using Windows.UI.Xaml.Navigation;
 
 namespace TraxxPlayer.UI.ViewModels
 {
-    public class MainPageViewModel : CommonViewModel
+    public class MainPageViewModel : CommonSoundCloudTrackViewModel
     {
         public ObservableCollection<SoundCloudTrack> RecentlyPopularTracks { get; set; } = new ObservableCollection<SoundCloudTrack>();
-        public MainPageViewModel()
-        {
-            //var recentlyPopularTracks = TrackHistoryService.GetTracksHistory(App.User.id, 500).GroupBy(th => th.TrackID).Select(g => g.Count()).OrderByDescending();
-
-        }
-
+        public string HelloUserText { get; set; }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
         {
+            HelloUserText = $"Hello, {App.User.username}";
             var recentlyPopularTracks =
-            (from th in TrackHistoryService.GetTracksHistory(App.User.id, 500)
+            (from th in TrackHistoryService.GetTracksHistory(App.User.id, 250)
              group th by th.TrackID into g
              select new { TrackID = g.Key, TrackCount = g.Count() }).Take(5);
             foreach (var track in recentlyPopularTracks)

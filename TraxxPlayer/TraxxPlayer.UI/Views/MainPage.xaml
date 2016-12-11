@@ -11,7 +11,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:i="using:Microsoft.Xaml.Interactivity"
       xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-      xmlns:vm="using:TraxxPlayer.UI.ViewModels" mc:Ignorable="d">
+      xmlns:vm="using:TraxxPlayer.UI.ViewModels"
+      mc:Ignorable="d">
 
     <Page.DataContext>
         <vm:MainPageViewModel x:Name="ViewModel" />
@@ -112,7 +113,6 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!--  TODO: change properties for narrow view  -->
-                        <Setter Target="stateTextBox.Text" Value="Narrow Visual State" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateNormal">
@@ -121,7 +121,6 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!--  TODO: change properties for normal view  -->
-                        <Setter Target="stateTextBox.Text" Value="Normal Visual State" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateWide">
@@ -130,7 +129,6 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!--  TODO: change properties for wide view  -->
-                        <Setter Target="stateTextBox.Text" Value="Wide Visual State" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -143,20 +141,28 @@
                              Text="Home">
         </controls:PageHeader>
         <TextBlock x:Name="textBlockHelloUser"
-                   Text="Hello"
+                   Text="{x:Bind ViewModel.HelloUserText}"
                    Margin="10,10,10,10"
                    Style="{StaticResource TitleTextBlockStyle}"
                    Foreground="Gray"
                    RelativePanel.AlignLeftWithPanel="True"
                    RelativePanel.AlignRightWithPanel="True"
                    RelativePanel.Below="pageHeader" />
+        <TextBlock x:Name="textBlockRecentlyPopularTracks"
+                   Text="Your popular tracks:"
+                   Margin="10,10,10,10"
+                   Style="{StaticResource TitleTextBlockStyle}"
+                   Foreground="Gray"
+                   RelativePanel.AlignLeftWithPanel="True"
+                   RelativePanel.AlignRightWithPanel="True"
+                   RelativePanel.Below="textBlockHelloUser" />
         <GridView x:Name="grdTracks"
                   ItemTemplate="{StaticResource ImageOverlayTemplate }"
                   IsItemClickEnabled="True"
                   IsSwipeEnabled="False"
                   CanDragItems="False"
                   SelectionMode="None"
-                  RelativePanel.Below="textBlockHelloUser"
+                  RelativePanel.Below="textBlockRecentlyPopularTracks"
                   RelativePanel.AlignLeftWithPanel="True"
                   RelativePanel.AlignRightWithPanel="True"
                   ItemsSource="{x:Bind ViewModel.RecentlyPopularTracks, Mode=OneWay}">

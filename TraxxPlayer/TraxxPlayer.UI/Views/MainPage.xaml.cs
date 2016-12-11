@@ -7,7 +7,6 @@ namespace TraxxPlayer.UI.Views
         public MainPage()
         {
             InitializeComponent();
-            NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
         }
     }
 }
