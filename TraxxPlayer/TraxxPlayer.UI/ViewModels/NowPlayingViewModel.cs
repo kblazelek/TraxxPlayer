@@ -127,8 +127,6 @@ namespace TraxxPlayer.UI.ViewModels
 
         }
 
-
-
         private void AddMediaPlayerEventHandlers()
         {
             BackgroundMediaPlayer.MessageReceivedFromBackground += BackgroundMediaPlayer_MessageReceivedFromBackground;

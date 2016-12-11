@@ -122,7 +122,7 @@ namespace TraxxPlayer.BackgroundAudioTask
 
                 // save state
                 ApplicationSettingsHelper.SaveSettingsValue(ApplicationSettingsConstants.TrackId, GetCurrentTrackId() == null ? null : GetCurrentTrackId().ToString());
-                ApplicationSettingsHelper.SaveSettingsValue(ApplicationSettingsConstants.Position, BackgroundMediaPlayer.Current.Position.ToString());
+                //ApplicationSettingsHelper.SaveSettingsValue(ApplicationSettingsConstants.Position, BackgroundMediaPlayer.Current.Position.ToString());
                 ApplicationSettingsHelper.SaveSettingsValue(ApplicationSettingsConstants.BackgroundTaskState, BackgroundTaskState.Canceled.ToString());
                 ApplicationSettingsHelper.SaveSettingsValue(ApplicationSettingsConstants.AppState, Enum.GetName(typeof(AppState), foregroundAppState));
 
@@ -248,69 +248,73 @@ namespace TraxxPlayer.BackgroundAudioTask
         /// </summary>
         private void StartPlayback()
         {
+            //try
+            //{
+            //    // If playback was already started once we can just resume playing.
+            //    if (!playbackStartedPreviously)
+            //    {
+            //        playbackStartedPreviously = true;
+
+            //        // If the task was cancelled we would have saved the current track and its position. We will try playback from there.
+            //        //var currentTrackId = ApplicationSettingsHelper.ReadResetSettingsValue(ApplicationSettingsConstants.TrackId);
+            //        //var currentTrackPosition = ApplicationSettingsHelper.ReadResetSettingsValue(ApplicationSettingsConstants.Position);
+            //        if (currentTrackId != null)
+            //        {
+            //            // Find the index of the item by name
+            //            var index = playbackList.Items.ToList().FindIndex(item =>
+            //                GetTrackId(item).ToString() == (string)currentTrackId);
+
+            //            //if (currentTrackPosition == null)
+            //            //{
+            //                // Play from start if we dont have position
+            //                Debug.WriteLine("StartPlayback: Switching to track " + index);
+            //                playbackList.MoveTo((uint)index);
+
+            //                // Begin playing
+            //                BackgroundMediaPlayer.Current.Play();
+            //            //}
+            //            //else
+            //            //{
+            //            //    // Play from exact position otherwise
+            //            //    TypedEventHandler<MediaPlaybackList, CurrentMediaPlaybackItemChangedEventArgs> handler = null;
+            //            //    handler = (MediaPlaybackList list, CurrentMediaPlaybackItemChangedEventArgs args) =>
+            //            //    {
+            //            //        if (args.NewItem == playbackList.Items[index])
+            //            //        {
+            //            //            // Unsubscribe because this only had to run once for this item
+            //            //            playbackList.CurrentItemChanged -= handler;
+
+            //            //            // Set position
+            //            //            var position = TimeSpan.Parse((string)currentTrackPosition);
+            //            //            Debug.WriteLine("StartPlayback: Setting Position " + position);
+            //            //            BackgroundMediaPlayer.Current.Position = position;
+
+            //            //            // Begin playing
+            //            //            BackgroundMediaPlayer.Current.Play();
+            //            //        }
+            //            //    };
+            //            //    playbackList.CurrentItemChanged += handler;
+
+            //            //    // Switch to the track which will trigger an item changed event
+            //            //    Debug.WriteLine("StartPlayback: Switching to track " + index);
+            //            //    playbackList.MoveTo((uint)index);
+            //            //}
+            //        }
+            //        else
+            //        {
+            //            // Begin playing
+            //            BackgroundMediaPlayer.Current.Play();
+            //        }
+            //    }
+            //    else
+            //    {
+            //        // Begin playing
+            //        BackgroundMediaPlayer.Current.Play();
+            //    }
+            //}
             try
             {
-                // If playback was already started once we can just resume playing.
-                if (!playbackStartedPreviously)
-                {
-                    playbackStartedPreviously = true;
-
-                    // If the task was cancelled we would have saved the current track and its position. We will try playback from there.
-                    var currentTrackId = ApplicationSettingsHelper.ReadResetSettingsValue(ApplicationSettingsConstants.TrackId);
-                    var currentTrackPosition = ApplicationSettingsHelper.ReadResetSettingsValue(ApplicationSettingsConstants.Position);
-                    if (currentTrackId != null)
-                    {
-                        // Find the index of the item by name
-                        var index = playbackList.Items.ToList().FindIndex(item =>
-                            GetTrackId(item).ToString() == (string)currentTrackId);
-
-                        if (currentTrackPosition == null)
-                        {
-                            // Play from start if we dont have position
-                            Debug.WriteLine("StartPlayback: Switching to track " + index);
-                            playbackList.MoveTo((uint)index);
-
-                            // Begin playing
-                            BackgroundMediaPlayer.Current.Play();
-                        }
-                        else
-                        {
-                            // Play from exact position otherwise
-                            TypedEventHandler<MediaPlaybackList, CurrentMediaPlaybackItemChangedEventArgs> handler = null;
-                            handler = (MediaPlaybackList list, CurrentMediaPlaybackItemChangedEventArgs args) =>
-                            {
-                                if (args.NewItem == playbackList.Items[index])
-                                {
-                                    // Unsubscribe because this only had to run once for this item
-                                    playbackList.CurrentItemChanged -= handler;
-
-                                    // Set position
-                                    var position = TimeSpan.Parse((string)currentTrackPosition);
-                                    Debug.WriteLine("StartPlayback: Setting Position " + position);
-                                    BackgroundMediaPlayer.Current.Position = position;
-
-                                    // Begin playing
-                                    BackgroundMediaPlayer.Current.Play();
-                                }
-                            };
-                            playbackList.CurrentItemChanged += handler;
-
-                            // Switch to the track which will trigger an item changed event
-                            Debug.WriteLine("StartPlayback: Switching to track " + index);
-                            playbackList.MoveTo((uint)index);
-                        }
-                    }
-                    else
-                    {
-                        // Begin playing
-                        BackgroundMediaPlayer.Current.Play();
-                    }
-                }
-                else
-                {
-                    // Begin playing
-                    BackgroundMediaPlayer.Current.Play();
-                }
+                BackgroundMediaPlayer.Current.Play();
             }
             catch (Exception ex)
             {
