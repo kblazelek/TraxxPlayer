@@ -188,7 +188,7 @@
                   RelativePanel.AlignRightWithPanel="True"
                   ItemsSource="{x:Bind ViewModel.Tracks, Mode=OneWay}">
             <i:Interaction.Behaviors>
-            <core:EventTriggerBehavior EventName="ItemClicked">
+            <core:EventTriggerBehavior EventName="ItemClick">
                     <core:InvokeCommandAction Command="{x:Bind ViewModel.PlaySoundCloudTrackCommand}"
                                               InputConverter="{StaticResource ItemClickSoundCloudTrackConverter}" />
             </core:EventTriggerBehavior>

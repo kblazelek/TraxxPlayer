@@ -11,12 +11,14 @@
       xmlns:i="using:Microsoft.Xaml.Interactivity"
       xmlns:core="using:Microsoft.Xaml.Interactions.Core"
       xmlns:Behaviors="using:Template10.Behaviors"
+      xmlns:Converters="using:TraxxPlayer.UI.Converters"
       mc:Ignorable="d">
 
     <Page.DataContext>
         <vm:LikesViewModel x:Name="ViewModel" />
     </Page.DataContext>
     <Page.Resources>
+        <Converters:ItemClickSoundCloudTrackConverter x:Key="ItemClickSoundCloudTrackConverter" />
         <DataTemplate x:Key="ImageOverlayTemplate"
                       x:DataType="data:SoundCloudTrack">
             <StackPanel x:Name="stkPanelTrack"
@@ -149,8 +151,14 @@
                       IsSwipeEnabled="False"
                       CanDragItems="False"
                       SelectionMode="None"
-                      ItemClick="{x:Bind ViewModel.ItemClicked}"
-                      ItemsSource="{x:Bind ViewModel.Likes, Mode=OneWay}" />
+                      ItemsSource="{x:Bind ViewModel.Likes, Mode=OneWay}">
+                <i:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="ItemClick">
+                        <core:InvokeCommandAction Command="{x:Bind ViewModel.PlaySoundCloudTrackCommand}"
+                                                  InputConverter="{StaticResource ItemClickSoundCloudTrackConverter}" />
+                    </core:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </GridView>
         </Grid>
     </RelativePanel>
 </Page>

@@ -12,6 +12,7 @@
       xmlns:i="using:Microsoft.Xaml.Interactivity"
       xmlns:core="using:Microsoft.Xaml.Interactions.Core"
       xmlns:vm="using:TraxxPlayer.UI.ViewModels"
+      xmlns:Converters="using:TraxxPlayer.UI.Converters"
       mc:Ignorable="d">
 
     <Page.DataContext>
@@ -19,6 +20,7 @@
     </Page.DataContext>
 
     <Page.Resources>
+        <Converters:ItemClickSoundCloudTrackConverter x:Key="ItemClickSoundCloudTrackConverter" />
         <DataTemplate x:Key="ImageOverlayTemplate"
                       x:DataType="data:SoundCloudTrack">
             <StackPanel x:Name="stkPanelTrack"
@@ -166,12 +168,12 @@
                   RelativePanel.AlignLeftWithPanel="True"
                   RelativePanel.AlignRightWithPanel="True"
                   ItemsSource="{x:Bind ViewModel.RecentlyPopularTracks, Mode=OneWay}">
-            <!--<i:Interaction.Behaviors>
-                <core:EventTriggerBehavior EventName="ItemClicked">
+            <i:Interaction.Behaviors>
+                <core:EventTriggerBehavior EventName="ItemClick">
                     <core:InvokeCommandAction Command="{x:Bind ViewModel.PlaySoundCloudTrackCommand}"
                                               InputConverter="{StaticResource ItemClickSoundCloudTrackConverter}" />
                 </core:EventTriggerBehavior>
-            </i:Interaction.Behaviors>-->
+            </i:Interaction.Behaviors>
         </GridView>
     </RelativePanel>
 </Page>

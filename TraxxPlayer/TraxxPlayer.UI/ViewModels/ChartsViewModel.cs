@@ -49,11 +49,6 @@ namespace TraxxPlayer.UI.ViewModels
             }
         }
 
-        public void ItemClicked(object sender, ItemClickEventArgs e)
-        {
-            App.PlaylistManager.PlaySingleTrack(e.ClickedItem as SoundCloudTrack);
-        }
-
         public async Task GetTracks()
         {
             if (!String.IsNullOrEmpty(SelectedGenre) && !String.IsNullOrEmpty(SelectedKind))

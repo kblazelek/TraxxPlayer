@@ -44,11 +44,8 @@ namespace TraxxPlayer.UI.ViewModels
             {
                 if (App.PlaylistManager.Playlist != null)
                 {
-                    // TODO: Dodać zamianę kolejności
                     Debug.WriteLine($"ShellViewModel.DeleteTrackFromPlaylist: Deleting track {track.id} from playlist {App.PlaylistManager.Playlist.id}");
                     PlaylistTrackService.DeletePlaylistTrack(App.PlaylistManager.Playlist.id, track.id);
-                    // Poprawić, żeby przy usuwaniu nie odtwarzał na nowo
-                    //await App.PlaylistManager.PlayPlaylist(App.PlaylistManager.Playlist);
                     App.PlaylistManager.RemoveTrackFromCurrentPlaylist(track);
                 }
             }

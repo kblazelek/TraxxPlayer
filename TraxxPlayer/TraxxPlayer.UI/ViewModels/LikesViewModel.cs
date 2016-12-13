@@ -37,9 +37,5 @@ namespace TraxxPlayer.UI.ViewModels
                 ShowErrorMessage(ex.Message);
             }
         }
-        public void ItemClicked(object sender, ItemClickEventArgs e)
-        {
-            App.PlaylistManager.PlaySingleTrack(e.ClickedItem as SoundCloudTrack);
-        }
     }
 }
