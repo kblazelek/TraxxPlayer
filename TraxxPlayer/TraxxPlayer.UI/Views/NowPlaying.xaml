@@ -5,11 +5,16 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:vm="using:TraxxPlayer.UI.ViewModels"
+      xmlns:Converters="using:TraxxPlayer.UI.Converters"
       mc:Ignorable="d">
 
     <Page.DataContext>
         <vm:NowPlayingViewModel x:Name="ViewModel" />
     </Page.DataContext>
+    <Page.Resources>
+        <Converters:MillisecondsToSecondsConverter x:Key="MillisecondsToSecondsConverter" />
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Page.Resources>
     <Grid Background="#edf3fb">
         <!-- Adaptive triggers -->
         <VisualStateManager.VisualStateGroups>
@@ -222,8 +227,30 @@
                                 Stretch="Uniform" />
                     </Button>
                 </StackPanel>
-                <Slider Minimum="0"
-                        Value="{x:Bind ViewModel.CurrentPosition, Mode=TwoWay}" Maximum="{x:Bind ViewModel.TrackDuration, Mode=OneWay}"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{x:Bind ViewModel.CurrentPosition, Mode=OneWay,Converter={StaticResource MillisecondsToSecondsConverter}}"
+                               Grid.Column="0"
+                               Foreground="White"
+                               VerticalAlignment="Center"
+                               Visibility="{x:Bind ViewModel.MediaButtonsEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <Slider Minimum="0"
+                            Margin='10,0,10,0'
+                            IsHitTestVisible="{x:Bind ViewModel.MediaButtonsEnabled, Mode=OneWay}"
+                         IsThumbToolTipEnabled="False"
+                            Value="{x:Bind ViewModel.CurrentPosition, Mode=TwoWay}"
+                            Maximum="{x:Bind ViewModel.TrackDuration, Mode=OneWay}"
+                            Grid.Column="1" />
+                    <TextBlock Text="{x:Bind ViewModel.TrackDuration, Mode=OneWay, Converter={StaticResource MillisecondsToSecondsConverter}}"
+                               Grid.Column="2"
+                               Foreground="White"
+                               VerticalAlignment="Center"
+                               Visibility="{x:Bind ViewModel.MediaButtonsEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </Grid>
             </StackPanel>
         </Grid>
 

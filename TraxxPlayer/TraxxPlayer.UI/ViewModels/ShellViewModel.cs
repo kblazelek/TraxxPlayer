@@ -71,11 +71,15 @@ namespace TraxxPlayer.UI.ViewModels
             switch (e.Action)
             {
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
-                    lastRemovedTrack = (SoundCloudTrack)e.OldItems[0];
-                    lastRemovedTrackIndex = e.OldStartingIndex;
+                    // When track was really removed (not only being reordered) then don't store it's value.
+                    if (App.PlaylistManager.Tracks.Contains((SoundCloudTrack)e.OldItems[0]))
+                    {
+                        lastRemovedTrack = (SoundCloudTrack)e.OldItems[0];
+                        lastRemovedTrackIndex = e.OldStartingIndex;
+                    }
                     break;
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
-                    if(lastRemovedTrack == null)
+                    if (lastRemovedTrack == null)
                     {
                         return;
                     }
@@ -110,6 +114,13 @@ namespace TraxxPlayer.UI.ViewModels
             if (MessageService.TryParseMessage(e.Data, out backgroundAudioTaskStartedMessage))
             {
                 backgroundAudioTaskStarted.Set();
+                return;
+            }
+
+            PlaybackListEmptyMessage playbackListEmptyMessage;
+            if (MessageService.TryParseMessage(e.Data, out playbackListEmptyMessage))
+            {
+                App.PlaylistManager.StopPlayer();
                 return;
             }
         }

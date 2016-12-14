@@ -98,7 +98,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\AutoSuggestBoxSuggestionChosenParameterConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\ItemClickSoundCloudTrackConverter.cs" />
+    <Compile Include="Converters\MillisecondsToSecondsConverter.cs" />
     <Compile Include="ViewModels\AskForUserNameViewModel.cs" />
     <Compile Include="ViewModels\ChartsViewModel.cs" />
     <Compile Include="ViewModels\CommonSoundCloudTrackViewModel.cs" />

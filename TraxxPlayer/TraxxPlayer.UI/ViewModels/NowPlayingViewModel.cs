@@ -85,7 +85,7 @@ namespace TraxxPlayer.UI.ViewModels
             get { return currentPosition; }
             set
             {
-                if (currentPosition != value)
+                if (currentPosition != value && MediaButtonsEnabled)
                 {
                     currentPosition = value;
                     BackgroundMediaPlayer.Current.Position = TimeSpan.FromMilliseconds(value);
@@ -104,6 +104,9 @@ namespace TraxxPlayer.UI.ViewModels
         public NowPlayingViewModel()
         {
             AlbumImage = new BitmapImage(new Uri(@"ms-appx:///Assets/Albumart.png"));
+            CurrentPosition = 0;
+            MediaButtonsEnabled = false;
+            TrackDuration = 1;
         }
 
         private async Task StartUpdatingTimeline()
@@ -124,9 +127,10 @@ namespace TraxxPlayer.UI.ViewModels
 
         public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            StartUpdatingTimeline();
             AlbumImage = new BitmapImage(new Uri(@"ms-appx:///Assets/Albumart.jpeg"));
+            Debug.WriteLine("Setting MediaButtonsEnabled to false");
             MediaButtonsEnabled = false;
+            StartUpdatingTimeline();
             AddMediaPlayerEventHandlers();
             backgroundAudioTaskStarted = new AutoResetEvent(false);
 
@@ -160,6 +164,7 @@ namespace TraxxPlayer.UI.ViewModels
                 if (song != null)
                 {
                     LoadTrack(song);
+                    Debug.WriteLine("Setting MediaButtonsEnabled to true");
                     MediaButtonsEnabled = true;
                 }
             }
@@ -194,6 +199,7 @@ namespace TraxxPlayer.UI.ViewModels
                 {
                     await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
+                        Debug.WriteLine("Setting MediaButtonsEnabled to true from dispatcher");
                         MediaButtonsEnabled = true;
                     });
                 }
@@ -267,7 +273,7 @@ namespace TraxxPlayer.UI.ViewModels
 
         private Uri GetCurrentTrackId()
         {
-            object value = ApplicationSettingsHelper.ReadResetSettingsValue(ApplicationSettingsConstants.TrackId);
+            object value = ApplicationSettingsHelper.ReadSettingsValue(ApplicationSettingsConstants.TrackId);
             if (value != null)
                 return new Uri((String)value);
             else
@@ -280,7 +286,7 @@ namespace TraxxPlayer.UI.ViewModels
             try
             {
                 TrackDuration = currentTrack.duration;
-                currentPosition = 0;
+                currentPosition = BackgroundMediaPlayer.Current.Position.TotalMilliseconds;
                 OnPropertyChanged(nameof(CurrentPosition));
                 string albumartImage = "";
                 //Change album art
