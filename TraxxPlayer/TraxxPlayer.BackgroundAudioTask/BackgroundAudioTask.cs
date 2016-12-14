@@ -481,7 +481,7 @@ namespace TraxxPlayer.BackgroundAudioTask
                     playbackList.CurrentItemChanged -= PlaybackList_CurrentItemChanged;
                     playbackList = null;
                 }
-                
+
                 BackgroundMediaPlayer.Shutdown();
                 return;
             }

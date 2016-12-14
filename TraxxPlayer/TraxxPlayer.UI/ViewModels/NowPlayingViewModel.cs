@@ -69,6 +69,31 @@ namespace TraxxPlayer.UI.ViewModels
             }
         }
         private bool mediaButtonsEnabled = false;
+        private double trackDuration;
+        private volatile bool updateTimeline = false;
+
+        public double TrackDuration
+        {
+            get { return trackDuration; }
+            set { trackDuration = value; OnPropertyChanged(nameof(TrackDuration)); }
+        }
+
+        private double currentPosition;
+
+        public double CurrentPosition
+        {
+            get { return currentPosition; }
+            set
+            {
+                if (currentPosition != value)
+                {
+                    currentPosition = value;
+                    BackgroundMediaPlayer.Current.Position = TimeSpan.FromMilliseconds(value);
+                    OnPropertyChanged(nameof(CurrentPosition));
+                }
+            }
+        }
+
 
         public bool MediaButtonsEnabled
         {
@@ -81,8 +106,25 @@ namespace TraxxPlayer.UI.ViewModels
             AlbumImage = new BitmapImage(new Uri(@"ms-appx:///Assets/Albumart.png"));
         }
 
+        private async Task StartUpdatingTimeline()
+        {
+            updateTimeline = true;
+            while (updateTimeline)
+            {
+                currentPosition = BackgroundMediaPlayer.Current.Position.TotalMilliseconds;
+                OnPropertyChanged(nameof(CurrentPosition));
+                await Task.Delay(1000);
+            }
+        }
+
+        private void StopUpdatingTimeline()
+        {
+            updateTimeline = false;
+        }
+
         public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
+            StartUpdatingTimeline();
             AlbumImage = new BitmapImage(new Uri(@"ms-appx:///Assets/Albumart.jpeg"));
             MediaButtonsEnabled = false;
             AddMediaPlayerEventHandlers();
@@ -113,8 +155,6 @@ namespace TraxxPlayer.UI.ViewModels
             var trackId = GetCurrentTrackId();
             if (trackId != null)
             {
-                //TODO: Dodać obsługę playlisty zamiast likes
-                //var song = App.likes.Where(t => t.stream_url == trackId.ToString()).FirstOrDefault();
 
                 var song = App.PlaylistManager.Tracks.Where(t => t.stream_url == trackId.ToString()).FirstOrDefault();
                 if (song != null)
@@ -139,6 +179,7 @@ namespace TraxxPlayer.UI.ViewModels
         public override Task OnNavigatingFromAsync(NavigatingEventArgs args)
         {
             RemoveMediaPlayerEventHandlers();
+            StopUpdatingTimeline();
             return base.OnNavigatingFromAsync(args);
         }
 
@@ -238,6 +279,9 @@ namespace TraxxPlayer.UI.ViewModels
         {
             try
             {
+                TrackDuration = currentTrack.duration;
+                currentPosition = 0;
+                OnPropertyChanged(nameof(CurrentPosition));
                 string albumartImage = "";
                 //Change album art
                 if (currentTrack.artwork_url != null)

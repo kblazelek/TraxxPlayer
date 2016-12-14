@@ -187,41 +187,44 @@
                        Foreground="#9799a5"
                        Style="{StaticResource BodyTextBlockStyle}"
                        TextTrimming="WordEllipsis" />
-            <StackPanel Margin="0,350,0,0"
-                        x:Name="ControlContainer"
-                        Grid.Row="0"
-                        Orientation="Horizontal"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Center">
-                <Button x:Name="btnPrev"
-                        Background="Transparent"
-                        Height="80"
-                        Width="80"
-                        IsHitTestVisible="{x:Bind ViewModel.MediaButtonsEnabled, Mode=OneWay}"
-                        Click="{x:Bind ViewModel.PreviousButtonClicked}">
-                    <Image  Source="ms-appx:///Assets/Prev.png"
-                            Stretch="Uniform" />
-                </Button>
-                <Button x:Name="btnPlay"
-                        Background="Transparent"
-                        Height="120"
-                        Width="120"
-                        IsHitTestVisible="{x:Bind ViewModel.MediaButtonsEnabled, Mode=OneWay}"
-                        Click="{x:Bind ViewModel.PlayButtonClicked}">
-                    <Image Source="{x:Bind ViewModel.PlayPauseImage, Mode=OneWay}"
-                           Stretch="Uniform" />
-                </Button>
-                <Button x:Name="btnNext"
-                        Background="Transparent"
-                        Height="80"
-                        Width="80"
-                        IsHitTestVisible="{x:Bind ViewModel.MediaButtonsEnabled, Mode=OneWay}"
-                        Click="{x:Bind ViewModel.NextButtonClicked}">
-                    <Image  Source="ms-appx:///Assets/Next.png"
-                            Stretch="Uniform" />
-                </Button>
+            <StackPanel>
+                <StackPanel Margin="0,350,0,0"
+                            x:Name="ControlContainer"
+                            Grid.Row="0"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Center">
+                    <Button x:Name="btnPrev"
+                            Background="Transparent"
+                            Height="80"
+                            Width="80"
+                            IsHitTestVisible="{x:Bind ViewModel.MediaButtonsEnabled, Mode=OneWay}"
+                            Click="{x:Bind ViewModel.PreviousButtonClicked}">
+                        <Image  Source="ms-appx:///Assets/Prev.png"
+                                Stretch="Uniform" />
+                    </Button>
+                    <Button x:Name="btnPlay"
+                            Background="Transparent"
+                            Height="120"
+                            Width="120"
+                            IsHitTestVisible="{x:Bind ViewModel.MediaButtonsEnabled, Mode=OneWay}"
+                            Click="{x:Bind ViewModel.PlayButtonClicked}">
+                        <Image Source="{x:Bind ViewModel.PlayPauseImage, Mode=OneWay}"
+                               Stretch="Uniform" />
+                    </Button>
+                    <Button x:Name="btnNext"
+                            Background="Transparent"
+                            Height="80"
+                            Width="80"
+                            IsHitTestVisible="{x:Bind ViewModel.MediaButtonsEnabled, Mode=OneWay}"
+                            Click="{x:Bind ViewModel.NextButtonClicked}">
+                        <Image  Source="ms-appx:///Assets/Next.png"
+                                Stretch="Uniform" />
+                    </Button>
+                </StackPanel>
+                <Slider Minimum="0"
+                        Value="{x:Bind ViewModel.CurrentPosition, Mode=TwoWay}" Maximum="{x:Bind ViewModel.TrackDuration, Mode=OneWay}"/>
             </StackPanel>
-
         </Grid>
 
 
