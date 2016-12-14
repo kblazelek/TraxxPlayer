@@ -61,8 +61,12 @@ namespace TraxxPlayer.UI.ViewModels
 
         public void SuggestionChosen(string suggestion)
         {
-            this.textToSearch = suggestion;
-            OnPropertyChanged(nameof(TextToSearch));
+            if (textToSearch != suggestion)
+            {
+                textToSearch = suggestion;
+                OnPropertyChanged(nameof(TextToSearch));
+                SearchTracks();
+            }
         }
     }
 }

@@ -24,7 +24,8 @@
                            Width="190"
                            Margin="4,4,4,8">
                 <RelativePanel.Background>
-                    <ImageBrush ImageSource="ms-appx:///Assets/Albumart.jpeg" />
+                    <ImageBrush ImageSource="ms-appx:///Assets/Albumart.jpeg"
+                                Opacity="0.3" />
                 </RelativePanel.Background>
                 <Interactivity:Interaction.Behaviors>
                     <Interactions:EventTriggerBehavior EventName="PointerEntered">
@@ -45,6 +46,7 @@
                 </Interactivity:Interaction.Behaviors>
                 <TextBlock x:Name="txtBoxName"
                            Text="{x:Bind Name}"
+                           FontWeight="Bold"
                            RelativePanel.AlignTopWithPanel="True"
                            RelativePanel.AlignHorizontalCenterWithPanel="True"
                            Margin="8,4"
