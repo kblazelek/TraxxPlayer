@@ -119,8 +119,13 @@
     <Compile Include="Migrations\20161211160936_AddTrackHistoryTable.designer.cs">
       <DependentUpon>20161211160936_AddTrackHistoryTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20161215144436_AddedLogsTable.cs" />
+    <Compile Include="Migrations\20161215144436_AddedLogsTable.designer.cs">
+      <DependentUpon>20161215144436_AddedLogsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\TraxxPlayerContextModelSnapshot.cs" />
     <Compile Include="Models\Like.cs" />
+    <Compile Include="Models\Log.cs" />
     <Compile Include="Models\Playlist.cs" />
     <Compile Include="Models\PlaylistTrack.cs" />
     <Compile Include="Models\TrackHistory.cs" />

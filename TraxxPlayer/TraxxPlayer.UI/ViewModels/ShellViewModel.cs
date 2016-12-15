@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Template10.Mvvm;
 using Template10.Services.NavigationService;
 using TraxxPlayer.Common.Enums_and_constants;
+using TraxxPlayer.Common.Helpers;
 using TraxxPlayer.Common.Messages;
 using TraxxPlayer.Common.Models;
 using TraxxPlayer.Services;
@@ -102,6 +103,7 @@ namespace TraxxPlayer.UI.ViewModels
             TrackChangedMessage trackChangedMessage;
             if (MessageService.TryParseMessage(e.Data, out trackChangedMessage))
             {
+                Logger.LogInfo(this, App.User.id, "Received TrackChangedMessage from Background");
                 Debug.WriteLine("ShellViewModel.BackgroundMediaPlayer_MessageReceivedFromBackground: Received TrackChangedMessage from Background");
                 var track = GetTrackFromStreamURL(trackChangedMessage.TrackId.ToString());
                 if (track != null)

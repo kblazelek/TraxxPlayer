@@ -117,6 +117,7 @@
     <Compile Include="Enums and constants\ApplicationSettingsConstants.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\JsonHelper.cs" />
+    <Compile Include="Helpers\Logger.cs" />
     <Compile Include="Helpers\PlaylistManager.cs" />
     <Compile Include="Helpers\SoundCloudHelper.cs" />
     <Compile Include="Messages\DeleteTrackFromPlaybackList.cs" />

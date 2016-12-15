@@ -107,6 +107,9 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\LogMessageType.cs" />
+    <Compile Include="Helpers\LogToAdd.cs" />
+    <Compile Include="Helpers\LogToDisplay.cs" />
     <Compile Include="Helpers\TrackHistoryToDisplay.cs" />
     <Compile Include="Helpers\TrackHistoryToAdd.cs" />
     <Compile Include="Helpers\LikeToAdd.cs" />
@@ -116,6 +119,7 @@
     <Compile Include="Helpers\PlaylistTrackToAdd.cs" />
     <Compile Include="Helpers\PlaylistTrackToDisplay.cs" />
     <Compile Include="Helpers\UserToAddAndDisplay.cs" />
+    <Compile Include="LogService.cs" />
     <Compile Include="TrackHistoryService.cs" />
     <Compile Include="LikeService.cs" />
     <Compile Include="PlaylistService.cs" />
