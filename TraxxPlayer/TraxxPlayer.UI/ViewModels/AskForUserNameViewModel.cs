@@ -4,25 +4,20 @@ using System.Linq;
 using TraxxPlayer.Common.Helpers;
 using TraxxPlayer.Services;
 using TraxxPlayer.Services.Helpers;
-using Windows.UI.Popups;
-using Windows.UI.Xaml.Input;
 
 namespace TraxxPlayer.UI.ViewModels
 {
     public class AskForUserNameViewModel : CommonViewModel
     {
         private string _userName;
+        private bool? isDefault;
         private ObservableCollection<string> previousUsers { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<string> PreviousUsersQuery { get; set; } = new ObservableCollection<string>();
-        private bool? isDefault;
-
         public bool? IsDefault
         {
             get { return isDefault; }
             set { isDefault = value; OnPropertyChanged(nameof(IsDefault)); }
         }
-
-
         public string UserName
         {
             get { return _userName; }
@@ -50,46 +45,41 @@ namespace TraxxPlayer.UI.ViewModels
             }
         }
 
-        public void AddUser()
+        public void AddUserOrLogIn()
         {
-            UserToAddAndDisplay tempUser = null;
-            if (!UserService.UserExist(UserName))
+            try
             {
-                if (IsDefault == true)
+                UserToAddAndDisplay tempUser = null;
+                if (!UserService.UserExist(UserName)) // If new user
                 {
-                    var defaultUser = UserService.GetDefaultUser();
-                    if (defaultUser != null)
+                    UserService.AddUser(new UserToAddAndDisplay()
                     {
-                        UserService.RemoveDefaultUser(defaultUser.id);
+                        username = UserName,
+                        isDefault = (bool)IsDefault
+                    });
+                    Logger.LogInfo(this, App.User, $"Added user {App.User.username} (ID: {App.User.id})");
+                    App.User = tempUser;
+                    Logger.LogInfo(this, App.User, $"Logged in as user {App.User.username} (ID: {App.User.id})");
+
+                }
+                else // If user exists
+                {
+                    tempUser = UserService.GetUser(UserName);
+                    if (tempUser.isDefault != IsDefault)
+                    {
+                        tempUser.isDefault = (bool)IsDefault;
+                        UserService.ModifyUser(tempUser);
+                        Logger.LogInfo(this, App.User, $"Modified user {App.User.username} (ID: {App.User.id})");
                     }
-                    tempUser = new UserToAddAndDisplay()
-                    {
-                        username = UserName,
-                        isDefault = true
-                    };
+                    App.User = tempUser;
+                    Logger.LogInfo(this, App.User, $"Logged in as user {App.User.username} (ID: {App.User.id})");
                 }
-                else
-                {
-                    tempUser = new UserToAddAndDisplay()
-                    {
-                        username = UserName,
-                        isDefault = false
-                    };
-                }
-                UserService.AddUser(tempUser);
-                App.User = tempUser;
                 NavigationService.Navigate(typeof(Views.NowPlaying));
             }
-            else
+            catch(Exception ex)
             {
-                tempUser = UserService.GetUser(UserName);
-                if (tempUser.isDefault != IsDefault)
-                {
-                    tempUser.isDefault = (bool)IsDefault;
-                    UserService.ModifyUser(tempUser);
-                }
-                App.User = tempUser;
-                NavigationService.Navigate(typeof(Views.NowPlaying));
+                Logger.LogError(this, App.User, ex.Message);
+                ShowErrorMessage("There was and error during loggin in / adding user.");
             }
         }
     }

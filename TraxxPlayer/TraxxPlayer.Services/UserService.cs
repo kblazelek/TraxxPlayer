@@ -93,29 +93,31 @@ namespace TraxxPlayer.Services
 
         public static void AddUser(UserToAddAndDisplay user)
         {
-            if (user != null)
+            if (user == null)
             {
-                using (var db = new TraxxPlayerContext())
+                throw new Exception("User cannot be null. Add user failed");
+            }
+            if (!UserExist(user.id))
+            {
+                throw new Exception("User with provided id already exists. Add failed");
+            }
+            using (var db = new TraxxPlayerContext())
+            {
+                if(user.isDefault)
                 {
-                    if (!UserExist(user.id))
+                    var currentDefaultUser = GetDefaultUser();
+                    if(currentDefaultUser != null)
                     {
-                        db.Users.Add(new User()
-                        {
-                            id = user.id,
-                            username = user.username,
-                            isDefault = user.isDefault
-                        });
-                        db.SaveChanges();
-                    }
-                    else
-                    {
-                        throw new Exception("User with provided id already exists. Add failed");
+                        currentDefaultUser.isDefault = false;
                     }
                 }
-            }
-            else
-            {
-                throw new Exception("User cannot be null. Add failed");
+                db.Users.Add(new User()
+                {
+                    id = user.id,
+                    username = user.username,
+                    isDefault = user.isDefault
+                });
+                db.SaveChanges();
             }
         }
 

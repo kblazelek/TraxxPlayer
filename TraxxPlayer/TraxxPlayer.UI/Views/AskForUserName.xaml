@@ -89,7 +89,7 @@
             <i:Interaction.Behaviors>
                 <!--  enable submit on enter key  -->
                 <Behaviors:KeyBehavior Key="Enter">
-                    <core:CallMethodAction MethodName="AddUser"
+                    <core:CallMethodAction MethodName="AddUserOrLogIn"
                                            TargetObject="{Binding}" />
                 </Behaviors:KeyBehavior>
                 <!--  focus on textbox when page loads  -->
@@ -106,7 +106,7 @@
         <Button x:Name="btnAddUser"
                 Margin="10,10,10,10"
                 Content="OK"
-                Click="{x:Bind ViewModel.AddUser}"
+                Click="{x:Bind ViewModel.AddUserOrLogIn}"
                 RelativePanel.Below="checkBoxIsDefault"
                 RelativePanel.AlignLeftWithPanel="True"
                 RelativePanel.AlignRightWithPanel="True"
