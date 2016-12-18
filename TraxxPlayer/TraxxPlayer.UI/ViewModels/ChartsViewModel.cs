@@ -1,17 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Template10.Mvvm;
-using TraxxPlayer.Common.Enums_and_constants;
 using TraxxPlayer.Common.Helpers;
 using TraxxPlayer.Common.Models;
-using TraxxPlayer.Services;
-using TraxxPlayer.Services.Helpers;
-using Windows.UI.Popups;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace TraxxPlayer.UI.ViewModels
@@ -62,8 +55,8 @@ namespace TraxxPlayer.UI.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    MessageDialog showMessgae = new MessageDialog("Something went wrong. Please try again. Error Details : " + ex.Message);
-                    await showMessgae.ShowAsync();
+                    Logger.LogError(this, App.User, ex.Message);
+                    ShowErrorMessage("There was and error during fetching tracks from SoundCloud.");
                 }
             }
         }
@@ -92,7 +85,7 @@ namespace TraxxPlayer.UI.ViewModels
             catch (Exception ex)
             {
                 Logger.LogError(this, App.User, ex.Message);
-                ShowErrorMessage(ex.Message);
+                ShowErrorMessage("There was and error during fetching tracks from SoundCloud.");
             }
         }
     }
