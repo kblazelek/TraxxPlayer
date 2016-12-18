@@ -20,11 +20,11 @@ namespace TraxxPlayer.Services
                 db.Database.Migrate();
             }
         }
-        public static IEnumerable<UserToAddAndDisplay> GetUsers()
+        public static IEnumerable<UserToDisplay> GetUsers()
         {
             using (var db = new TraxxPlayerContext())
             {
-                return db.Users.Select(user => new UserToAddAndDisplay()
+                return db.Users.Select(user => new UserToDisplay()
                 {
                     id = user.id,
                     username = user.username,
@@ -49,14 +49,14 @@ namespace TraxxPlayer.Services
             }
         }
 
-        public static UserToAddAndDisplay GetUser(int id)
+        public static UserToDisplay GetUser(int id)
         {
             using (var db = new TraxxPlayerContext())
             {
                 var user = db.Users.Where(u => u.id == id).FirstOrDefault();
                 if (user != null)
                 {
-                    return new UserToAddAndDisplay()
+                    return new UserToDisplay()
                     {
                         id = user.id,
                         username = user.username,
@@ -70,14 +70,14 @@ namespace TraxxPlayer.Services
             }
         }
 
-        public static UserToAddAndDisplay GetUser(string userName)
+        public static UserToDisplay GetUser(string userName)
         {
             using (var db = new TraxxPlayerContext())
             {
                 var user = db.Users.Where(u => u.username == userName).FirstOrDefault();
                 if (user != null)
                 {
-                    return new UserToAddAndDisplay()
+                    return new UserToDisplay()
                     {
                         id = user.id,
                         username = user.username,
@@ -91,15 +91,15 @@ namespace TraxxPlayer.Services
             }
         }
 
-        public static void AddUser(UserToAddAndDisplay user)
+        public static void AddUser(UserToAdd user)
         {
             if (user == null)
             {
                 throw new Exception("User cannot be null. Add user failed");
             }
-            if (!UserExist(user.id))
+            if (UserExist(user.username))
             {
-                throw new Exception("User with provided id already exists. Add failed");
+                throw new Exception("User with provided user name already exists. Add failed");
             }
             using (var db = new TraxxPlayerContext())
             {
@@ -113,7 +113,6 @@ namespace TraxxPlayer.Services
                 }
                 db.Users.Add(new User()
                 {
-                    id = user.id,
                     username = user.username,
                     isDefault = user.isDefault
                 });
@@ -138,7 +137,7 @@ namespace TraxxPlayer.Services
             }
         }
 
-        public static void ModifyUser(UserToAddAndDisplay user)
+        public static void ModifyUser(UserToDisplay user)
         {
             if (user != null)
             {
@@ -202,14 +201,14 @@ namespace TraxxPlayer.Services
             }
         }
 
-        public static UserToAddAndDisplay GetDefaultUser()
+        public static UserToDisplay GetDefaultUser()
         {
             using (var db = new TraxxPlayerContext())
             {
                 var defaultUser = db.Users.Where(u => u.isDefault == true).FirstOrDefault();
                 if (defaultUser != null)
                 {
-                    return new UserToAddAndDisplay()
+                    return new UserToDisplay()
                     {
                         id = defaultUser.id,
                         isDefault = defaultUser.isDefault,

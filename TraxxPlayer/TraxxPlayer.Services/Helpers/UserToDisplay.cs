@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TraxxPlayer.Services.Helpers
 {
-    public class UserToAddAndDisplay
+    public class UserToDisplay
     {
         public int id { get; set; }
         public string username { get; set; }

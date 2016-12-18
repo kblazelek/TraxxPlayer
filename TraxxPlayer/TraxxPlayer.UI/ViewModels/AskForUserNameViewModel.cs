@@ -49,14 +49,15 @@ namespace TraxxPlayer.UI.ViewModels
         {
             try
             {
-                UserToAddAndDisplay tempUser = null;
+                UserToDisplay tempUser = null;
                 if (!UserService.UserExist(UserName)) // If new user
                 {
-                    UserService.AddUser(new UserToAddAndDisplay()
+                    UserService.AddUser(new UserToAdd()
                     {
                         username = UserName,
                         isDefault = (bool)IsDefault
                     });
+                    tempUser = UserService.GetUser(UserName);
                     Logger.LogInfo(this, App.User, $"Added user {App.User.username} (ID: {App.User.id})");
                     App.User = tempUser;
                     Logger.LogInfo(this, App.User, $"Logged in as user {App.User.username} (ID: {App.User.id})");

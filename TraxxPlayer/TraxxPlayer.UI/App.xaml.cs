@@ -30,7 +30,7 @@ namespace TraxxPlayer.UI
         }
         public static List<SoundCloudTrack> likes = new List<SoundCloudTrack>();
         public static int nowplayingTrackId = 0;
-        public static UserToAddAndDisplay User { get; set; }
+        public static UserToDisplay User { get; set; }
         public App()
         {
             InitializeComponent();
@@ -65,7 +65,7 @@ namespace TraxxPlayer.UI
 
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
         {
-            UserToAddAndDisplay defaultUser = null;
+            UserToDisplay defaultUser = null;
             try
             {
                  UserService.MigrateDatabase();

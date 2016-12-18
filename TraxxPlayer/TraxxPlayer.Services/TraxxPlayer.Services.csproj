@@ -118,7 +118,8 @@
     <Compile Include="Helpers\PlaylistToDisplay.cs" />
     <Compile Include="Helpers\PlaylistTrackToAdd.cs" />
     <Compile Include="Helpers\PlaylistTrackToDisplay.cs" />
-    <Compile Include="Helpers\UserToAddAndDisplay.cs" />
+    <Compile Include="Helpers\UserToAdd.cs" />
+    <Compile Include="Helpers\UserToDisplay.cs" />
     <Compile Include="LogService.cs" />
     <Compile Include="TrackHistoryService.cs" />
     <Compile Include="LikeService.cs" />
