@@ -35,7 +35,7 @@ namespace TraxxPlayer.UI.ViewModels
             {
                 if (rightTappedTrack != null)
                 {
-                    LikeService.AddLike(new LikeToAdd() { UserID = App.User.id, TrackID = rightTappedTrack.id });
+                    LikeService.AddLike(new LikeToAdd() { UserID = App.User.id, TrackID = (int)rightTappedTrack.id });
                 }
             }
             catch (Exception ex)
@@ -49,7 +49,7 @@ namespace TraxxPlayer.UI.ViewModels
             {
                 if (rightTappedTrack != null && playlistSelected != null)
                 {
-                    PlaylistTrackService.AddPlaylistTrack(new PlaylistTrackToAdd() { PlaylistID = playlistSelected.id, TrackID = rightTappedTrack.id });
+                    PlaylistTrackService.AddPlaylistTrack(new PlaylistTrackToAdd() { PlaylistID = playlistSelected.id, TrackID = (int)rightTappedTrack.id });
                 }
             }
             catch (Exception ex)

@@ -285,7 +285,7 @@ namespace TraxxPlayer.UI.ViewModels
         {
             try
             {
-                TrackDuration = currentTrack.duration;
+                TrackDuration = currentTrack.duration != null ? (int)currentTrack.duration : 0;
                 currentPosition = BackgroundMediaPlayer.Current.Position.TotalMilliseconds;
                 OnPropertyChanged(nameof(CurrentPosition));
                 string albumartImage = "";

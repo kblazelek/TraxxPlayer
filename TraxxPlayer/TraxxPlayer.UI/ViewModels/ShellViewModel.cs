@@ -46,7 +46,7 @@ namespace TraxxPlayer.UI.ViewModels
                 if (App.PlaylistManager.Playlist != null)
                 {
                     Debug.WriteLine($"ShellViewModel.DeleteTrackFromPlaylist: Deleting track {track.id} from playlist {App.PlaylistManager.Playlist.id}");
-                    PlaylistTrackService.DeletePlaylistTrack(App.PlaylistManager.Playlist.id, track.id);
+                    PlaylistTrackService.DeletePlaylistTrack(App.PlaylistManager.Playlist.id, (int)track.id);
                     App.PlaylistManager.RemoveTrackFromCurrentPlaylist(track);
                 }
             }
@@ -108,7 +108,7 @@ namespace TraxxPlayer.UI.ViewModels
                 var track = GetTrackFromStreamURL(trackChangedMessage.TrackId.ToString());
                 if (track != null)
                 {
-                    TrackHistoryService.AddTrackHistory(new TrackHistoryToAdd() { UserID = App.User.id, TrackID = track.id });
+                    TrackHistoryService.AddTrackHistory(new TrackHistoryToAdd() { UserID = App.User.id, TrackID = (int)track.id });
                 }
             }
 

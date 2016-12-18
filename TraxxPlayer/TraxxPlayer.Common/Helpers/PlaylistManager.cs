@@ -63,7 +63,7 @@ namespace TraxxPlayer.Common.Helpers
                 }
                 for (int i = 0; i < Tracks.Count; ++i)
                 {
-                    var movedTrack = PlaylistTrackService.GetPlaylistTrack(Playlist.id, Tracks[i].id);
+                    var movedTrack = PlaylistTrackService.GetPlaylistTrack(Playlist.id, (int)Tracks[i].id);
                     movedTrack.TrackOrder = i;
                     PlaylistTrackService.ModifyPlaylistTrack(movedTrack);
                 }
@@ -85,14 +85,14 @@ namespace TraxxPlayer.Common.Helpers
             {
                 throw new Exception($"There is no track with id {track.id} in current playlist. Reorder tracks from current playlist failed.");
             }
-            var movedPlaylistTrack = PlaylistTrackService.GetPlaylistTrack(Playlist.id, track.id);
+            var movedPlaylistTrack = PlaylistTrackService.GetPlaylistTrack(Playlist.id, (int)track.id);
             movedPlaylistTrack.TrackOrder = indexTo;
             PlaylistTrackService.ModifyPlaylistTrack(movedPlaylistTrack);
             if (indexTo - indexFrom > 0)
             {
                 for (int i = indexFrom; i < indexTo; ++i)
                 {
-                    var movedTrack = PlaylistTrackService.GetPlaylistTrack(Playlist.id, Tracks[i].id);
+                    var movedTrack = PlaylistTrackService.GetPlaylistTrack(Playlist.id, (int)Tracks[i].id);
                     movedTrack.TrackOrder = i;
                     PlaylistTrackService.ModifyPlaylistTrack(movedTrack);
                 }
@@ -101,7 +101,7 @@ namespace TraxxPlayer.Common.Helpers
             {
                 for (int i = indexTo + 1; i <= indexFrom; ++i)
                 {
-                    var movedTrack = PlaylistTrackService.GetPlaylistTrack(Playlist.id, Tracks[i].id);
+                    var movedTrack = PlaylistTrackService.GetPlaylistTrack(Playlist.id, (int)Tracks[i].id);
                     movedTrack.TrackOrder = i;
                     PlaylistTrackService.ModifyPlaylistTrack(movedTrack);
                 }
