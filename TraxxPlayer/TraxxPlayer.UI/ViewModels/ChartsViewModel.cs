@@ -24,7 +24,6 @@ namespace TraxxPlayer.UI.ViewModels
         public ObservableCollection<string> Genres { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<string> Kinds { get; set; } = new ObservableCollection<string>();   
         private string _selectedGenre;
-
         public string SelectedGenre
         {
             get { return _selectedGenre; }
@@ -35,7 +34,6 @@ namespace TraxxPlayer.UI.ViewModels
                 OnPropertyChanged(nameof(SelectedGenre));
             }
         }
-
         private string _selectedKind;
 
         public string SelectedKind
@@ -55,10 +53,8 @@ namespace TraxxPlayer.UI.ViewModels
             {
                 try
                 {
-                    string responseText = await JsonHelper.GetjsonStream(@"https://api-v2.soundcloud.com/" + "charts?kind=" + KindsDictionary.FirstOrDefault(x => x.Value == SelectedKind).Key + "&genre=soundcloud%3Agenres%3A" + GenresDictionary.FirstOrDefault(x => x.Value == SelectedGenre).Key + "&client_id=" + SoundCloudConstants.SoundCloudClientId + "&limit=50&linked_partitioning=1");
-                    SoundCloudChart chart = JsonConvert.DeserializeObject<SoundCloudChart>(responseText);
                     Tracks.Clear();
-                    var tempTracks = chart.collection.Select(ts => ts.track);
+                    var tempTracks = await SoundCloudHelper.GetTracksByKindAndGenre(KindsDictionary.FirstOrDefault(x => x.Value == SelectedKind).Key, GenresDictionary.FirstOrDefault(x => x.Value == SelectedGenre).Key);
                     foreach (var track in tempTracks)
                     {
                         Tracks.Add(track);
@@ -77,6 +73,7 @@ namespace TraxxPlayer.UI.ViewModels
         {
             try
             {
+                // Fill Genres and Kinds dictionaries
                 GenresDictionary = await SoundCloudHelper.GetGenres();
                 KindsDictionary = await SoundCloudHelper.GetKinds();
                 foreach (var g in GenresDictionary)
@@ -87,15 +84,15 @@ namespace TraxxPlayer.UI.ViewModels
                 {
                     Kinds.Add(k.Value);
                 }
+                // Select first Genre and Kind
                 SelectedGenre = Genres.FirstOrDefault();
                 SelectedKind = Kinds.FirstOrDefault();
                 await base.OnNavigatedToAsync(parameter, mode, state);
-
             }
             catch (Exception ex)
             {
-                MessageDialog showMessgae = new MessageDialog("Something went wrong. Please try again. Error Details : " + ex.Message);
-                await showMessgae.ShowAsync();
+                Logger.LogError(this, App.User, ex.Message);
+                ShowErrorMessage(ex.Message);
             }
         }
     }

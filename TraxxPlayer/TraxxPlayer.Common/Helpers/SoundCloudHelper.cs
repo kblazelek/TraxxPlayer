@@ -15,11 +15,10 @@ namespace TraxxPlayer.Common.Helpers
 {
     public static class SoundCloudHelper
     {
-        public static ObservableCollection<SoundCloudTrack> GetChartTracks()
-        {
-            return null;
-        }
-
+        /// <summary>
+        /// Gets dictionary of available genres on SoundCloud
+        /// </summary>
+        /// <returns>Dictionary of genres</returns>
         public async static Task<Dictionary<string, string>> GetGenres()
         {
             Dictionary<string, string> Genres = new Dictionary<string, string>();
@@ -58,7 +57,10 @@ namespace TraxxPlayer.Common.Helpers
             }
             return Genres;
         }
-
+        /// <summary>
+        /// Gets dictionary of available kinds on SoundCloud
+        /// </summary>
+        /// <returns>Dictionary of kinds</returns>
         public async static Task<Dictionary<string, string>> GetKinds()
         {
             Dictionary<string, string> Kinds = new Dictionary<string, string>();
@@ -98,6 +100,12 @@ namespace TraxxPlayer.Common.Helpers
             return Kinds;
         }
 
+        /// <summary>
+        /// Returns soundcloud tracks that match query specified by "query" parameter
+        /// </summary>
+        /// <param name="query">Query that returned tracks should match</param>
+        /// <param name="maxResults">Maximum number of tracks returned</param>
+        /// <returns>List of SoundCloud tracks</returns>
         public async static Task<List<SoundCloudTrack>> SearchTracks(string query, int maxResults)
         {
             List<SoundCloudTrack> searchedTracks = new List<SoundCloudTrack>();
@@ -110,6 +118,24 @@ namespace TraxxPlayer.Common.Helpers
             Task<List<SoundCloudTrack>> task = Task.Run(() =>
             {
                 return searchedTracks.Select(t => { t.stream_url += "?client_id=" + SoundCloudConstants.SoundCloudClientId; return t; }).ToList();
+            });
+            return task.Result;
+        }
+
+        /// <summary>
+        /// Gets SoundCloud tracks based on kind and genre specified
+        /// </summary>
+        /// <param name="kind">Music kind</param>
+        /// <param name="genre">Music genre</param>
+        /// <returns>List of SoundCloud tracks that match kind and genre specified</returns>
+        public async static Task<List<SoundCloudTrack>> GetTracksByKindAndGenre(string kind, string genre)
+        {
+            string responseText = await JsonHelper.GetjsonStream(@"https://api-v2.soundcloud.com/" + "charts?kind=" + kind + "&genre=soundcloud%3Agenres%3A" + genre + "&client_id=" + SoundCloudConstants.SoundCloudClientId + "&limit=50&linked_partitioning=1");
+            SoundCloudChart chart = JsonConvert.DeserializeObject<SoundCloudChart>(responseText);
+            var tempTracks = chart.collection.Select(ts => ts.track);
+            Task<List<SoundCloudTrack>> task = Task.Run(() =>
+            {
+                return chart.collection.Select(ts => ts.track).ToList();
             });
             return task.Result;
         }
