@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -17,17 +18,25 @@ namespace TraxxPlayer.UI.ViewModels
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
         {
-            HelloUserText = $"Hello, {App.User.username}";
-            var recentlyPopularTracks =
-            (from th in TrackHistoryService.GetTracksHistory(App.User.id, 250)
-             group th by th.TrackID into g
-             select new { TrackID = g.Key, TrackCount = g.Count() }).Take(5);
-            foreach (var track in recentlyPopularTracks)
+            try
             {
-                var t = await SoundCloudHelper.GetSoundCloudTrack(track.TrackID);
-                RecentlyPopularTracks.Add(t);
+                HelloUserText = $"Hello, {App.User.username}";
+                var recentlyPopularTracks =
+                (from th in TrackHistoryService.GetTracksHistory(App.User.id, 250)
+                 group th by th.TrackID into g
+                 select new { TrackID = g.Key, TrackCount = g.Count() }).Take(5);
+                foreach (var track in recentlyPopularTracks)
+                {
+                    var t = await SoundCloudHelper.GetSoundCloudTrack(track.TrackID);
+                    RecentlyPopularTracks.Add(t);
+                }
+                await Task.CompletedTask;
             }
-            await Task.CompletedTask;
+            catch(Exception ex)
+            {
+                Logger.LogError(this, App.User, ex.Message);
+                ShowErrorMessage("There was an error during fetching your recently popular tracks.");
+            }
         }
 
         public override async Task OnNavigatedFromAsync(IDictionary<string, object> suspensionState, bool suspending)

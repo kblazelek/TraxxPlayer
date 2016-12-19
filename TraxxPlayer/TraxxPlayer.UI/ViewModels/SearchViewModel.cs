@@ -38,24 +38,40 @@ namespace TraxxPlayer.UI.ViewModels
 
         private async void SearchViewModel_SearchQueryChangedEvent()
         {
-            if (textToSearch.Length > 2)
+            try
             {
-                SearchQuery.Clear();
-                List<SoundCloudTrack> searchResult = await SoundCloudHelper.SearchTracks(textToSearch, 50);
-                foreach (var result in searchResult)
+                if (textToSearch.Length > 2)
                 {
-                    SearchQuery.Add(result.title);
+                    SearchQuery.Clear();
+                    List<SoundCloudTrack> searchResult = await SoundCloudHelper.SearchTracks(textToSearch, 50);
+                    foreach (var result in searchResult)
+                    {
+                        SearchQuery.Add(result.title);
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                Logger.LogError(this, App.User, ex.Message);
+                ShowErrorMessage("There was an error during searching tracks.");
             }
         }
 
         public async void SearchTracks()
         {
-            List<SoundCloudTrack> searchResult = await SoundCloudHelper.SearchTracks(TextToSearch, 50);
-            Tracks.Clear();
-            foreach(var result in searchResult)
+            try
             {
-                Tracks.Add(result);
+                List<SoundCloudTrack> searchResult = await SoundCloudHelper.SearchTracks(TextToSearch, 50);
+                Tracks.Clear();
+                foreach (var result in searchResult)
+                {
+                    Tracks.Add(result);
+                }
+            }
+            catch(Exception ex)
+            {
+                Logger.LogError(this, App.User, ex.Message);
+                ShowErrorMessage("There was an error during searching tracks.");
             }
         }
 

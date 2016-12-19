@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Template10.Mvvm;
+using TraxxPlayer.Common.Helpers;
 using TraxxPlayer.Common.Models;
 using TraxxPlayer.Services;
 using TraxxPlayer.Services.Helpers;
@@ -40,7 +41,8 @@ namespace TraxxPlayer.UI.ViewModels
             }
             catch (Exception ex)
             {
-                ShowErrorMessage(ex.Message);
+                Logger.LogError(this, App.User, ex.Message);
+                ShowErrorMessage("There was an error during adding track to Likes.");
             }
         }
         public async void AddTrackToPlaylist(PlaylistToDisplay playlistSelected)
@@ -59,7 +61,8 @@ namespace TraxxPlayer.UI.ViewModels
             }
             catch (Exception ex)
             {
-                ShowErrorMessage(ex.Message);
+                Logger.LogError(this, App.User, ex.Message);
+                ShowErrorMessage("There was an error during adding track to playlist.");
             }
         }
         public void TrackRightTapped(SoundCloudTrack track)

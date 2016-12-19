@@ -94,30 +94,46 @@ namespace TraxxPlayer.UI.ViewModels
 
         protected async void PlayLikes()
         {
-            var likesTrackIDs = LikeService.GetLikes(App.User.id).Select(l => l.TrackID).ToList();
-            if (likesTrackIDs.Count > 0)
+            try
             {
-                List<SoundCloudTrack> likedTracks = new List<SoundCloudTrack>();
-                foreach (var trackID in likesTrackIDs)
+                var likesTrackIDs = LikeService.GetLikes(App.User.id).Select(l => l.TrackID).ToList();
+                if (likesTrackIDs.Count > 0)
                 {
-                    var track = await SoundCloudHelper.GetSoundCloudTrack(trackID);
-                    likedTracks.Add(track);
+                    List<SoundCloudTrack> likedTracks = new List<SoundCloudTrack>();
+                    foreach (var trackID in likesTrackIDs)
+                    {
+                        var track = await SoundCloudHelper.GetSoundCloudTrack(trackID);
+                        likedTracks.Add(track);
+                    }
+                    App.PlaylistManager.PlayTracks(likedTracks);
                 }
-                App.PlaylistManager.PlayTracks(likedTracks);
+            }
+            catch(Exception ex)
+            {
+                Logger.LogError(this, App.User, ex.Message);
+                ShowErrorMessage("There was an error during playing liked tracks.");
             }
         }
 
         protected void StartBackgroundAudioTask()
         {
-            var startResult = CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            try
             {
-                bool result = backgroundAudioTaskStarted.WaitOne(10000);
+                var startResult = CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    bool result = backgroundAudioTaskStarted.WaitOne(10000);
                 //Send message to initiate playback
                 if (result == false)
-                {
-                    throw new Exception("Background Audio Task didn't start in expected time");
-                }
-            });
+                    {
+                        throw new Exception("Background Audio Task didn't start in expected time");
+                    }
+                });
+            }
+            catch(Exception ex)
+            {
+                Logger.LogError(this, App.User, ex.Message);
+                ShowErrorMessage("There was an error during starting background audio player.");
+            }
         }
     }
 }

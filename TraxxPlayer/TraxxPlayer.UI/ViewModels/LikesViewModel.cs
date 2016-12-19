@@ -34,7 +34,8 @@ namespace TraxxPlayer.UI.ViewModels
             }
             catch(Exception ex)
             {
-                ShowErrorMessage(ex.Message);
+                Logger.LogError(this, App.User, ex.Message);
+                ShowErrorMessage("There was an error during getting licked tracks.");
             }
         }
     }

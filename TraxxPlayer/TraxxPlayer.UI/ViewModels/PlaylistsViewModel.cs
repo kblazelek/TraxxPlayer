@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using TraxxPlayer.UI.Views;
 using TraxxPlayer.Common.Exceptions;
+using TraxxPlayer.Common.Helpers;
 
 namespace TraxxPlayer.UI.ViewModels
 {
@@ -50,7 +51,8 @@ namespace TraxxPlayer.UI.ViewModels
             }
             catch (Exception ex)
             {
-                ShowErrorMessage(ex.Message);
+                Logger.LogError(this, App.User, ex.Message);
+                ShowErrorMessage("There was an error during deleting playlist.");
             }
         }
 
@@ -81,15 +83,18 @@ namespace TraxxPlayer.UI.ViewModels
             }
             catch (EmptyPlaylistException ex)
             {
-                ShowWarningMessage(ex.Message);
+                Logger.LogError(this, App.User, ex.Message);
+                ShowWarningMessage("There was an error during playing playlist.");
             }
             catch(PlaylistTrackNotAvailableOnSoundCloudException ex)
             {
-                ShowWarningMessage(ex.Message);
+                Logger.LogError(this, App.User, ex.Message);
+                ShowWarningMessage("There was an error during playing playlist. Some of the tracks are not available on SoundCloud");
             }
             catch (Exception ex)
             {
-                ShowErrorMessage(ex.Message);
+                Logger.LogError(this, App.User, ex.Message);
+                ShowErrorMessage("There was an error during playing playlist.");
             }
         }
 
@@ -119,17 +124,25 @@ namespace TraxxPlayer.UI.ViewModels
             }
             catch(Exception ex)
             {
-                ShowErrorMessage(ex.Message);
+                Logger.LogError(this, App.User, ex.Message);
+                ShowErrorMessage("There was an error during refreshing playlist.");
             }
 
         }
         public void LoadPlaylists()
         {
-            // Uniezależnić od App
-            var tempPlaylists = PlaylistService.GetPlaylists(App.User.id);
-            foreach (var playlist in tempPlaylists)
+            try
             {
-                Playlists.Add(playlist);
+                var tempPlaylists = PlaylistService.GetPlaylists(App.User.id);
+                foreach (var playlist in tempPlaylists)
+                {
+                    Playlists.Add(playlist);
+                }
+            }
+            catch(Exception ex)
+            {
+                Logger.LogError(this, App.User, ex.Message);
+                ShowErrorMessage("There was an error during loading playlist");
             }
         }
     }

@@ -56,7 +56,7 @@ namespace TraxxPlayer.UI.ViewModels
                 catch (Exception ex)
                 {
                     Logger.LogError(this, App.User, ex.Message);
-                    ShowErrorMessage("There was and error during fetching tracks from SoundCloud.");
+                    ShowErrorMessage("There was an error during fetching tracks from SoundCloud.");
                 }
             }
         }
@@ -85,7 +85,7 @@ namespace TraxxPlayer.UI.ViewModels
             catch (Exception ex)
             {
                 Logger.LogError(this, App.User, ex.Message);
-                ShowErrorMessage("There was and error during fetching tracks from SoundCloud.");
+                ShowErrorMessage("There was an error during fetching tracks from SoundCloud.");
             }
         }
     }

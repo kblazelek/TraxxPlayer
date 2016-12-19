@@ -80,7 +80,7 @@ namespace TraxxPlayer.UI.ViewModels
             catch(Exception ex)
             {
                 Logger.LogError(this, App.User, ex.Message);
-                ShowErrorMessage("There was and error during loggin in / adding user.");
+                ShowErrorMessage("There was an error during loggin in / adding user.");
             }
         }
     }

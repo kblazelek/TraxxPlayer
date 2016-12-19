@@ -111,12 +111,20 @@ namespace TraxxPlayer.UI.ViewModels
 
         private async Task StartUpdatingTimeline()
         {
-            updateTimeline = true;
-            while (updateTimeline)
+            try
             {
-                currentPosition = BackgroundMediaPlayer.Current.Position.TotalMilliseconds;
-                OnPropertyChanged(nameof(CurrentPosition));
-                await Task.Delay(1000);
+                updateTimeline = true;
+                while (updateTimeline)
+                {
+                    currentPosition = BackgroundMediaPlayer.Current.Position.TotalMilliseconds;
+                    OnPropertyChanged(nameof(CurrentPosition));
+                    await Task.Delay(1000);
+                }
+            }
+            catch(Exception ex)
+            {
+                Logger.LogError(this, App.User, ex.Message);
+                ShowErrorMessage("There was an error during updating timeline.");
             }
         }
 
@@ -312,8 +320,8 @@ namespace TraxxPlayer.UI.ViewModels
             }
             catch (Exception ex)
             {
-                MessageDialog showMessgae = new MessageDialog("Something went wrong. Please try again. Error Details : " + ex.Message);
-                await showMessgae.ShowAsync();
+                Logger.LogError(this, App.User, ex.Message);
+                ShowErrorMessage("There was an error during loading track.");
             }
         }
 
