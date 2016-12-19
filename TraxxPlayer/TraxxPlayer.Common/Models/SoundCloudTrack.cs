@@ -53,7 +53,7 @@
                 }
                 else
                 {
-                    return @"ms-appx:///Assets/Albumart.png";
+                    return @"ms-appx:///Assets/Albumart.jpeg";
                 }
 
             }

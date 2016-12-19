@@ -103,7 +103,7 @@ namespace TraxxPlayer.UI.ViewModels
 
         public NowPlayingViewModel()
         {
-            AlbumImage = new BitmapImage(new Uri(@"ms-appx:///Assets/Albumart.png"));
+            AlbumImage = new BitmapImage(new Uri(@"ms-appx:///Assets/Albumart.jpeg"));
             CurrentPosition = 0;
             MediaButtonsEnabled = false;
             TrackDuration = 1;
@@ -296,8 +296,7 @@ namespace TraxxPlayer.UI.ViewModels
                 }
                 if (string.IsNullOrWhiteSpace(albumartImage))
                 {
-                    albumartImage = @"ms-appx:///Assets/Albumart.jpg";
-
+                    albumartImage = @"ms-appx:///Assets/Albumart.jpeg";
                 }
                 else
                 {
