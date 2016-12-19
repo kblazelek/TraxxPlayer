@@ -188,7 +188,7 @@ namespace TraxxPlayer.Common.Helpers
             }
             if (track.stream_url != null)
             {
-                if (Tracks.Contains(track))
+                if (Tracks.Where(t => t.id == track.id).FirstOrDefault() != null)
                 {
                     MessageService.SendMessageToBackground(new TrackChangedMessage(new Uri(track.stream_url)));
                     MessageService.SendMessageToBackground(new StartPlaybackMessage());

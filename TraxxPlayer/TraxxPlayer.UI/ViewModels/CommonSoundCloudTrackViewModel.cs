@@ -43,13 +43,18 @@ namespace TraxxPlayer.UI.ViewModels
                 ShowErrorMessage(ex.Message);
             }
         }
-        public void AddTrackToPlaylist(PlaylistToDisplay playlistSelected)
+        public async void AddTrackToPlaylist(PlaylistToDisplay playlistSelected)
         {
             try
             {
                 if (rightTappedTrack != null && playlistSelected != null)
                 {
                     PlaylistTrackService.AddPlaylistTrack(new PlaylistTrackToAdd() { PlaylistID = playlistSelected.id, TrackID = (int)rightTappedTrack.id });
+                    if(App.PlaylistManager.Playlist.id == playlistSelected.id)
+                    {
+                        await App.PlaylistManager.PlayPlaylist(App.PlaylistManager.Playlist);
+                        App.PlaylistManager.PlayPlaylistTrack(rightTappedTrack);
+                    }
                 }
             }
             catch (Exception ex)
