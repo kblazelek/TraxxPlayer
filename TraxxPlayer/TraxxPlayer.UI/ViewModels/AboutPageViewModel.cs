@@ -5,7 +5,7 @@ using Windows.UI.Xaml;
 
 namespace TraxxPlayer.UI.ViewModels
 {
-    public class SettingsPageViewModel : CommonViewModel
+    public class AboutPageViewModel : CommonViewModel
     {
         public SettingsPartViewModel SettingsPartViewModel { get; } = new SettingsPartViewModel();
         public AboutPartViewModel AboutPartViewModel { get; } = new AboutPartViewModel();

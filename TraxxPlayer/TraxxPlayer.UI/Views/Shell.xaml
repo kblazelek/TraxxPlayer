@@ -215,19 +215,19 @@
 
             <Controls:HamburgerMenu.SecondaryButtons>
                 <!--  settingspage button  -->
-                <Controls:HamburgerButtonInfo x:Name="SettingsButton"
+                <Controls:HamburgerButtonInfo x:Name="AboutButton"
                                               PageParameter="0"
-                                              PageType="views:SettingsPage">
+                                              PageType="views:AboutPage">
                     <Controls:HamburgerButtonInfo.NavigationTransitionInfo>
                         <SuppressNavigationTransitionInfo />
                     </Controls:HamburgerButtonInfo.NavigationTransitionInfo>
                     <StackPanel Orientation="Horizontal">
                         <SymbolIcon Width="48"
                                     Height="48"
-                                    Symbol="Setting" />
+                                    Symbol="Help" />
                         <TextBlock Margin="12,0,0,0"
                                    VerticalAlignment="Center"
-                                   Text="Settings" />
+                                   Text="About" />
                     </StackPanel>
                 </Controls:HamburgerButtonInfo>
             </Controls:HamburgerMenu.SecondaryButtons>

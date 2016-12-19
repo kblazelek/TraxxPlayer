@@ -3,11 +3,11 @@ using Windows.UI.Xaml.Navigation;
 
 namespace TraxxPlayer.UI.Views
 {
-    public sealed partial class SettingsPage : Page
+    public sealed partial class AboutPage : Page
     {
         Template10.Services.SerializationService.ISerializationService _SerializationService;
 
-        public SettingsPage()
+        public AboutPage()
         {
             InitializeComponent();
             _SerializationService = Template10.Services.SerializationService.SerializationService.Json;
