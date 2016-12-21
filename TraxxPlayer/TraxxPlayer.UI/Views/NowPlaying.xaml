@@ -27,9 +27,9 @@
                     <VisualState.Setters>
                         <!--  TODO: change properties for narrow view  -->
                         <Setter Target="outerEllipse.Height"
-                                Value="250" />
+                                Value="150" />
                         <Setter Target="outerEllipse.Width"
-                                Value="300" />
+                                Value="200" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateNormal">

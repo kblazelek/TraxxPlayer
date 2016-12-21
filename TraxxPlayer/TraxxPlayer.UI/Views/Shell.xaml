@@ -24,7 +24,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListViewItem">
-                        <ListViewItemPresenter ContentMargin="0,5,0,0" />
+                        <ListViewItemPresenter ContentMargin="0,0,0,5" />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
