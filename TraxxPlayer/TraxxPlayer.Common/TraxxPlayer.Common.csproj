@@ -101,13 +101,6 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Page Include="Styles\Styles.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Enums and constants\SoundCloudConstants.cs" />
     <Compile Include="Exceptions\EmptyPlaylistException.cs" />
     <Compile Include="Exceptions\PlaylistTrackNotAvailableOnSoundCloudException.cs" />
@@ -133,7 +126,6 @@
     <Compile Include="Messages\AppResumedMessage.cs" />
     <Compile Include="Messages\MessageService.cs" />
     <Compile Include="Messages\UVCButtonPressedMessage.cs" />
-    <Compile Include="Models\SongModel.cs" />
     <Compile Include="Models\SoundCloudChart.cs" />
     <Compile Include="Models\SoundCloudTrackScore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

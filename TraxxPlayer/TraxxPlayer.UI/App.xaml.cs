@@ -10,7 +10,6 @@ using TraxxPlayer.Services;
 using TraxxPlayer.Services.Helpers;
 using Windows.UI.ViewManagement;
 using Windows.Foundation;
-using TraxxPlayer.UI.Services.SettingsServices;
 using TraxxPlayer.Common.Helpers;
 using TraxxPlayer.Common.Models;
 
@@ -35,13 +34,6 @@ namespace TraxxPlayer.UI
         {
             InitializeComponent();
             SplashFactory = (e) => new Views.Splash(e);
-
-            #region App settings
-            var _settings = SettingsService.Instance;
-            RequestedTheme = _settings.AppTheme;
-            CacheMaxDuration = _settings.CacheMaxDuration;
-            ShowShellBackButton = _settings.UseShellBackButton;
-            #endregion
         }
 
         public override async Task OnInitializeAsync(IActivatedEventArgs args)

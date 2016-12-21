@@ -71,7 +71,7 @@
                    RelativePanel.AlignHorizontalCenterWithPanel="True"
                    RelativePanel.Above="txtAlbumTitle"
                    HorizontalAlignment="Center"
-                   Text="{x:Bind ViewModel.SongName, Mode=OneWay}"
+                   Text="{x:Bind ViewModel.TrackName, Mode=OneWay}"
                    FontSize="35"
                    Foreground="#FFA2A2A2"
                    Style="{StaticResource HeaderTextBlockStyle}"

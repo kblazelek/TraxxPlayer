@@ -25,7 +25,7 @@ namespace TraxxPlayer.UI.ViewModels
     {
         private ImageSource _albumImage;
         private ImageSource _playPauseImage;
-        private string _songName;
+        private string _trackName;
         private string _albumTitle;
         public ImageSource AlbumImage
         {
@@ -44,16 +44,16 @@ namespace TraxxPlayer.UI.ViewModels
             get { return _playPauseImage; }
             set { _playPauseImage = value; OnPropertyChanged(nameof(PlayPauseImage)); }
         }
-        public string SongName
+        public string TrackName
         {
             get
             {
-                return _songName;
+                return _trackName;
             }
             set
             {
-                _songName = value;
-                OnPropertyChanged(nameof(SongName));
+                _trackName = value;
+                OnPropertyChanged(nameof(TrackName));
             }
         }
         public string AlbumTitle
@@ -257,7 +257,7 @@ namespace TraxxPlayer.UI.ViewModels
                     AlbumImage = new BitmapImage(new Uri(@"ms-appx:///Assets/Albumart.jpeg"));
                     PlayPauseImage = new BitmapImage(new Uri("ms-appx:///Assets/Play.png"));
                     MediaButtonsEnabled = false;
-                    SongName = "";
+                    TrackName = "";
                     AlbumTitle = "";
                 });
                 return;
@@ -314,7 +314,7 @@ namespace TraxxPlayer.UI.ViewModels
                 AlbumImage = new BitmapImage(new Uri(albumartImage));
 
                 //Change Title and User name
-                SongName = currentTrack.title;
+                TrackName = currentTrack.title;
                 AlbumTitle = Convert.ToString(currentTrack.user.username);
 
             }
