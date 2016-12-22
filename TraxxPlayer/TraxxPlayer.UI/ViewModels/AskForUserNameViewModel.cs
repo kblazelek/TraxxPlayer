@@ -58,9 +58,9 @@ namespace TraxxPlayer.UI.ViewModels
                         isDefault = (bool)IsDefault
                     });
                     tempUser = UserService.GetUser(UserName);
-                    Logger.LogInfo(this, App.User, $"Added user {App.User.username} (ID: {App.User.id})");
+                    //Logger.LogInfo(this, App.User, $"Added user {App.User.username} (ID: {App.User.id})");
                     App.User = tempUser;
-                    Logger.LogInfo(this, App.User, $"Logged in as user {App.User.username} (ID: {App.User.id})");
+                    //Logger.LogInfo(this, App.User, $"Logged in as user {App.User.username} (ID: {App.User.id})");
 
                 }
                 else // If user exists
