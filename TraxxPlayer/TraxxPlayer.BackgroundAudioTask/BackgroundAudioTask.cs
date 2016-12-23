@@ -23,6 +23,7 @@ using Windows.Storage.Streams;
 using TraxxPlayer.Common.Enums_and_constants;
 using TraxxPlayer.Common.Models;
 using TraxxPlayer.Common.Helpers;
+using Windows.Devices.Gpio;
 
 namespace TraxxPlayer.BackgroundAudioTask
 {
@@ -56,13 +57,57 @@ namespace TraxxPlayer.BackgroundAudioTask
             string trackIdKey = item.Source.CustomProperties[TrackIdKey].ToString();
             return new Uri(trackIdKey);
         }
+
+        private GpioController controller;
+        private const int GREEN_LED_PIN = 16;
+        private const int RED_LED_PIN = 18;
+        private GpioPin redPin;
+        private GpioPin greenPin;
+        private void GREEN_ON_RED_OFF()
+        {
+            if (controller != null)
+            {
+                greenPin.Write(GpioPinValue.High);
+                redPin.Write(GpioPinValue.Low);
+            }
+        }
+
+        private void RED_ON_GREEN_OFF()
+        {
+            if (controller != null)
+            {
+                greenPin.Write(GpioPinValue.Low);
+                redPin.Write(GpioPinValue.High);
+            }
+        }
+
+        private void InitGPIO()
+        {
+            controller = GpioController.GetDefault();
+            if (controller != null)
+            {
+                greenPin = controller.OpenPin(GREEN_LED_PIN);
+                redPin = controller.OpenPin(RED_LED_PIN);
+                greenPin.Write(GpioPinValue.Low);
+                redPin.Write(GpioPinValue.High);
+                greenPin.SetDriveMode(GpioPinDriveMode.Output);
+                redPin.SetDriveMode(GpioPinDriveMode.Output);
+            }
+        }
+        bool IsIoT;
         #endregion
 
         #region IBackgroundTask and IBackgroundTaskInstance Interface Members and handlers
         public void Run(IBackgroundTaskInstance taskInstance)
         {
             Debug.WriteLine("Background Audio Task " + taskInstance.Task.Name + " starting...");
-
+            //var qualifiers = Windows.ApplicationModel.Resources.Core.ResourceContext.GetForCurrentView().QualifierValues;
+            //IsIoT = (qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "IoT");
+            IsIoT = true;
+            if (IsIoT)
+            {
+                InitGPIO();
+            }
             // Initialize SystemMediaTransportControls (SMTC) for integration with
             // the Universal Volume Control (UVC).
             //
@@ -390,14 +435,17 @@ namespace TraxxPlayer.BackgroundAudioTask
             if (sender.CurrentState == MediaPlayerState.Playing)
             {
                 smtc.PlaybackStatus = MediaPlaybackStatus.Playing;
+                GREEN_ON_RED_OFF();
             }
             else if (sender.CurrentState == MediaPlayerState.Paused)
             {
                 smtc.PlaybackStatus = MediaPlaybackStatus.Paused;
+                RED_ON_GREEN_OFF();
             }
             else if (sender.CurrentState == MediaPlayerState.Closed)
             {
                 smtc.PlaybackStatus = MediaPlaybackStatus.Closed;
+                RED_ON_GREEN_OFF();
             }
         }
 

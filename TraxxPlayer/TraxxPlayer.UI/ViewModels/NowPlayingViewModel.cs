@@ -11,6 +11,7 @@ using TraxxPlayer.Common.Messages;
 using TraxxPlayer.Common.Models;
 using TraxxPlayer.Services;
 using Windows.ApplicationModel.Core;
+using Windows.Devices.Gpio;
 using Windows.Media;
 using Windows.Media.Playback;
 using Windows.UI.Core;
@@ -42,7 +43,11 @@ namespace TraxxPlayer.UI.ViewModels
         public ImageSource PlayPauseImage
         {
             get { return _playPauseImage; }
-            set { _playPauseImage = value; OnPropertyChanged(nameof(PlayPauseImage)); }
+            set
+            {
+                _playPauseImage = value;
+                OnPropertyChanged(nameof(PlayPauseImage));
+            }
         }
         public string TrackName
         {
