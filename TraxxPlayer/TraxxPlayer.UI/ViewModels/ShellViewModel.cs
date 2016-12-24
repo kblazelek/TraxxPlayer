@@ -20,12 +20,15 @@ namespace TraxxPlayer.UI.ViewModels
 {
     public class ShellViewModel : CommonViewModel
     {
+        #region Private
         DelegateCommand<SoundCloudTrack> deleteTrackFromPlaylistCommand;
+        SoundCloudTrack lastRemovedTrack;
+        SoundCloudTrack selectedTrack;
+        int lastRemovedTrackIndex;
+        #endregion
+
         public DelegateCommand<SoundCloudTrack> DeleteTrackFromPlaylistCommand => deleteTrackFromPlaylistCommand ?? (deleteTrackFromPlaylistCommand = new DelegateCommand<SoundCloudTrack>(DeleteTrackFromPlaylist));
         public ObservableCollection<SoundCloudTrack> Tracks { get; set; } = App.PlaylistManager.Tracks;
-        private SoundCloudTrack lastRemovedTrack;
-        private int lastRemovedTrackIndex;
-        private SoundCloudTrack selectedTrack;
         public SoundCloudTrack SelectedTrack
         {
             get

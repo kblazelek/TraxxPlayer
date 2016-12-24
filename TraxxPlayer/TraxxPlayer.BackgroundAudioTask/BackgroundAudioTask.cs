@@ -94,20 +94,13 @@ namespace TraxxPlayer.BackgroundAudioTask
                 redPin.SetDriveMode(GpioPinDriveMode.Output);
             }
         }
-        bool IsIoT;
+        bool IsIoT = false;
         #endregion
 
         #region IBackgroundTask and IBackgroundTaskInstance Interface Members and handlers
         public void Run(IBackgroundTaskInstance taskInstance)
         {
             Debug.WriteLine("Background Audio Task " + taskInstance.Task.Name + " starting...");
-            //var qualifiers = Windows.ApplicationModel.Resources.Core.ResourceContext.GetForCurrentView().QualifierValues;
-            //IsIoT = (qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "IoT");
-            IsIoT = true;
-            if (IsIoT)
-            {
-                InitGPIO();
-            }
             // Initialize SystemMediaTransportControls (SMTC) for integration with
             // the Universal Volume Control (UVC).
             //
@@ -430,22 +423,31 @@ namespace TraxxPlayer.BackgroundAudioTask
         #endregion
 
         #region Background Media Player Handlers
-        void Current_CurrentStateChanged(MediaPlayer sender, object args) // Sprawdzone
+        void Current_CurrentStateChanged(MediaPlayer sender, object args)
         {
             if (sender.CurrentState == MediaPlayerState.Playing)
             {
                 smtc.PlaybackStatus = MediaPlaybackStatus.Playing;
-                GREEN_ON_RED_OFF();
+                if(IsIoT)
+                {
+                    GREEN_ON_RED_OFF();
+                }
             }
             else if (sender.CurrentState == MediaPlayerState.Paused)
             {
                 smtc.PlaybackStatus = MediaPlaybackStatus.Paused;
-                RED_ON_GREEN_OFF();
+                if (IsIoT)
+                {
+                    RED_ON_GREEN_OFF();
+                }
             }
             else if (sender.CurrentState == MediaPlayerState.Closed)
             {
                 smtc.PlaybackStatus = MediaPlaybackStatus.Closed;
-                RED_ON_GREEN_OFF();
+                if(IsIoT)
+                {
+                    RED_ON_GREEN_OFF();
+                }
             }
         }
 
@@ -527,6 +529,17 @@ namespace TraxxPlayer.BackgroundAudioTask
             if (MessageService.TryParseMessage(e.Data, out updatePlaylistMessage))
             {
                 CreatePlaybackListAndStartPlaying(updatePlaylistMessage.Songs);
+                return;
+            }
+
+            DeviceFamilyMessage deviceFamilyMessage;
+            if (MessageService.TryParseMessage(e.Data, out deviceFamilyMessage))
+            {
+                if(deviceFamilyMessage.DeviceFamily == "IoT")
+                {
+                    InitGPIO();
+                    IsIoT = true;
+                }
                 return;
             }
 

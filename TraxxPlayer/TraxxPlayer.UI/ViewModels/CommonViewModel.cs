@@ -9,6 +9,7 @@ using Template10.Controls;
 using Template10.Mvvm;
 using TraxxPlayer.Common.Enums_and_constants;
 using TraxxPlayer.Common.Helpers;
+using TraxxPlayer.Common.Messages;
 using TraxxPlayer.Common.Models;
 using TraxxPlayer.Services;
 using TraxxPlayer.UI.Views;
@@ -108,7 +109,7 @@ namespace TraxxPlayer.UI.ViewModels
                     App.PlaylistManager.PlayTracks(likedTracks);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.LogError(this, App.User, ex.Message);
                 ShowErrorMessage("There was an error during playing liked tracks.");
@@ -119,17 +120,25 @@ namespace TraxxPlayer.UI.ViewModels
         {
             try
             {
+                var qualifiers = Windows.ApplicationModel.Resources.Core.ResourceContext.GetForCurrentView().QualifierValues;
+                string deviceFamily = qualifiers.ContainsKey("DeviceFamily") ? qualifiers["DeviceFamily"] : String.Empty;
                 var startResult = CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     bool result = backgroundAudioTaskStarted.WaitOne(10000);
-                //Send message to initiate playback
-                if (result == false)
+                    if (result == false)
                     {
                         throw new Exception("Background Audio Task didn't start in expected time");
                     }
+                    else
+                    {
+                        if(!string.IsNullOrEmpty(deviceFamily))
+                        {
+                            MessageService.SendMessageToBackground(new DeviceFamilyMessage(deviceFamily));
+                        }
+                    }
                 });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.LogError(this, App.User, ex.Message);
                 ShowErrorMessage("There was an error during starting background audio player.");

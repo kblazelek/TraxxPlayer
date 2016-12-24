@@ -115,6 +115,7 @@
     <Compile Include="Helpers\SoundCloudHelper.cs" />
     <Compile Include="Messages\DeleteTrackFromPlaybackList.cs" />
     <Compile Include="Messages\PlaybackListEmptyMessage.cs" />
+    <Compile Include="Messages\DeviceFamilyMessage.cs" />
     <Compile Include="Messages\StartPlaybackMessage.cs" />
     <Compile Include="Messages\SkipNextMessage.cs" />
     <Compile Include="Messages\ShutdownBackgroundMediaPlayer.cs" />

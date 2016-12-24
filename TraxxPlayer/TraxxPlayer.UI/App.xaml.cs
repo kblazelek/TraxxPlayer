@@ -29,7 +29,18 @@ namespace TraxxPlayer.UI
         }
         public static List<SoundCloudTrack> likes = new List<SoundCloudTrack>();
         public static int nowplayingTrackId = 0;
-        public static UserToDisplay User { get; set; }
+        private static UserToDisplay user;
+        public static UserToDisplay User
+        {
+            get
+            {
+                return user;
+            }
+            set
+            {
+                user = value;
+            }
+        }
         public App()
         {
             InitializeComponent();
@@ -76,6 +87,7 @@ namespace TraxxPlayer.UI
             }
             catch (Exception ex)
             {
+                Logger.LogError(this, App.User, ex.Message);
                 MessageDialog showMessgae = new MessageDialog("Something went wrong. Please try again. Error Details : " + ex.Message);
                 await showMessgae.ShowAsync();
             }
