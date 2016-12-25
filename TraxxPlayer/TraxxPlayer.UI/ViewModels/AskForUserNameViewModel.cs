@@ -45,6 +45,9 @@ namespace TraxxPlayer.UI.ViewModels
             }
         }
 
+        /// <summary>
+        /// Adds user to Users table or logs in when user exist
+        /// </summary>
         public void AddUserOrLogIn()
         {
             try
@@ -58,10 +61,9 @@ namespace TraxxPlayer.UI.ViewModels
                         isDefault = (bool)IsDefault
                     });
                     tempUser = UserService.GetUser(UserName);
-                    //Logger.LogInfo(this, App.User, $"Added user {App.User.username} (ID: {App.User.id})");
+                    Logger.LogInfo(this, $"Added user {tempUser.username} (ID: {tempUser.id})");
                     App.User = tempUser;
-                    //Logger.LogInfo(this, App.User, $"Logged in as user {App.User.username} (ID: {App.User.id})");
-
+                    Logger.LogInfo(this, $"Logged in as user {App.User.username} (ID: {App.User.id})");
                 }
                 else // If user exists
                 {
@@ -70,7 +72,7 @@ namespace TraxxPlayer.UI.ViewModels
                     {
                         tempUser.isDefault = (bool)IsDefault;
                         UserService.ModifyUser(tempUser);
-                        Logger.LogInfo(this, $"Modified user {App.User.username} (ID: {App.User.id})");
+                        Logger.LogInfo(this, $"Modified user {tempUser.username} (ID: {tempUser.id})");
                     }
                     App.User = tempUser;
                     Logger.LogInfo(this, $"Logged in as user {App.User.username} (ID: {App.User.id})");

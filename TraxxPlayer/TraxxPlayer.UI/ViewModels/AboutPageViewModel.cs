@@ -1,7 +1,5 @@
 using System;
-using System.Threading.Tasks;
 using Template10.Mvvm;
-using Windows.UI.Xaml;
 
 namespace TraxxPlayer.UI.ViewModels
 {
