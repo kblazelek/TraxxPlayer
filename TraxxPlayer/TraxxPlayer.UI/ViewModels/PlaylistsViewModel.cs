@@ -51,7 +51,7 @@ namespace TraxxPlayer.UI.ViewModels
             }
             catch (Exception ex)
             {
-                Logger.LogError(this, App.User, ex.Message);
+                Logger.LogError(this, ex.Message);
                 ShowErrorMessage("There was an error during deleting playlist.");
             }
         }
@@ -83,17 +83,17 @@ namespace TraxxPlayer.UI.ViewModels
             }
             catch (EmptyPlaylistException ex)
             {
-                Logger.LogError(this, App.User, ex.Message);
+                Logger.LogError(this, ex.Message);
                 ShowWarningMessage("There was an error during playing playlist.");
             }
-            catch(PlaylistTrackNotAvailableOnSoundCloudException ex)
+            catch(SoundCloudTrackNotAvailableException ex)
             {
-                Logger.LogError(this, App.User, ex.Message);
+                Logger.LogError(this, ex.Message);
                 ShowWarningMessage("There was an error during playing playlist. Some of the tracks are not available on SoundCloud");
             }
             catch (Exception ex)
             {
-                Logger.LogError(this, App.User, ex.Message);
+                Logger.LogError(this, ex.Message);
                 ShowErrorMessage("There was an error during playing playlist.");
             }
         }
@@ -124,7 +124,7 @@ namespace TraxxPlayer.UI.ViewModels
             }
             catch(Exception ex)
             {
-                Logger.LogError(this, App.User, ex.Message);
+                Logger.LogError(this, ex.Message);
                 ShowErrorMessage("There was an error during refreshing playlist.");
             }
 
@@ -141,7 +141,7 @@ namespace TraxxPlayer.UI.ViewModels
             }
             catch(Exception ex)
             {
-                Logger.LogError(this, App.User, ex.Message);
+                Logger.LogError(this, ex.Message);
                 ShowErrorMessage("There was an error during loading playlist");
             }
         }

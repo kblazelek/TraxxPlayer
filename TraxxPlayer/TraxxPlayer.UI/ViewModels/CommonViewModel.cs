@@ -8,10 +8,12 @@ using Template10.Common;
 using Template10.Controls;
 using Template10.Mvvm;
 using TraxxPlayer.Common.Enums_and_constants;
+using TraxxPlayer.Common.Exceptions;
 using TraxxPlayer.Common.Helpers;
 using TraxxPlayer.Common.Messages;
 using TraxxPlayer.Common.Models;
 using TraxxPlayer.Services;
+using TraxxPlayer.Services.Helpers;
 using TraxxPlayer.UI.Views;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
@@ -97,21 +99,42 @@ namespace TraxxPlayer.UI.ViewModels
         {
             try
             {
-                var likesTrackIDs = LikeService.GetLikes(App.User.id).Select(l => l.TrackID).ToList();
-                if (likesTrackIDs.Count > 0)
+                var userLikes = LikeService.GetLikes(App.User.id).ToList();
+                if (userLikes.Count > 0)
                 {
                     List<SoundCloudTrack> likedTracks = new List<SoundCloudTrack>();
-                    foreach (var trackID in likesTrackIDs)
+                    List<LikeToDisplay> likesToDelete = new List<LikeToDisplay>();
+                    foreach (var like in userLikes)
                     {
-                        var track = await SoundCloudHelper.GetSoundCloudTrack(trackID);
-                        likedTracks.Add(track);
+                        var track = await SoundCloudHelper.GetSoundCloudTrack(like.TrackID);
+                        if (track != null)
+                        {
+                            likedTracks.Add(track);
+                        }
+                        else
+                        {
+                            likesToDelete.Add(like);
+                        }
                     }
                     App.PlaylistManager.PlayTracks(likedTracks);
+                    if (likesToDelete.Count > 0)
+                    {
+                        foreach (var likeToDelete in likesToDelete)
+                        {
+                            LikeService.DeleteLike(likeToDelete.id);
+                        }
+                        throw new SoundCloudTrackNotAvailableException($"Some of your tracks were deleted from likes, because they were no longer available on SoundCloud", likesToDelete.Select(l => l.TrackID).ToList());
+                    }
                 }
+            }
+            catch(SoundCloudTrackNotAvailableException ex)
+            {
+                Logger.LogWarning(this, ex.Message);
+                ShowWarningMessage(ex.Message);
             }
             catch (Exception ex)
             {
-                Logger.LogError(this, App.User, ex.Message);
+                Logger.LogError(this, ex.Message);
                 ShowErrorMessage("There was an error during playing liked tracks.");
             }
         }
@@ -140,7 +163,7 @@ namespace TraxxPlayer.UI.ViewModels
             }
             catch (Exception ex)
             {
-                Logger.LogError(this, App.User, ex.Message);
+                Logger.LogError(this, ex.Message);
                 ShowErrorMessage("There was an error during starting background audio player.");
             }
         }

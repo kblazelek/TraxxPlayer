@@ -67,7 +67,7 @@ namespace TraxxPlayer.Common.Helpers
                     movedTrack.TrackOrder = i;
                     PlaylistTrackService.ModifyPlaylistTrack(movedTrack);
                 }
-                throw new PlaylistTrackNotAvailableOnSoundCloudException("Some of your tracks were deleted, because they were no longer available on SoundCloud", deletedPlaylistTracks);
+                throw new SoundCloudTrackNotAvailableException($"Some of your tracks were deleted from playlist {playlist.Name}, because they were no longer available on SoundCloud", deletedPlaylistTracks.Select(pt => pt.id).ToList());
             }
         }
 

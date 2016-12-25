@@ -16,21 +16,21 @@ namespace TraxxPlayer.Common.Helpers
         public static void LogInfo(object sender, string infoMessage, [CallerMemberName]string memberName = "")
         {
             int? userID = User != null ? User.id : (int?)null;
-            LogService.AddLog(new Services.Helpers.LogToAdd(userID, Services.Helpers.LogMessageType.INFO, $"{sender.GetType()}.{memberName}", infoMessage));
+            LogService.AddLog(new LogToAdd(userID, LogMessageType.INFO, $"{sender.GetType()}.{memberName}", infoMessage));
             Debug.WriteLine($"INFO: {sender.GetType()}.{memberName}");
         }
 
         public static void LogWarning(object sender, string warningMessage, [CallerMemberName]string memberName = "")
         {
-            var userID = User != null ? User.id : -1;
-            LogService.AddLog(new Services.Helpers.LogToAdd(userID, Services.Helpers.LogMessageType.WARNING, $"{sender.GetType()}.{memberName}", warningMessage));
+            int? userID = User != null ? User.id : (int?)null;
+            LogService.AddLog(new LogToAdd(userID, LogMessageType.WARNING, $"{sender.GetType()}.{memberName}", warningMessage));
             Debug.WriteLine($"WARNING: {sender.GetType()}.{memberName}");
         }
 
-        public static void LogError(object sender, UserToDisplay user, string errorMessage, [CallerMemberName]string memberName = "")
+        public static void LogError(object sender, string errorMessage, [CallerMemberName]string memberName = "")
         {
-            var userID = User != null ? User.id : -1;
-            LogService.AddLog(new Services.Helpers.LogToAdd(userID, Services.Helpers.LogMessageType.ERROR, $"{sender.GetType()}.{memberName}", errorMessage));
+            int? userID = User != null ? User.id : (int?)null;
+            LogService.AddLog(new LogToAdd(userID, LogMessageType.ERROR, $"{sender.GetType()}.{memberName}", errorMessage));
             Debug.WriteLine($"ERROR: {sender.GetType()}.{memberName}");
         }
     }

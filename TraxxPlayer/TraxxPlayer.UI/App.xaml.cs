@@ -18,17 +18,15 @@ namespace TraxxPlayer.UI
     [Bindable]
     sealed partial class App : Template10.Common.BootStrapper
     {
-
-        private static PlaylistManager playlistManager = new PlaylistManager();
-        public static Views.Shell Shell;
+        #region Private members
+        static PlaylistManager playlistManager = new PlaylistManager();
+        #endregion
 
         public static PlaylistManager PlaylistManager
         {
             get { return playlistManager; }
             set { playlistManager = value; }
         }
-        public static List<SoundCloudTrack> likes = new List<SoundCloudTrack>();
-        public static int nowplayingTrackId = 0;
         private static UserToDisplay user;
         public static UserToDisplay User
         {
@@ -55,7 +53,7 @@ namespace TraxxPlayer.UI
             {
                 // create a new frame 
                 var nav = NavigationServiceFactory(BackButton.Attach, ExistingContent.Include);
-                Shell = new Views.Shell(nav);
+                var Shell = new Views.Shell(nav);
                 // create modal root
                 Window.Current.Content = new ModalDialog
                 {
@@ -87,7 +85,7 @@ namespace TraxxPlayer.UI
             }
             catch (Exception ex)
             {
-                Logger.LogError(this, App.User, ex.Message);
+                Logger.LogError(this, ex.Message);
                 MessageDialog showMessgae = new MessageDialog("Something went wrong. Please try again. Error Details : " + ex.Message);
                 await showMessgae.ShowAsync();
             }

@@ -6,21 +6,21 @@ using TraxxPlayer.Services.Helpers;
 
 namespace TraxxPlayer.Common.Exceptions
 {
-    public class PlaylistTrackNotAvailableOnSoundCloudException : Exception
+    public class SoundCloudTrackNotAvailableException : Exception
     {
-        public List<PlaylistTrackToDisplay> DeletedTracks;
-        public PlaylistTrackNotAvailableOnSoundCloudException()
+        public List<int> DeletedTracksIDs;
+        public SoundCloudTrackNotAvailableException()
         {
             
         }
 
-        public PlaylistTrackNotAvailableOnSoundCloudException(string message, List<PlaylistTrackToDisplay> deletedTracks)
-            : base(message + ". Deleted track ids: " + deletedTracks.Select(dt => dt.TrackID.ToString()).Join())
+        public SoundCloudTrackNotAvailableException(string message, List<int> deletedTracks)
+            : base(message + ". Deleted track ids: " + deletedTracks.Select(id => id.ToString()).Join())
         {
-            DeletedTracks = deletedTracks;
+            DeletedTracksIDs = deletedTracks;
         }
 
-        public PlaylistTrackNotAvailableOnSoundCloudException(string message, Exception inner)
+        public SoundCloudTrackNotAvailableException(string message, Exception inner)
             : base(message, inner)
         {
         }
