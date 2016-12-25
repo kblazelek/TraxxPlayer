@@ -107,21 +107,9 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\20161204144335_Initial.cs" />
-    <Compile Include="Migrations\20161204144335_Initial.designer.cs">
-      <DependentUpon>20161204144335_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20161209212920_AddLikeTable.cs" />
-    <Compile Include="Migrations\20161209212920_AddLikeTable.designer.cs">
-      <DependentUpon>20161209212920_AddLikeTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20161211160936_AddTrackHistoryTable.cs" />
-    <Compile Include="Migrations\20161211160936_AddTrackHistoryTable.designer.cs">
-      <DependentUpon>20161211160936_AddTrackHistoryTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20161215144436_AddedLogsTable.cs" />
-    <Compile Include="Migrations\20161215144436_AddedLogsTable.designer.cs">
-      <DependentUpon>20161215144436_AddedLogsTable.cs</DependentUpon>
+    <Compile Include="Migrations\20161225003208_Initial.cs" />
+    <Compile Include="Migrations\20161225003208_Initial.designer.cs">
+      <DependentUpon>20161225003208_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\TraxxPlayerContextModelSnapshot.cs" />
     <Compile Include="Models\Like.cs" />

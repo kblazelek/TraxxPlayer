@@ -1,4 +1,7 @@
 ﻿using Newtonsoft.Json;
+using System.Runtime.CompilerServices;
+using TraxxPlayer.Common.Helpers;
+using TraxxPlayer.Services.Helpers;
 using Windows.Foundation.Collections;
 using Windows.Media.Playback;
 
@@ -9,19 +12,21 @@ namespace TraxxPlayer.Common.Messages
         const string MessageType = "MessageType";
         const string MessageBody = "MessageBody";
 
-        public static void SendMessageToForeground<T>(T message)
+        public static void SendMessageToForeground<T>(object sender, T message, [CallerMemberName]string memberName = "")
         {
             var payload = new ValueSet();
             payload.Add(MessageService.MessageType, typeof(T).FullName);
             payload.Add(MessageService.MessageBody, JsonConvert.SerializeObject(message));
+            Logger.LogInfo(sender, $"Sending {typeof(T).FullName} message to Foreground", memberName);
             BackgroundMediaPlayer.SendMessageToForeground(payload);
         }
     
-        public static void SendMessageToBackground<T>(T message)
+        public static void SendMessageToBackground<T>(object sender, T message, [CallerMemberName]string memberName = "")
         {
             var payload = new ValueSet();
             payload.Add(MessageService.MessageType, typeof(T).FullName);
             payload.Add(MessageService.MessageBody, JsonConvert.SerializeObject(message));
+            Logger.LogInfo(sender, $"Sending {typeof(T).FullName} message to Background", memberName);
             BackgroundMediaPlayer.SendMessageToBackground(payload);
         }
 

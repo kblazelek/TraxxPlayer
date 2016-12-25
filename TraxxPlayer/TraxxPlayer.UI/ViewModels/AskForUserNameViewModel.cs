@@ -70,10 +70,10 @@ namespace TraxxPlayer.UI.ViewModels
                     {
                         tempUser.isDefault = (bool)IsDefault;
                         UserService.ModifyUser(tempUser);
-                        Logger.LogInfo(this, App.User, $"Modified user {App.User.username} (ID: {App.User.id})");
+                        Logger.LogInfo(this, $"Modified user {App.User.username} (ID: {App.User.id})");
                     }
                     App.User = tempUser;
-                    Logger.LogInfo(this, App.User, $"Logged in as user {App.User.username} (ID: {App.User.id})");
+                    Logger.LogInfo(this, $"Logged in as user {App.User.username} (ID: {App.User.id})");
                 }
                 NavigationService.Navigate(typeof(Views.NowPlaying));
             }

@@ -61,6 +61,7 @@ namespace TraxxPlayer.UI.ViewModels
 
         public ShellViewModel()
         {
+            UserService.MigrateDatabase();
             Tracks.CollectionChanged += Tracks_CollectionChanged;
             BackgroundMediaPlayer.MessageReceivedFromBackground += BackgroundMediaPlayer_MessageReceivedFromBackground;
             if (!IsMyBackgroundTaskRunning)
@@ -106,7 +107,7 @@ namespace TraxxPlayer.UI.ViewModels
             TrackChangedMessage trackChangedMessage;
             if (MessageService.TryParseMessage(e.Data, out trackChangedMessage))
             {
-                Logger.LogInfo(this, App.User, "Received TrackChangedMessage from Background");
+                Logger.LogInfo(this, "Received TrackChangedMessage from Background");
                 Debug.WriteLine("ShellViewModel.BackgroundMediaPlayer_MessageReceivedFromBackground: Received TrackChangedMessage from Background");
                 var track = GetTrackFromStreamURL(trackChangedMessage.TrackId.ToString());
                 if (track != null)

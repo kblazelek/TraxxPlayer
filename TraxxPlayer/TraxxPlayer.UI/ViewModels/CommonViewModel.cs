@@ -133,7 +133,7 @@ namespace TraxxPlayer.UI.ViewModels
                     {
                         if(!string.IsNullOrEmpty(deviceFamily))
                         {
-                            MessageService.SendMessageToBackground(new DeviceFamilyMessage(deviceFamily));
+                            MessageService.SendMessageToBackground(this, new DeviceFamilyMessage(deviceFamily));
                         }
                     }
                 });

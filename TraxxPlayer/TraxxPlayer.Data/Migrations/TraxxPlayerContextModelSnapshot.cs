@@ -46,7 +46,7 @@ namespace TraxxPlayer.Data.Migrations
 
                     b.Property<string>("Source");
 
-                    b.Property<int>("UserID");
+                    b.Property<int?>("UserID");
 
                     b.HasKey("id");
 
@@ -135,8 +135,7 @@ namespace TraxxPlayer.Data.Migrations
                 {
                     b.HasOne("TraxxPlayer.Data.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("TraxxPlayer.Data.Models.Playlist", b =>

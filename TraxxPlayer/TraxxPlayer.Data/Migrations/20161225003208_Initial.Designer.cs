@@ -8,8 +8,8 @@ using TraxxPlayer.Data;
 namespace TraxxPlayer.Data.Migrations
 {
     [DbContext(typeof(TraxxPlayerContext))]
-    [Migration("20161209212920_AddLikeTable")]
-    partial class AddLikeTable
+    [Migration("20161225003208_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,6 +32,28 @@ namespace TraxxPlayer.Data.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Likes");
+                });
+
+            modelBuilder.Entity("TraxxPlayer.Data.Models.Log", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<string>("Message");
+
+                    b.Property<int>("MessageType");
+
+                    b.Property<string>("Source");
+
+                    b.Property<int?>("UserID");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Logs");
                 });
 
             modelBuilder.Entity("TraxxPlayer.Data.Models.Playlist", b =>
@@ -70,6 +92,24 @@ namespace TraxxPlayer.Data.Migrations
                     b.ToTable("PlaylistTracks");
                 });
 
+            modelBuilder.Entity("TraxxPlayer.Data.Models.TrackHistory", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<int>("TrackID");
+
+                    b.Property<int>("UserID");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("TracksHistory");
+                });
+
             modelBuilder.Entity("TraxxPlayer.Data.Models.User", b =>
                 {
                     b.Property<int>("id")
@@ -92,6 +132,13 @@ namespace TraxxPlayer.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("TraxxPlayer.Data.Models.Log", b =>
+                {
+                    b.HasOne("TraxxPlayer.Data.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID");
+                });
+
             modelBuilder.Entity("TraxxPlayer.Data.Models.Playlist", b =>
                 {
                     b.HasOne("TraxxPlayer.Data.Models.User", "User")
@@ -105,6 +152,14 @@ namespace TraxxPlayer.Data.Migrations
                     b.HasOne("TraxxPlayer.Data.Models.Playlist", "Playlist")
                         .WithMany()
                         .HasForeignKey("PlaylistID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TraxxPlayer.Data.Models.TrackHistory", b =>
+                {
+                    b.HasOne("TraxxPlayer.Data.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
         }

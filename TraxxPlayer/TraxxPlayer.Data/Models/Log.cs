@@ -15,10 +15,10 @@ namespace TraxxPlayer.Data.Models
         public string Source { get; set; }
         public DateTime CreationDate { get; set; }
         [ForeignKey("User")]
-        public int UserID { get; set; }
+        public int? UserID { get; set; }
         public User User { get; set; }
 
-        public Log(int userID, int messageType, string source, string message)
+        public Log(int? userID, int messageType, string source, string message)
         {
             UserID = userID;
             MessageType = messageType;

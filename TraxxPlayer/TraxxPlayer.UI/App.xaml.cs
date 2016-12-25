@@ -39,6 +39,7 @@ namespace TraxxPlayer.UI
             set
             {
                 user = value;
+                Logger.User = user;
             }
         }
         public App()
@@ -71,7 +72,6 @@ namespace TraxxPlayer.UI
             UserToDisplay defaultUser = null;
             try
             {
-                 UserService.MigrateDatabase();
                 // Get default user from db
                 defaultUser = UserService.GetDefaultUser();
                 if (defaultUser != null)

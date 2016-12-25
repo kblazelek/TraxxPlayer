@@ -130,7 +130,7 @@ namespace TraxxPlayer.BackgroundAudioTask
 
             // Send information to foreground that background task has been started if app is active
             if (foregroundAppState != AppState.Suspended)
-                MessageService.SendMessageToForeground(new BackgroundAudioTaskStartedMessage());
+                MessageService.SendMessageToForeground(this, new BackgroundAudioTaskStartedMessage());
 
             ApplicationSettingsHelper.SaveSettingsValue(ApplicationSettingsConstants.BackgroundTaskState, BackgroundTaskState.Running.ToString());
 
@@ -283,7 +283,7 @@ namespace TraxxPlayer.BackgroundAudioTask
                     SkipToPrevious();
                     break;
             }
-            MessageService.SendMessageToForeground(new UVCButtonPressedMessage(args.Button));
+            MessageService.SendMessageToForeground(this, new UVCButtonPressedMessage(args.Button));
         }
 
 
@@ -393,7 +393,7 @@ namespace TraxxPlayer.BackgroundAudioTask
             }
 
             ApplicationSettingsHelper.SaveSettingsValue(ApplicationSettingsConstants.TrackId, currentTrackId == null ? null : currentTrackId.ToString());
-            MessageService.SendMessageToForeground(new TrackChangedMessage(currentTrackId));
+            MessageService.SendMessageToForeground(this, new TrackChangedMessage(currentTrackId));
         } // Sprawdzone
 
         /// <summary>
@@ -561,7 +561,7 @@ namespace TraxxPlayer.BackgroundAudioTask
         void DeleteTrackFromPlaybackList(string stream_url)
         {
             Debug.WriteLine($"BackgroundAudioTask.DeleteTrackFromPlaybackList: Deleting track {stream_url} from playback list.");
-            //MessageService.SendMessageToForeground(new PlaybackListEmptyMessage());
+            //MessageService.SendMessageToForeground(this, new PlaybackListEmptyMessage());
             var mediaPlaybackItem = playbackList.Items.Where(mpi => mpi.Source.CustomProperties[TrackIdKey].ToString() == stream_url).FirstOrDefault();
             if (mediaPlaybackItem != null)
             {
@@ -575,7 +575,7 @@ namespace TraxxPlayer.BackgroundAudioTask
                     }
                     BackgroundMediaPlayer.Current.Pause();
                     // Inform foreground that playback list is empty
-                    MessageService.SendMessageToForeground(new PlaybackListEmptyMessage());
+                    MessageService.SendMessageToForeground(this, new PlaybackListEmptyMessage());
                 }
             }
             else

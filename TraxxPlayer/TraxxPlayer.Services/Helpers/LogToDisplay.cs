@@ -14,9 +14,9 @@ namespace TraxxPlayer.Services.Helpers
         public string Message { get; set; }
         public DateTime CreationDate { get; set; }
         public string Source { get; set; }
-        public int UserID { get; set; }
+        public int? UserID { get; set; }
 
-        public LogToDisplay(int userID, LogMessageType messageType, string source, string message)
+        public LogToDisplay(int? userID, LogMessageType messageType, string source, string message)
         {
             UserID = userID;
             MessageType = (int)messageType;

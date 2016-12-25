@@ -358,14 +358,14 @@ namespace TraxxPlayer.UI.ViewModels
         public void NextButtonClicked()
         {
             //Send message to background task
-            MessageService.SendMessageToBackground(new SkipNextMessage());
+            MessageService.SendMessageToBackground(this, new SkipNextMessage());
 
         }
 
         public void PreviousButtonClicked()
         {
             //Send message to background task
-            MessageService.SendMessageToBackground(new SkipPreviousMessage());
+            MessageService.SendMessageToBackground(this, new SkipPreviousMessage());
         }
 
     }

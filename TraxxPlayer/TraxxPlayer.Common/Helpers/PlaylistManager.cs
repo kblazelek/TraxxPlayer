@@ -53,7 +53,7 @@ namespace TraxxPlayer.Common.Helpers
                     // TODO: Add custom exception containting track id to ask user whether he/she want's to delete deleted track from playlist.
                 }
             }
-            MessageService.SendMessageToBackground(new UpdatePlaylistMessage(Tracks.ToList()));
+            MessageService.SendMessageToBackground(this, new UpdatePlaylistMessage(Tracks.ToList()));
             if (deletedPlaylistTracks.Count > 0)
             {
                 // handle reordering
@@ -124,7 +124,7 @@ namespace TraxxPlayer.Common.Helpers
             }
             // Remove later when syncing with background task
             Tracks.Remove(track);
-            MessageService.SendMessageToBackground(new DeleteTrackFromPlaybackList(track));
+            MessageService.SendMessageToBackground(this, new DeleteTrackFromPlaybackList(track));
         }
         private static string GetStreamUrlFromUri(string uri)
         {
@@ -143,7 +143,7 @@ namespace TraxxPlayer.Common.Helpers
             }
             if (track.stream_url != null)
             {
-                MessageService.SendMessageToBackground(new UpdatePlaylistMessage(new List<SoundCloudTrack> { track }));
+                MessageService.SendMessageToBackground(this, new UpdatePlaylistMessage(new List<SoundCloudTrack> { track }));
             }
             Tracks.Clear();
             Tracks.Add(track);
@@ -171,7 +171,7 @@ namespace TraxxPlayer.Common.Helpers
                     Tracks.Add(track);
                 }
             }
-            MessageService.SendMessageToBackground(new UpdatePlaylistMessage(Tracks.ToList()));
+            MessageService.SendMessageToBackground(this, new UpdatePlaylistMessage(Tracks.ToList()));
         }
         // TODO: zamienic przyjmowany parametr na id i pobierac z soundcloudhelpera
         // TODO: dodac add to playback list
@@ -190,8 +190,8 @@ namespace TraxxPlayer.Common.Helpers
             {
                 if (Tracks.Where(t => t.id == track.id).FirstOrDefault() != null)
                 {
-                    MessageService.SendMessageToBackground(new TrackChangedMessage(new Uri(track.stream_url)));
-                    MessageService.SendMessageToBackground(new StartPlaybackMessage());
+                    MessageService.SendMessageToBackground(this, new TrackChangedMessage(new Uri(track.stream_url)));
+                    MessageService.SendMessageToBackground(this, new StartPlaybackMessage());
                 }
                 else
                 {
@@ -204,7 +204,7 @@ namespace TraxxPlayer.Common.Helpers
         {
             Tracks.Clear();
             Playlist = null;
-            MessageService.SendMessageToBackground(new ShutdownBackgroundMediaPlayer());
+            MessageService.SendMessageToBackground(this, new ShutdownBackgroundMediaPlayer());
         }
         #region INotifyPropertyChanged implementation
         new public event PropertyChangedEventHandler PropertyChanged;
