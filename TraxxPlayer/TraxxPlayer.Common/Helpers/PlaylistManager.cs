@@ -207,7 +207,7 @@ namespace TraxxPlayer.Common.Helpers
             MessageService.SendMessageToBackground(this, new ShutdownBackgroundMediaPlayer());
         }
         #region INotifyPropertyChanged implementation
-        new public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
         protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
             if (Equals(storage, value))

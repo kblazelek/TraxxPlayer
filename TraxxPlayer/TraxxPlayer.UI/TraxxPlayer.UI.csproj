@@ -17,7 +17,8 @@
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>TraxxPlayer_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>TraxxPlayer.UI_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>A4EA3DB45AB872FED09A4B2D37C7A9C76F12683F</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -90,8 +91,8 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="TraxxPlayer_TemporaryKey.pfx" />
     <None Include="project.json" />
+    <None Include="TraxxPlayer.UI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

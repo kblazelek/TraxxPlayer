@@ -25,8 +25,8 @@ namespace TraxxPlayer.UI.Views
             get { return newPlaylistName; }
             set { newPlaylistName = value; OnPropertyChanged(nameof(NewPlaylistName)); }
         }
-        new public event PropertyChangedEventHandler PropertyChanged;
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        public event PropertyChangedEventHandler PropertyChanged;
+        bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
             if (Equals(storage, value))
             {
@@ -37,7 +37,7 @@ namespace TraxxPlayer.UI.Views
             this.OnPropertyChanged(propertyName);
             return true;
         }
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -48,7 +48,7 @@ namespace TraxxPlayer.UI.Views
             NewPlaylistName = p.Name;
             this.InitializeComponent();
         }
-        // TODO: Add validation
+
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
             if(NewPlaylistName != Playlist.Name && !String.IsNullOrEmpty(NewPlaylistName))
