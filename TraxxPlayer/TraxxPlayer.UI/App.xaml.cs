@@ -12,6 +12,10 @@ using Windows.UI.ViewManagement;
 using Windows.Foundation;
 using TraxxPlayer.Common.Helpers;
 using TraxxPlayer.Common.Models;
+using Template10.Common;
+using TraxxPlayer.UI.Views;
+using Windows.UI.Xaml.Media;
+using Windows.UI;
 
 namespace TraxxPlayer.UI
 {
@@ -20,6 +24,7 @@ namespace TraxxPlayer.UI
     {
         #region Private members
         static PlaylistManager playlistManager = new PlaylistManager();
+        private static UserToDisplay user;
         #endregion
 
         public static PlaylistManager PlaylistManager
@@ -27,7 +32,6 @@ namespace TraxxPlayer.UI
             get { return playlistManager; }
             set { playlistManager = value; }
         }
-        private static UserToDisplay user;
         public static UserToDisplay User
         {
             get
@@ -86,8 +90,15 @@ namespace TraxxPlayer.UI
             catch (Exception ex)
             {
                 Logger.LogError(this, ex.Message);
-                MessageDialog showMessgae = new MessageDialog("Something went wrong. Please try again. Error Details : " + ex.Message);
-                await showMessgae.ShowAsync();
+                WindowWrapper.Current().Dispatcher.Dispatch(() =>
+                {
+                    var errorMessage = "There was an error during fetching default user.";
+                    var modal = Window.Current.Content as ModalDialog;
+                    var errorDialog = new ErrorDialog(errorMessage);
+                    modal.ModalContent = errorDialog;
+                    modal.IsModal = true;
+                    modal.ModalBackground = new SolidColorBrush(Colors.Transparent);
+                });
             }
         }
     }
