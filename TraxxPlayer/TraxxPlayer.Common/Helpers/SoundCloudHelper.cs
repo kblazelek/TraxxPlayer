@@ -140,6 +140,11 @@ namespace TraxxPlayer.Common.Helpers
             return task.Result;
         }
 
+        /// <summary>
+        /// Gets information about SoundCloud user
+        /// </summary>
+        /// <param name="SoundCloudUserName"></param>
+        /// <returns></returns>
         public static async Task<SoundCloudUser> GetUserDetails(string SoundCloudUserName)
         {
                 string responseText = await JsonHelper.GetjsonStream(SoundCloudConstants.SoundCloudAPILink + SoundCloudConstants.SoundCloudAPIUsers + SoundCloudUserName + ".json?client_id=" + SoundCloudConstants.SoundCloudClientId);
@@ -150,6 +155,11 @@ namespace TraxxPlayer.Common.Helpers
                 return task.Result;
         }
 
+        /// <summary>
+        /// Gets information about SoundCloud track
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static async Task<SoundCloudTrack> GetSoundCloudTrack(int id)
         {
             string responseText = await JsonHelper.GetjsonStream(SoundCloudConstants.SoundCloudAPILink + SoundCloudConstants.SoundCloudAPITracks + id + ".json?client_id=" + SoundCloudConstants.SoundCloudClientId);

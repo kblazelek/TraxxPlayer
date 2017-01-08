@@ -13,6 +13,13 @@ namespace TraxxPlayer.Common.Helpers
     public static class Logger
     {
         public static UserToDisplay User;
+
+        /// <summary>
+        /// Logs information to the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="infoMessage"></param>
+        /// <param name="memberName"></param>
         public static void LogInfo(object sender, string infoMessage, [CallerMemberName]string memberName = "")
         {
             int? userID = User != null ? User.id : (int?)null;
@@ -20,6 +27,12 @@ namespace TraxxPlayer.Common.Helpers
             Debug.WriteLine($"INFO: {sender.GetType()}.{memberName}");
         }
 
+        /// <summary>
+        /// Logs warning to the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="warningMessage"></param>
+        /// <param name="memberName"></param>
         public static void LogWarning(object sender, string warningMessage, [CallerMemberName]string memberName = "")
         {
             int? userID = User != null ? User.id : (int?)null;
@@ -27,6 +40,12 @@ namespace TraxxPlayer.Common.Helpers
             Debug.WriteLine($"WARNING: {sender.GetType()}.{memberName}");
         }
 
+        /// <summary>
+        /// Logs error to the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="errorMessage"></param>
+        /// <param name="memberName"></param>
         public static void LogError(object sender, string errorMessage, [CallerMemberName]string memberName = "")
         {
             int? userID = User != null ? User.id : (int?)null;

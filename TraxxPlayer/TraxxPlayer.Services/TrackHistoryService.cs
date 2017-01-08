@@ -12,6 +12,11 @@ namespace TraxxPlayer.Services
 {
     public static class TrackHistoryService
     {
+        /// <summary>
+        /// Returns tracks history for user from database
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
         public static IEnumerable<TrackHistoryToDisplay> GetTracksHistory(int userID)
         {
             using (var db = new TraxxPlayerContext())
@@ -26,6 +31,12 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Gets single track history for user from database
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="recordLimit"></param>
+        /// <returns></returns>
         public static IEnumerable<TrackHistoryToDisplay> GetTracksHistory(int userID, int recordLimit)
         {
             using (var db = new TraxxPlayerContext())
@@ -40,6 +51,11 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Gets single track history
+        /// </summary>
+        /// <param name="trackHistoryID"></param>
+        /// <returns></returns>
         public static TrackHistoryToDisplay GetTrackHistory(int trackHistoryID)
         {
             using (var db = new TraxxPlayerContext())
@@ -62,6 +78,11 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Checks wheter track history exist in database
+        /// </summary>
+        /// <param name="trackHistoryID"></param>
+        /// <returns></returns>
         public static bool TrackHistoryExist(int trackHistoryID)
         {
             using (var db = new TraxxPlayerContext())
@@ -70,6 +91,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Modifies track history in database
+        /// </summary>
+        /// <param name="trackHistory"></param>
         public static void Modifytrackhistory(TrackHistoryToDisplay trackHistory)
         {
             if (trackHistory != null)
@@ -94,6 +119,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Adds track history to database
+        /// </summary>
+        /// <param name="trackhistory"></param>
         public static void AddTrackHistory(TrackHistoryToAdd trackhistory)
         {
             using (var db = new TraxxPlayerContext())
@@ -110,6 +139,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Deletes track history from database
+        /// </summary>
+        /// <param name="trackHistoryID"></param>
         public static void DeleteTrackHistory(int trackHistoryID)
         {
             using (var db = new TraxxPlayerContext())

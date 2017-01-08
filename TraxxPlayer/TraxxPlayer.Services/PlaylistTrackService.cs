@@ -12,6 +12,11 @@ namespace TraxxPlayer.Services
 {
     public static class PlaylistTrackService
     {
+        /// <summary>
+        /// Gets playlist tracks from database
+        /// </summary>
+        /// <param name="playlistID"></param>
+        /// <returns></returns>
         public static IEnumerable<PlaylistTrackToDisplay> GetPlaylistTracks(int playlistID)
         {
             using (var db = new TraxxPlayerContext())
@@ -26,6 +31,11 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Gets single playlist track from database
+        /// </summary>
+        /// <param name="playlistTrackID"></param>
+        /// <returns></returns>
         public static PlaylistTrackToDisplay GetPlaylistTrack(int playlistTrackID)
         {
             using (var db = new TraxxPlayerContext())
@@ -48,6 +58,12 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Gets single playlist track from database
+        /// </summary>
+        /// <param name="playlistID"></param>
+        /// <param name="trackID"></param>
+        /// <returns></returns>
         public static PlaylistTrackToDisplay GetPlaylistTrack(int playlistID, int trackID)
         {
             using (var db = new TraxxPlayerContext())
@@ -70,6 +86,11 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Checks wheter playlist track exist
+        /// </summary>
+        /// <param name="playlistTrackID"></param>
+        /// <returns></returns>
         public static bool PlaylistTrackExist(int playlistTrackID)
         {
             using (var db = new TraxxPlayerContext())
@@ -78,6 +99,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Adds playlist track to database
+        /// </summary>
+        /// <param name="playlistTrack"></param>
         public static void AddPlaylistTrack(PlaylistTrackToAdd playlistTrack)
         {
             using (var db = new TraxxPlayerContext())
@@ -104,6 +129,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Deletes playlist track from database
+        /// </summary>
+        /// <param name="playlistTrackID"></param>
         public static void DeletePlaylistTrack(int playlistTrackID)
         {
             using (var db = new TraxxPlayerContext())
@@ -121,6 +150,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Modifies playlist track in database
+        /// </summary>
+        /// <param name="playlistTrack"></param>
         public static void ModifyPlaylistTrack(PlaylistTrackToDisplay playlistTrack)
         {
             using (var db = new TraxxPlayerContext())
@@ -135,10 +168,14 @@ namespace TraxxPlayer.Services
                 playlistTrackToModify.TrackID = playlistTrack.TrackID;
                 playlistTrackToModify.TrackOrder = playlistTrack.TrackOrder;
                 db.SaveChanges();
-                //db.PlaylistTracks.Update(playlistTrackToModify);
             }
         }
 
+        /// <summary>
+        /// Deletes playlist track from database
+        /// </summary>
+        /// <param name="playlistID"></param>
+        /// <param name="trackID"></param>
         public static void DeletePlaylistTrack(int playlistID, int trackID)
         {
             using (var db = new TraxxPlayerContext())

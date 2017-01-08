@@ -12,6 +12,11 @@ namespace TraxxPlayer.Services
 {
     public static class PlaylistService
     {
+        /// <summary>
+        /// Gets playlists for user from database
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
         public static IEnumerable<PlaylistToDisplay> GetPlaylists(int userID)
         {
             using (var db = new TraxxPlayerContext())
@@ -26,6 +31,11 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Gets single playlist from database
+        /// </summary>
+        /// <param name="playlistID"></param>
+        /// <returns></returns>
         public static PlaylistToDisplay GetPlaylist(int playlistID)
         {
             using (var db = new TraxxPlayerContext())
@@ -48,6 +58,11 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Checks wheter playlist exist in database
+        /// </summary>
+        /// <param name="playlistID"></param>
+        /// <returns></returns>
         public static bool PlaylistExist(int playlistID)
         {
             using (var db = new TraxxPlayerContext())
@@ -56,6 +71,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Modifies playlist in database
+        /// </summary>
+        /// <param name="playlist"></param>
         public static void ModifyPlaylist(PlaylistToDisplay playlist)
         {
             if (playlist != null)
@@ -80,6 +99,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Adds playlist to database
+        /// </summary>
+        /// <param name="playlist"></param>
         public static void AddPlaylist(PlaylistToAdd playlist)
         {
             using (var db = new TraxxPlayerContext())
@@ -96,6 +119,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Deletes playlist from database
+        /// </summary>
+        /// <param name="playlistID"></param>
         public static void DeletePlaylist(int playlistID)
         {
             using (var db = new TraxxPlayerContext())

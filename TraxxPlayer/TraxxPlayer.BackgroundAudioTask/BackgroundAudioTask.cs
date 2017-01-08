@@ -41,6 +41,10 @@ namespace TraxxPlayer.BackgroundAudioTask
         #endregion
 
         #region Helper methods
+        /// <summary>
+        /// Gets id for currently played track
+        /// </summary>
+        /// <returns></returns>
         Uri GetCurrentTrackId()
         {
             if (playbackList == null)
@@ -49,6 +53,11 @@ namespace TraxxPlayer.BackgroundAudioTask
             return GetTrackId(playbackList.CurrentItem);
         }
 
+        /// <summary>
+        /// Gets track id for media playback item
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         Uri GetTrackId(MediaPlaybackItem item)
         {
             if (item == null)
@@ -62,6 +71,10 @@ namespace TraxxPlayer.BackgroundAudioTask
         private const int RED_LED_PIN = 18;
         private GpioPin redPin;
         private GpioPin greenPin;
+        
+        /// <summary>
+        /// Turns green LED on and red off
+        /// </summary>
         private void GREEN_ON_RED_OFF()
         {
             if (controller != null)
@@ -71,6 +84,9 @@ namespace TraxxPlayer.BackgroundAudioTask
             }
         }
 
+        /// <summary>
+        /// Turns red LED on and green off
+        /// </summary>
         private void RED_ON_GREEN_OFF()
         {
             if (controller != null)
@@ -80,6 +96,9 @@ namespace TraxxPlayer.BackgroundAudioTask
             }
         }
 
+        /// <summary>
+        /// Initiates GPIO pins: 16 and 18 as output. These are LEDs for Raspberry PI 2 that signal background audio state. Playing -> Green LED on, otherwise Red LED on.
+        /// </summary>
         private void InitGPIO()
         {
             controller = GpioController.GetDefault();
@@ -97,6 +116,10 @@ namespace TraxxPlayer.BackgroundAudioTask
         #endregion
 
         #region IBackgroundTask and IBackgroundTaskInstance Interface Members and handlers
+        /// <summary>
+        /// Initializes background task that cooridnates media player
+        /// </summary>
+        /// <param name="taskInstance"></param>
         public void Run(IBackgroundTaskInstance taskInstance)
         {
             Debug.WriteLine("Background Audio Task " + taskInstance.Task.Name + " starting...");
@@ -354,6 +377,11 @@ namespace TraxxPlayer.BackgroundAudioTask
         #endregion
 
         #region Background Media Player Handlers
+        /// <summary>
+        /// Handles background media player state change
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         void Current_CurrentStateChanged(MediaPlayer sender, object args)
         {
             if (sender.CurrentState == MediaPlayerState.Playing)
@@ -489,6 +517,10 @@ namespace TraxxPlayer.BackgroundAudioTask
             }
         }
 
+        /// <summary>
+        /// Deletes track from playback list
+        /// </summary>
+        /// <param name="stream_url"></param>
         void DeleteTrackFromPlaybackList(string stream_url)
         {
             Debug.WriteLine($"BackgroundAudioTask.DeleteTrackFromPlaybackList: Deleting track {stream_url} from playback list.");

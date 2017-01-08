@@ -12,6 +12,11 @@ namespace TraxxPlayer.Services
 {
     public static class LikeService
     {
+        /// <summary>
+        /// Gets liked tracks for current user from database
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
         public static IEnumerable<LikeToDisplay> GetLikes(int userID)
         {
             using (var db = new TraxxPlayerContext())
@@ -26,6 +31,11 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Gets single like for current user from database
+        /// </summary>
+        /// <param name="likeID"></param>
+        /// <returns></returns>
         public static LikeToDisplay GetLike(int likeID)
         {
             using (var db = new TraxxPlayerContext())
@@ -48,6 +58,11 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Checks whether like exists in database
+        /// </summary>
+        /// <param name="likeID"></param>
+        /// <returns></returns>
         public static bool LikeExist(int likeID)
         {
             using (var db = new TraxxPlayerContext())
@@ -56,6 +71,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Modifies like in database
+        /// </summary>
+        /// <param name="like"></param>
         public static void ModifyLike(LikeToDisplay like)
         {
             if (like != null)
@@ -80,6 +99,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Adds like to database
+        /// </summary>
+        /// <param name="like"></param>
         public static void AddLike(LikeToAdd like)
         {
             using (var db = new TraxxPlayerContext())
@@ -100,6 +123,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Deletes like from database
+        /// </summary>
+        /// <param name="likeID"></param>
         public static void DeleteLike(int likeID)
         {
             using (var db = new TraxxPlayerContext())

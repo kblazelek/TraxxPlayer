@@ -12,7 +12,9 @@ namespace TraxxPlayer.Services
 {
     public static class UserService
     {
-
+        /// <summary>
+        /// Migrates database, used only during development
+        /// </summary>
         public static void MigrateDatabase()
         {
             using (var db = new TraxxPlayerContext())
@@ -20,6 +22,11 @@ namespace TraxxPlayer.Services
                 db.Database.Migrate();
             }
         }
+
+        /// <summary>
+        /// Gets users from database
+        /// </summary>
+        /// <returns></returns>
         public static IEnumerable<UserToDisplay> GetUsers()
         {
             using (var db = new TraxxPlayerContext())
@@ -33,6 +40,11 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Checks wheter user exist in database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static bool UserExist(int id)
         {
             using (var db = new TraxxPlayerContext())
@@ -41,6 +53,11 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Checks wheter user exist in database
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
         public static bool UserExist(string userName)
         {
             using (var db = new TraxxPlayerContext())
@@ -49,6 +66,11 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Gets single user from database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static UserToDisplay GetUser(int id)
         {
             using (var db = new TraxxPlayerContext())
@@ -70,6 +92,11 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Gets single user from database
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
         public static UserToDisplay GetUser(string userName)
         {
             using (var db = new TraxxPlayerContext())
@@ -91,6 +118,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Ads user to database
+        /// </summary>
+        /// <param name="user"></param>
         public static void AddUser(UserToAdd user)
         {
             if (user == null)
@@ -120,6 +151,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Deletes user from database
+        /// </summary>
+        /// <param name="id"></param>
         public static void DeleteUser(int id)
         {
             using (var db = new TraxxPlayerContext())
@@ -137,6 +172,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Modifies user in database
+        /// </summary>
+        /// <param name="user"></param>
         public static void ModifyUser(UserToDisplay user)
         {
             if (user != null)
@@ -162,6 +201,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Sets user as default user. Default user is automatically logged in during launch.
+        /// </summary>
+        /// <param name="id"></param>
         public static void SetDefaultUser(int id)
         {
             using (var db = new TraxxPlayerContext())
@@ -184,6 +227,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Removes current default flag in database
+        /// </summary>
+        /// <param name="id"></param>
         public static void RemoveDefaultUser(int id)
         {
             using (var db = new TraxxPlayerContext())
@@ -201,6 +248,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Gets current default user from database
+        /// </summary>
+        /// <returns></returns>
         public static UserToDisplay GetDefaultUser()
         {
             using (var db = new TraxxPlayerContext())

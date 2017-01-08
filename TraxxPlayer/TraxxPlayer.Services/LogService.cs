@@ -12,6 +12,11 @@ namespace TraxxPlayer.Services
 {
     public static class LogService
     {
+        /// <summary>
+        /// Gets all logs for user from database
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
         public static IEnumerable<LogToDisplay> GetLogs(int userID)
         {
             using (var db = new TraxxPlayerContext())
@@ -20,6 +25,12 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Gets specific logs for user from database
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="messageType"></param>
+        /// <returns></returns>
         public static IEnumerable<LogToDisplay> GetLogs(int userID, LogMessageType messageType)
         {
             using (var db = new TraxxPlayerContext())
@@ -28,6 +39,12 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Gets all logs for user from database with record limit
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="recordLimit"></param>
+        /// <returns></returns>
         public static IEnumerable<LogToDisplay> GetLogs(int userID, int recordLimit)
         {
             using (var db = new TraxxPlayerContext())
@@ -36,6 +53,13 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Gets specific logs for user from database with record limit
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="messageType"></param>
+        /// <param name="recordLimit"></param>
+        /// <returns></returns>
         public static IEnumerable<LogToDisplay> GetLogs(int userID, LogMessageType messageType, int recordLimit)
         {
             using (var db = new TraxxPlayerContext())
@@ -44,6 +68,11 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Gets single log from database
+        /// </summary>
+        /// <param name="logID"></param>
+        /// <returns></returns>
         public static LogToDisplay GetLog(int logID)
         {
             using (var db = new TraxxPlayerContext())
@@ -60,6 +89,11 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Checks wheter log exists in database
+        /// </summary>
+        /// <param name="logID"></param>
+        /// <returns></returns>
         public static bool LogExist(int logID)
         {
             using (var db = new TraxxPlayerContext())
@@ -68,6 +102,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Modifies log in database
+        /// </summary>
+        /// <param name="log"></param>
         public static void ModifyLog(LogToDisplay log)
         {
             if (log != null)
@@ -95,6 +133,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Adds log to database
+        /// </summary>
+        /// <param name="log"></param>
         public static void AddLog(LogToAdd log)
         {
             using (var db = new TraxxPlayerContext())
@@ -111,6 +153,10 @@ namespace TraxxPlayer.Services
             }
         }
 
+        /// <summary>
+        /// Deletes log from database
+        /// </summary>
+        /// <param name="logID"></param>
         public static void DeleteLog(int logID)
         {
             using (var db = new TraxxPlayerContext())

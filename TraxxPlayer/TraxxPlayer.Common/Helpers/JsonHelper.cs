@@ -5,6 +5,11 @@ namespace TraxxPlayer.Common.Helpers
 {
     public static class JsonHelper
     {
+        /// <summary>
+        /// Gets json stream
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns>JSON stream</returns>
         public static async Task<string> GetjsonStream(string url)
         {
             HttpClient client = new HttpClient();

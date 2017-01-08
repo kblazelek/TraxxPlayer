@@ -21,6 +21,11 @@ namespace TraxxPlayer.Common.Helpers
         public ObservableCollection<SoundCloudTrack> Tracks { get; set; } = new ObservableCollection<SoundCloudTrack>();
         public PlaylistToDisplay Playlist { get; set; }
 
+        /// <summary>
+        /// Plays playlist passed as a parameter
+        /// </summary>
+        /// <param name="playlist"></param>
+        /// <returns></returns>
         public async Task PlayPlaylist(PlaylistToDisplay playlist)
         {
             if (playlist == null)
@@ -50,13 +55,11 @@ namespace TraxxPlayer.Common.Helpers
                 else
                 {
                     deletedPlaylistTracks.Add(t);
-                    // TODO: Add custom exception containting track id to ask user whether he/she want's to delete deleted track from playlist.
                 }
             }
             MessageService.SendMessageToBackground(this, new UpdatePlaylistMessage(Tracks.ToList()));
             if (deletedPlaylistTracks.Count > 0)
             {
-                // handle reordering
                 foreach (var deletedPlaylistTrack in deletedPlaylistTracks)
                 {
                     PlaylistTrackService.DeletePlaylistTrack(deletedPlaylistTrack.id);
@@ -71,6 +74,9 @@ namespace TraxxPlayer.Common.Helpers
             }
         }
 
+        /// <summary>
+        /// Handles track reordering
+        /// </summary>
         public void ReorderTracks(SoundCloudTrack track, int indexFrom, int indexTo)
         {
             if (track == null)
@@ -108,6 +114,10 @@ namespace TraxxPlayer.Common.Helpers
             }
         }
 
+        /// <summary>
+        /// Removes track from current playlist
+        /// </summary>
+        /// <param name="track"></param>
         public void RemoveTrackFromCurrentPlaylist(SoundCloudTrack track)
         {
             if (track == null)
@@ -126,11 +136,21 @@ namespace TraxxPlayer.Common.Helpers
             Tracks.Remove(track);
             MessageService.SendMessageToBackground(this, new DeleteTrackFromPlaybackList(track));
         }
+
+        /// <summary>
+        /// Extracts stream url from uri
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
         private static string GetStreamUrlFromUri(string uri)
         {
             return uri + "/stream?client_id=" + SoundCloudConstants.SoundCloudClientId;
         }
 
+        /// <summary>
+        /// Cleans current playlist and plays single track
+        /// </summary>
+        /// <param name="track"></param>
         public void PlaySingleTrack(SoundCloudTrack track)
         {
             if (track == null)
@@ -149,6 +169,10 @@ namespace TraxxPlayer.Common.Helpers
             Tracks.Add(track);
         }
 
+        /// <summary>
+        /// Cleans current playlist and plays multiple tracks
+        /// </summary>
+        /// <param name="tracks"></param>
         public void PlayTracks(List<SoundCloudTrack> tracks)
         {
             if (tracks == null)
@@ -173,9 +197,11 @@ namespace TraxxPlayer.Common.Helpers
             }
             MessageService.SendMessageToBackground(this, new UpdatePlaylistMessage(Tracks.ToList()));
         }
-        // TODO: zamienic przyjmowany parametr na id i pobierac z soundcloudhelpera
-        // TODO: dodac add to playback list
-        // TODO: aktualizowac utwory w shell
+
+        /// <summary>
+        /// Play single track from current playlist
+        /// </summary>
+        /// <param name="track"></param>
         public void PlayPlaylistTrack(SoundCloudTrack track)
         {
             if (track == null)
@@ -200,6 +226,9 @@ namespace TraxxPlayer.Common.Helpers
             }
         }
 
+        /// <summary>
+        /// Stops playing
+        /// </summary>
         public void StopPlayer()
         {
             Tracks.Clear();
